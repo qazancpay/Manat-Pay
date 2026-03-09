@@ -9,17 +9,22 @@
 <style>
 /* --- RƏNG DƏYİŞƏNLƏRİ (VARS) - MANAT PAY TEMA --- */
 :root {
-  /* LIGHT TEMA (Ağ/Yaşıl) - Default */
+  /* LIGHT TEMA (Ağ/Yaşıl) */
   --bg-start: #e8f5e9; 
   --bg-end: #ffffff;   
   --card-bg: rgba(255, 255, 255, 0.9); 
   --card-border: rgba(46, 204, 113, 0.2);
   --text-light: #ffffff;
   --text-dark: #1b2621;
+  --text-muted: #666666;
   --accent: #27ae60; 
   --menu-bg: rgba(255, 255, 255, 0.85);
   --progress-bg: rgba(39, 174, 96, 0.15);
   --input-text: #1b2621; 
+  
+  --loader-bg: linear-gradient(135deg, #f1f8e9, #ffffff);
+  --loader-text: #27ae60;
+  --loader-circle: rgba(46, 204, 113, 0.2);
 
   /* Yaşıl Gradientlər */
   --btn-gradient-start: #2ecc71; 
@@ -28,7 +33,6 @@
   --secondary-btn-gradient-start: #f39c12; 
   --secondary-btn-gradient-end: #e67e22; 
   
-  /* Bildiriş rəngləri */
   --notification-bg: #27ae60; 
   --notification-text: #ffffff; 
 }
@@ -41,11 +45,16 @@ body.dark-theme {
   --card-border: rgba(46, 204, 113, 0.15);
   --text-light: #ffffff;
   --text-dark: #f0f5f2;
+  --text-muted: #a0aab2;
   --accent: #2ecc71; 
   --menu-bg: rgba(15, 26, 21, 0.9);
   --progress-bg: rgba(255, 255, 255, 0.1);
   --input-text: #ffffff; 
   --notification-bg: #2ecc71; 
+  
+  --loader-bg: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  --loader-text: #2ecc71;
+  --loader-circle: rgba(46, 204, 113, 0.4);
 }
 
 /* --- ÜMUMİ STİLLƏR --- */
@@ -61,7 +70,7 @@ body{
   -webkit-user-select:none;
   -webkit-tap-highlight-color:transparent;
   transition: background-color 0.5s, color 0.5s; 
-  padding-bottom: 80px; 
+  padding-bottom: 90px; 
 }
 @keyframes bgMove{
   0%{background-position:0% 50;}
@@ -69,107 +78,14 @@ body{
   100%{background-position:0% 50;}
 }
 
-.container{max-width:480px;margin:auto;padding:20px;padding-top:20px;} 
-
-/* DİL VƏ TEMA SEÇİMİ */
-.top-controls {
-    display: flex;
-    justify-content: flex-end; 
-    align-items: center;
-    margin-bottom: 20px;
-    position: relative;
-    z-index: 100; /* Klik sahəsinin qarşısını digər elementlərin kəsməməsi üçün */
-}
-
-.right-controls {
-    display: flex;
-    gap: 10px; 
-    align-items: center;
-}
-
-.lang-switcher-container {
-    position: relative;
-}
-
-.lang-current-btn, .theme-toggle-btn {
-    border: 1px solid var(--card-border);
-    background: var(--card-bg);
-    color: var(--text-dark);
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.3s;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 40px; 
-    position: relative;
-}
-
-.lang-current-btn {
-    padding: 0 12px;
-}
-
-.theme-toggle-btn {
-    padding: 0;
-    width: 40px; /* Dəqiq kvadrat olması üçün */
-}
-
-.lang-current-btn span { 
-    margin-right: 5px; 
-    pointer-events: none;
-}
-
-.lang-current-btn:hover, .theme-toggle-btn:hover {
-    box-shadow: 0 4px 15px var(--btn-shadow);
-}
-
-.theme-icon { 
-    font-size: 20px; 
-    line-height: 1; 
-    pointer-events: none; /* İkonun klik sahəsini korlamaması üçün */
-}
-
-.lang-dropdown {
-    position: absolute;
-    top: 100%; 
-    right: 0;
-    margin-top: 5px;
-    background: var(--card-bg);
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    overflow: hidden;
-    z-index: 10;
-    min-width: 60px;
-    display: none;
-    backdrop-filter: blur(8px);
-    border: 1px solid var(--card-border);
-}
-.lang-dropdown.show { display: block; }
-.lang-dropdown button {
-    width: 100%;
-    padding: 8px 15px;
-    border: none;
-    background: none;
-    color: var(--text-dark);
-    font-weight: 600;
-    text-align: center; 
-    cursor: pointer;
-    transition: background 0.2s;
-    display: block; 
-}
-.lang-dropdown button:hover, .lang-dropdown button.active {
-    background: var(--accent);
-    color: var(--text-light);
-}
+.container{max-width:480px;margin:auto;padding:20px;} 
 
 .page{display:none;animation:fadeIn .4s ease;}
 .page.active{display:block;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 
 /* Balans və Kart Dizaynı */
-.balance-card, .ad-card, .task-card{
+.balance-card, .ad-card, .task-card, .profile-card{
   background:var(--card-bg);
   border-radius:25px;
   padding:25px 20px;
@@ -185,55 +101,13 @@ body{
 .balance-card .usd{font-size:14px;color:var(--text-dark);opacity:0.7;margin-top:4px; font-weight: 600;}
 
 /* Metod Siyahısı */
-.method-list{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-    margin:12px 0;
-    justify-content:space-around;
-}
-.method{
-    flex:1 1 calc(50% - 5px); 
-    padding:14px;
-    border-radius:16px;
-    background:linear-gradient(135deg,var(--btn-gradient-start),var(--btn-gradient-end)); 
-    color:var(--text-light);
-    text-align:center;
-    font-weight:700;
-    cursor:pointer;
-    transition:0.3s;
-    display:flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100px;
-    position: relative;
-    overflow: hidden; 
-}
+.method-list{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0;justify-content:space-around;}
+.method{flex:1 1 calc(50% - 5px); padding:14px;border-radius:16px;background:linear-gradient(135deg,var(--btn-gradient-start),var(--btn-gradient-end)); color:var(--text-light);text-align:center;font-weight:700;cursor:pointer;transition:0.3s;display:flex;flex-direction: column;align-items: center;justify-content: center;height: 100px;position: relative;overflow: hidden; }
 .method:hover{transform:scale(1.03);box-shadow:0 6px 15px rgba(46, 204, 113, 0.3);}
-.method-logo{
-    width: 45px;       
-    height: 45px;      
-    margin-bottom: 8px;
-    border-radius: 10px; 
-    object-fit: contain; 
-    background-color: #fff;
-    padding: 4px; 
-    flex-shrink: 0; 
-}
+.method-logo{width: 45px; height: 45px; margin-bottom: 8px;border-radius: 10px; object-fit: contain; background-color: #fff;padding: 4px; flex-shrink: 0; }
 .method-logo.bank-logo { border-radius: 8px; padding: 2px; }
 .method-text { font-size: 14px; }
-.min-withdraw-label {
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
-    font-size: 10px;
-    font-weight: 700;
-    color: #fff;
-    background: rgba(0, 0, 0, 0.3);
-    padding: 2px 6px;
-    border-radius: 6px;
-}
+.min-withdraw-label {position: absolute;bottom: 5px;right: 5px;font-size: 10px;font-weight: 700;color: #fff;background: rgba(0, 0, 0, 0.3);padding: 2px 6px;border-radius: 6px;}
 
 .ad-card{margin-bottom:12px; padding: 20px;}
 .ad-card h2{font-size:18px;color:var(--text-dark);margin-bottom:6px; font-weight: 800;}
@@ -241,11 +115,7 @@ body{
 .task-card{margin-bottom:10px;}
 .task-card h2{font-size:18px;color:var(--text-dark);margin-bottom:8px; font-weight: 800;}
 .task-card p{margin:6px 0;color:var(--text-dark);font-size:14px; font-weight: 600;}
-.task-card button{
-    width:100%;margin-top:12px;padding:12px;font-size:14px;font-weight:700;border:none;border-radius:14px;
-    background:linear-gradient(90deg,var(--secondary-btn-gradient-start),var(--secondary-btn-gradient-end)); 
-    color:var(--text-light);cursor:pointer;transition:0.3s;
-}
+.task-card button{width:100%;margin-top:12px;padding:12px;font-size:14px;font-weight:700;border:none;border-radius:14px;background:linear-gradient(90deg,var(--secondary-btn-gradient-start),var(--secondary-btn-gradient-end)); color:var(--text-light);cursor:pointer;transition:0.3s;}
 .task-card button:hover{transform:scale(1.02);box-shadow:0 6px 15px rgba(243, 156, 18, 0.4);}
 .task-card button.completed{background:gray !important;box-shadow:none !important;cursor:not-allowed !important;pointer-events:none !important;opacity:0.6;}
 .task-card button.waiting {background: #f1c40f !important; cursor: wait !important; opacity: 0.9;}
@@ -257,233 +127,115 @@ body{
 .progress{height:12px;background:var(--progress-bg);border-radius:8px;overflow:hidden;margin-top:15px;}
 .progress-fill{height:100%;background:var(--accent);width:0%;transition:width .5s cubic-bezier(0.4, 0, 0.2, 1);} 
 
-/* REKLAM DÜYMƏSİ STİLİ */
-.ad-btn{
-    width:100%;
-    margin-top:15px;
-    padding:14px;
-    font-size:15px;
-    font-weight:800;
-    border:none;
-    border-radius:16px;
-    color:var(--text-light);
-    cursor:pointer;
-    transition:0.3s;
-    background:linear-gradient(90deg,var(--btn-gradient-start),var(--btn-gradient-end));
-    box-shadow:0 8px 20px var(--btn-shadow);
-    position: relative; 
-    overflow: hidden; 
-    z-index: 1; 
-}
+/* REKLAM DÜYMƏSİ */
+.ad-btn{width:100%;margin-top:15px;padding:14px;font-size:15px;font-weight:800;border:none;border-radius:16px;color:var(--text-light);cursor:pointer;transition:0.3s;background:linear-gradient(90deg,var(--btn-gradient-start),var(--btn-gradient-end));box-shadow:0 8px 20px var(--btn-shadow);position: relative; overflow: hidden; z-index: 1; }
 .ad-btn:hover:not(.waiting){transform:scale(1.02);box-shadow:0 10px 25px var(--btn-shadow);}
-
-.ad-btn.waiting {
-    background: #bdc3c7 !important;
-    color: #2c3e50 !important;
-    cursor: not-allowed;
-    box-shadow: none !important;
-    position: relative; 
-    overflow: hidden; 
-}
+.ad-btn.waiting {background: #bdc3c7 !important;color: #2c3e50 !important;cursor: not-allowed;box-shadow: none !important;position: relative; overflow: hidden; }
 .ad-btn-content { position: relative; z-index: 2; display: block; }
-
-.timer-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 0%; 
-  border-radius: 16px;
-  background: linear-gradient(90deg, var(--btn-gradient-start), var(--btn-gradient-end)); 
-  z-index: 1; 
-}
+.timer-bar {position: absolute;top: 0;left: 0;height: 100%;width: 0%; border-radius: 16px;background: linear-gradient(90deg, var(--btn-gradient-start), var(--btn-gradient-end)); z-index: 1; }
 .ad-btn.waiting .ad-btn-content { color: var(--text-light) !important; }
 
-#msg {
-    margin-top: 8px; 
-    font-size: 14px;
-    font-weight: 700;
-    min-height: 0; 
-    padding: 0;
-    color: #e74c3c;
-}
-
+#msg {margin-top: 8px; font-size: 14px;font-weight: 700;min-height: 0; padding: 0;color: #e74c3c;}
 #adRewardNotificationContainer { position: relative; height: 0; overflow: visible; }
-
-.reward-msg {
-    position: absolute;
-    top: -10px; 
-    left: 50%;
-    transform: translateX(-50%) translateY(-100%); 
-    background: var(--notification-bg); 
-    color: var(--notification-text);
-    padding: 10px 20px;
-    border-radius: 12px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-    font-weight: 800;
-    font-size: 14px;
-    opacity: 0;
-    z-index: 100; 
-    white-space: nowrap;
-    transition: opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-}
+.reward-msg {position: absolute;top: -10px; left: 50%;transform: translateX(-50%) translateY(-100%); background: var(--notification-bg); color: var(--notification-text);padding: 10px 20px;border-radius: 12px;box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);font-weight: 800;font-size: 14px;opacity: 0;z-index: 100; white-space: nowrap;transition: opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 .reward-msg.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* --- YENİ NAVİQASİYA PANELİ DİZAYNI --- */
-.menu{
-    position:fixed;
-    bottom:20px;
-    left:50%;
-    transform:translateX(-50%);
-    width:90%;
-    max-width:350px; 
-    display:flex;
-    justify-content:space-between;
-    background:var(--menu-bg);
-    padding:8px; 
-    border-radius:24px;
-    box-shadow:0 8px 25px rgba(0,0,0,.15);
-    backdrop-filter:blur(10px);
-    z-index: 999;
-    border: 1px solid var(--card-border);
-}
-.menu button{
-    flex:1;
-    margin:0 4px; 
-    padding: 8px 2px;
-    border:none;
-    border-radius:18px;
-    background:transparent;
-    color:var(--text-dark);
-    cursor: pointer;
-    transition:0.3s;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 60px; 
-    opacity: 0.7;
-}
+/* --- NAVİQASİYA PANELİ --- */
+.menu{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);width:92%;max-width:400px; display:flex;justify-content:space-between;background:var(--menu-bg);padding:8px; border-radius:24px;box-shadow:0 8px 25px rgba(0,0,0,.15);backdrop-filter:blur(10px);z-index: 999;border: 1px solid var(--card-border);}
+.menu button{flex:1;margin:0 4px; padding: 8px 2px;border:none;border-radius:18px;background:transparent;color:var(--text-dark);cursor: pointer;transition:0.3s;display: flex;flex-direction: column;align-items: center;justify-content: center;height: 60px; opacity: 0.7;}
 .menu button .nav-icon { font-size: 22px; margin-bottom: 4px; line-height: 1; transition: 0.3s;}
 .menu button .nav-text { font-size: 11px; font-weight: 800; line-height: 1.2; }
-
-.menu button.active{
-    background:linear-gradient(135deg,var(--btn-gradient-start),var(--btn-gradient-end));
-    color: var(--text-light);
-    box-shadow:0 6px 15px var(--btn-shadow);
-    cursor: default; 
-    pointer-events: none; 
-    opacity: 1;
-    transform: translateY(-5px);
-}
+.menu button.active{background:linear-gradient(135deg,var(--btn-gradient-start),var(--btn-gradient-end));color: var(--text-light);box-shadow:0 6px 15px var(--btn-shadow);cursor: default; pointer-events: none; opacity: 1;transform: translateY(-5px);}
 .menu button:not(.active):hover { opacity: 1; transform: translateY(-2px); }
+
+/* --- PROFIL SƏHİFƏSİ & AYARLAR STİLİ --- */
+.profile-header { display: flex; align-items: center; justify-content: center; flex-direction: column; margin-bottom: 25px; position: relative;}
+.profile-avatar { width: 80px; height: 80px; background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 35px; color: #fff; margin-bottom: 12px; box-shadow: 0 8px 20px var(--btn-shadow); }
+.profile-name-container { display: flex; align-items: center; justify-content: center; gap: 8px;}
+.profile-name { font-size: 20px; font-weight: 800; color: var(--text-dark); }
+.edit-icon { cursor: pointer; color: var(--accent); font-size: 16px; transition: 0.2s;}
+.edit-icon:hover { transform: scale(1.1); }
+
+.username-edit-box { display: none; width: 100%; margin-top: 10px; }
+.username-edit-box input { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--card-border); background: var(--bg-start); color: var(--text-dark); font-weight: 700; text-align: center; outline: none; margin-bottom: 10px; }
+.username-actions { display: flex; gap: 10px; }
+.username-actions button { flex: 1; padding: 10px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; transition: 0.3s;}
+.btn-save { background: var(--accent); color: #fff; }
+.btn-cancel { background: #e74c3c; color: #fff; }
+
+.settings-list { text-align: left; background: var(--bg-start); border-radius: 16px; padding: 5px 15px; margin-bottom: 20px; border: 1px solid var(--card-border); }
+.setting-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(150,150,150,0.1); }
+.setting-item:last-child { border-bottom: none; }
+.setting-info { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 15px; color: var(--text-dark); }
+.setting-icon { font-size: 20px; }
+
+/* Theme Toggle Button */
+.toggle-switch { width: 50px; height: 28px; background-color: #ccc; border-radius: 30px; position: relative; cursor: pointer; transition: 0.3s; }
+body.dark-theme .toggle-switch { background-color: var(--accent); }
+.toggle-thumb { width: 22px; height: 22px; background-color: #fff; border-radius: 50%; position: absolute; top: 3px; left: 3px; transition: 0.3s; display: flex; align-items: center; justify-content: center; font-size: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+body.dark-theme .toggle-thumb { transform: translateX(22px); }
+
+/* Language Select */
+.lang-select { background: transparent; border: 1px solid var(--card-border); color: var(--text-dark); font-weight: 700; padding: 5px 10px; border-radius: 8px; outline: none; cursor: pointer;}
+.lang-select option { background: var(--card-bg); color: var(--text-dark); }
+
+/* Profile Action Buttons */
+.profile-btn { width: 100%; padding: 14px; margin-bottom: 12px; border-radius: 14px; font-weight: 800; font-size: 15px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; border: none; }
+.btn-stats { background: linear-gradient(90deg, #3498db, #2980b9); color: white; box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3); }
+.btn-support { background: linear-gradient(90deg, #9b59b6, #8e44ad); color: white; box-shadow: 0 6px 15px rgba(155, 89, 182, 0.3); }
+.profile-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+/* Stats View (Hidden by default) */
+#statsView { display: none; text-align: left; animation: fadeIn .3s ease; }
+.back-btn { background: none; border: none; color: var(--accent); font-weight: 800; font-size: 16px; cursor: pointer; margin-bottom: 15px; display: flex; align-items: center; gap: 5px; }
+.stat-box { background: var(--bg-start); border-radius: 16px; padding: 15px; margin-bottom: 12px; border: 1px solid var(--card-border); display: flex; align-items: center; justify-content: space-between; }
+.stat-box-title { font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 5px; }
+.stat-box-value { font-size: 18px; font-weight: 800; color: var(--text-dark); }
+.stat-icon { font-size: 24px; opacity: 0.8; }
 
 
 #form{display:none;margin-top:12px;}
-#form input{
-    width:100%;
-    padding:14px;
-    margin:8px 0;
-    border-radius:14px;
-    border:1px solid var(--card-border);
-    background:var(--card-bg);
-    color:var(--input-text); 
-    font-size: 15px;
-    font-weight: 600;
-    outline: none;
-    transition: border 0.3s;
-}
+#form input{width:100%;padding:14px;margin:8px 0;border-radius:14px;border:1px solid var(--card-border);background:var(--card-bg);color:var(--input-text); font-size: 15px;font-weight: 600;outline: none;transition: border 0.3s;}
 #form input:focus { border-color: var(--accent); }
 #form input::placeholder { color: var(--input-text); opacity: 0.5; }
-#form button{
-    width:100%;padding:14px;margin-top:10px;border:none;border-radius:14px;
-    background:linear-gradient(90deg,var(--accent),#2ecc71);
-    color:var(--text-light);font-weight:800;font-size: 15px;cursor:pointer; transition: 0.3s;
-    box-shadow: 0 6px 15px var(--btn-shadow);
-}
+#form button{width:100%;padding:14px;margin-top:10px;border:none;border-radius:14px;background:linear-gradient(90deg,var(--accent),#2ecc71);color:var(--text-light);font-weight:800;font-size: 15px;cursor:pointer; transition: 0.3s;box-shadow: 0 6px 15px var(--btn-shadow);}
 #form button:hover { transform: scale(1.02); }
 .alert{margin-top:10px;padding:12px;border-radius:12px;display:none; font-weight: 700; text-align: center;}
 .alert.error{background:#fadbd8;color:#c0392b;}
 .alert.success{background:#d5f5e3;color:#27ae60;}
 
-
-/* BAŞLANĞIC EKRAN STİLİ - MANAT PAY */
-#loadingScreen{
-    position:fixed;
-    top:0; left:0;width:100%; height:100%;
-    background:linear-gradient(135deg, #0f2027, #203a43, #2c5364); 
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    z-index:99999;
-    transition:opacity .7s ease;
-}
+/* BAŞLANĞIC EKRAN STİLİ - TEMA İLƏ UYĞUN */
+#loadingScreen{position:fixed;top:0; left:0;width:100%; height:100%;background:var(--loader-bg); display:flex;justify-content:center;align-items:center;z-index:99999;transition:opacity .7s ease;}
 .loader-box{text-align:center;animation:fadeIn .8s ease;position:relative;}
-.shine-circle{
-    position:absolute;width:250px; height:250px;top:-80px; left:50%;
-    transform:translateX(-50%);
-    background:radial-gradient(circle, rgba(46, 204, 113, 0.4), transparent 70%);
-    filter:blur(30px);animation:pulse 3s infinite ease-in-out;
-}
+.shine-circle{position:absolute;width:250px; height:250px;top:-80px; left:50%;transform:translateX(-50%);background:radial-gradient(circle, var(--loader-circle), transparent 70%);filter:blur(30px);animation:pulse 3s infinite ease-in-out;}
 @keyframes pulse{0%,100%{opacity:.5;}50%{opacity:1;}}
-.loader-title{
-    font-size:45px;font-weight:900;color:#2ecc71; letter-spacing:2px;
-    text-shadow:0 0 15px #27ae60, 0 0 40px rgba(46, 204, 113, 0.8);
-    margin-bottom:35px;
-}
-.loader-bar{
-    width:300px;height:12px;border-radius:20px;
-    background:rgba(255,255,255,0.1);overflow:hidden;position:relative;
-}
-.loader-fill{
-    height:100%;width:0%;border-radius:20px;
-    background:linear-gradient(90deg,#27ae60,#2ecc71); 
-    animation:fillAnim 3s forwards cubic-bezier(0.4, 0, 0.2, 1);
-}
+.loader-title{font-size:45px;font-weight:900;color:var(--loader-text); letter-spacing:2px;text-shadow:0 0 15px var(--loader-text), 0 0 40px var(--loader-circle);margin-bottom:35px;}
+.loader-bar{width:300px;height:12px;border-radius:20px;background:rgba(150,150,150,0.2);overflow:hidden;position:relative;}
+.loader-fill{height:100%;width:0%;border-radius:20px;background:linear-gradient(90deg,#27ae60,#2ecc71); animation:fillAnim 3s forwards cubic-bezier(0.4, 0, 0.2, 1);}
 @keyframes fillAnim{from{width:0%;}to{width:100%;}}
-.glow{
-    position:absolute;top:0; left:0;width:100%; height:100%;
-    background:linear-gradient(90deg,transparent,rgba(255,255,255,0.8),transparent);
-    animation:shine 1.5s infinite;
-}
+.glow{position:absolute;top:0; left:0;width:100%; height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.8),transparent);animation:shine 1.5s infinite;}
 @keyframes shine{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}
-.loader-text{
-    margin-top:18px;font-size:16px;font-weight:700;color:#2ecc71;
-    letter-spacing:2px;animation:blink 1.5s infinite;
-}
+.loader-text{margin-top:18px;font-size:16px;font-weight:700;color:var(--loader-text);letter-spacing:2px;animation:blink 1.5s infinite;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.6;}}
 
-/* TAPŞIRIQ BİLDİRİŞİ ANİMASİYASI */
-#taskNotification {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translate(-50%, -100px); 
-    background: var(--notification-bg);
-    color: var(--notification-text);
-    padding: 15px 25px;
-    border-radius: 14px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    font-weight: 800;
-    font-size: 15px;
-    opacity: 0;
-    z-index: 10000;
-    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-    text-align: center;
-    border: 2px solid rgba(255,255,255,0.2);
-}
-.notification-show {
-    opacity: 1 !important;
-    transform: translate(-50%, 0) !important; 
-}
-.notification-hide {
-    opacity: 0;
-    transform: translate(-50%, -100px); 
-}
+/* TAPŞIRIQ BİLDİRİŞİ */
+#taskNotification {position: fixed;top: 20px;left: 50%;transform: translate(-50%, -100px); background: var(--notification-bg);color: var(--notification-text);padding: 15px 25px;border-radius: 14px;box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);font-weight: 800;font-size: 15px;opacity: 0;z-index: 10000;transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-align: center;border: 2px solid rgba(255,255,255,0.2);}
+.notification-show {opacity: 1 !important;transform: translate(-50%, 0) !important; }
+.notification-hide {opacity: 0;transform: translate(-50%, -100px); }
 
 </style>
 </head>
 <body id="body">
+
+<script>
+// TEMA TƏTBİQİ (Başlanğıc ekranı rənglərinin düzgün olması üçün dərhal çalışır)
+function safeGet(k,d=0){try{return JSON.parse(localStorage.getItem(k))??d;}catch{return d;}}
+function safeSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+const THEME_KEY = 'theme';
+const savedTheme = safeGet(THEME_KEY, 'light');
+if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-theme');
+</script>
+
 <div id="loadingScreen">
   <div class="loader-box">
     <div class="shine-circle"></div>
@@ -502,37 +254,16 @@ body{
 
 <div class="container">
   
-  <div class="top-controls">
-    <div class="right-controls">
-        <button class="theme-toggle-btn" onclick="toggleTheme()">
-            <span id="themeIcon" class="theme-icon">🔆</span>
-        </button>
-        
-        <div class="lang-switcher-container">
-            <button class="lang-current-btn" onclick="toggleDropdown()">
-                <span id="currentLangDisplay">AZ</span>
-                <span id="langArrow"></span>
-            </button>
-            <div class="lang-dropdown" id="langDropdown">
-                <button onclick="setLang('az')" id="langAzBtn">AZ</button>
-                <button onclick="setLang('en')" id="langEnBtn">EN</button>
-                <button onclick="setLang('tr')" id="langTrBtn">TR</button>
-                <button onclick="setLang('ru')" id="langRuBtn">RU</button>
-            </div>
-        </div>
-    </div>
-  </div>
-  
   <div id="adsPage" class="page active">
     <div class="balance-card">
-      <h3 data-translate-key="currentBalance">Ümumi Balans</h3>
+      <h3 data-translate-key="yourBalance">Balansınız</h3>
       <div class="amount"><span id="balance">0.0000</span> <span id="currencySymbol">₼</span></div>
       <div class="usd"><span id="secondaryCurrencySymbol">$</span><span id="secondaryBalance">0.0000</span> <span id="secondaryCurrencyText">USD</span></div>
     </div>
     
     <div id="adRewardNotificationContainer"></div> 
     <div class="ad-card" style="margin-bottom: 20px;"> 
-      <h2 data-translate-key="dailyAds">Gündəlik Qazanc</h2>
+      <h2 data-translate-key="dailyAdsHeader">Günlük Reklamlar</h2>
       <p data-translate-key="adReward">Hər reklama görə <b>0.001 ₼</b> qazanın</p>
       <div class="stats">
         <div class="stat"><span id="adsCount">0</span><label data-translate-key="watched">İzlənən</label></div>
@@ -557,13 +288,12 @@ body{
   
   <div id="walletPage" class="page">
     <div class="balance-card">
-      <h3 data-translate-key="withdrawBalance">Çəkilə bilən Balans</h3>
+      <h3 data-translate-key="yourBalance">Balansınız</h3>
       <div class="amount"><span id="balance2">0.0000</span> <span id="currencySymbol2">₼</span></div>
       <div class="usd"><span id="secondaryCurrencySymbol2">$</span><span id="secondaryBalance2">0.0000</span> <span id="secondaryCurrencyText2">USD</span></div>
     </div>
     <h2 style="text-align:center;margin-bottom:12px;color:var(--text-dark);font-weight:800;" data-translate-key="withdrawTitle">Çıxarış</h2>
     <div class="method-list" id="methods">
-      
       <div class="method" data-type="m10">
           <img src="https://i.postimg.cc/Kj94hVNG/unnamed.png" alt="M10 Logo" class="method-logo">
           <span class="method-text">M10</span>
@@ -604,6 +334,88 @@ body{
     </div>
   </div>
 
+  <div id="profilePage" class="page">
+    <div class="profile-card" id="profileMainView">
+        <div class="profile-header">
+            <div class="profile-avatar">👤</div>
+            
+            <div class="profile-name-container" id="displayNameContainer">
+                <div class="profile-name" id="displayUsername" data-translate-key="setUsername">Ad təyin et</div>
+                <div class="edit-icon" onclick="openUsernameEdit()">✏️</div>
+            </div>
+
+            <div class="username-edit-box" id="usernameEditBox">
+                <input type="text" id="usernameInput" maxlength="15" placeholder="Adınızı daxil edin" data-translate-key="enterUsername" />
+                <div class="username-actions">
+                    <button class="btn-cancel" onclick="cancelUsernameEdit()" data-translate-key="cancel">Ləğv et</button>
+                    <button class="btn-save" onclick="saveUsername()" data-translate-key="save">Yadda saxla</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-list">
+            <div class="setting-item">
+                <div class="setting-info">
+                    <span class="setting-icon">🎨</span>
+                    <span data-translate-key="theme">Tema</span>
+                </div>
+                <div class="toggle-switch" onclick="toggleTheme()">
+                    <div class="toggle-thumb" id="themeThumb">🔆</div>
+                </div>
+            </div>
+            
+            <div class="setting-item">
+                <div class="setting-info">
+                    <span class="setting-icon">🌍</span>
+                    <span data-translate-key="language">Dil</span>
+                </div>
+                <select class="lang-select" id="langSelect" onchange="setLang(this.value)">
+                    <option value="az">AZ</option>
+                    <option value="en">EN</option>
+                    <option value="tr">TR</option>
+                    <option value="ru">RU</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="profile-btn btn-stats" onclick="showStatsView()">
+            📊 <span data-translate-key="statistics">Statistika</span>
+        </button>
+        <button class="profile-btn btn-support" onclick="openSupport()">
+            🎧 <span data-translate-key="support">Dəstək</span>
+        </button>
+    </div>
+
+    <div class="profile-card" id="statsView">
+        <button class="back-btn" onclick="hideStatsView()">⬅ <span data-translate-key="back">Geri</span></button>
+        <h2 style="text-align:center;margin-bottom:20px;color:var(--text-dark);font-weight:800;" data-translate-key="statistics">Statistika</h2>
+        
+        <div class="stat-box">
+            <div>
+                <div class="stat-box-title" data-translate-key="statTotalAds">İzlənən Ümumi Reklam</div>
+                <div class="stat-box-value" id="statAdsWatched">0</div>
+            </div>
+            <div class="stat-icon">📺</div>
+        </div>
+        
+        <div class="stat-box">
+            <div>
+                <div class="stat-box-title" data-translate-key="statAdEarnings">Reklam Qazancı</div>
+                <div class="stat-box-value"><span id="statAdEarningsVal">0.0000</span> <span class="stat-currency">₼</span></div>
+            </div>
+            <div class="stat-icon">💰</div>
+        </div>
+        
+        <div class="stat-box">
+            <div>
+                <div class="stat-box-title" data-translate-key="statTaskEarnings">Görev Qazancı</div>
+                <div class="stat-box-value"><span id="statTaskEarningsVal">0.0000</span> <span class="stat-currency">₼</span></div>
+            </div>
+            <div class="stat-icon">📝</div>
+        </div>
+    </div>
+  </div>
+
 </div>
 
 <div class="menu">
@@ -619,36 +431,33 @@ body{
     <span class="nav-icon">💼</span>
     <span class="nav-text" data-translate-key="wallet">Cüzdan</span>
   </button>
+  <button onclick="showPage('profilePage',this)" data-page-id="profilePage">
+    <span class="nav-icon">👤</span>
+    <span class="nav-text" data-translate-key="profile">Profil</span>
+  </button>
 </div>
 
 <script>
-// --- YERLİ SAXLAMA KÖMƏKÇİLƏRİ ---
-function safeGet(k,d=0){try{return JSON.parse(localStorage.getItem(k))??d;}catch{return d;}}
-function safeSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
 function safeRemove(k){try{localStorage.removeItem(k);}catch(e){}}
 
-// --- TEMA İDARƏETMƏSİ ---
-const THEME_KEY = 'theme';
 const body = document.getElementById('body');
-const themeIcon = document.getElementById('themeIcon');
+const themeThumb = document.getElementById('themeThumb');
 
 function applyTheme(isDark) {
     if (isDark) {
         body.classList.add('dark-theme');
-        themeIcon.textContent = '🌙'; 
+        themeThumb.textContent = '🌙'; 
         safeSet(THEME_KEY, 'dark');
     } else {
         body.classList.remove('dark-theme');
-        themeIcon.textContent = '🔆'; 
+        themeThumb.textContent = '🔆'; 
         safeSet(THEME_KEY, 'light');
     }
 }
-
 function toggleTheme() {
     const isDark = body.classList.contains('dark-theme');
     applyTheme(!isDark);
 }
-const savedTheme = safeGet(THEME_KEY, 'light');
 applyTheme(savedTheme === 'dark');
 
 // --- VALYUTA VƏ MƏZƏNNƏLƏR ---
@@ -666,10 +475,11 @@ const AZN_TASK_REWARD = 0.1;
 const BAL_KEY='bal',COUNT_KEY='cnt',RESET_KEY='resetTime';
 const JOIN_KEY='joined_manat_pay'; 
 const TOTAL_ADS_KEY = 'totalAdsWatched';
-const TOTAL_EARNED_KEY = 'totalAZNEarned';
+const TOTAL_AD_EARNINGS_KEY = 'totalAdEarnings';
+const TOTAL_TASK_EARNINGS_KEY = 'totalTaskEarnings';
+const USERNAME_KEY = 'user_profile_name';
 const REWARD_MSG_KEY = 'rewardMsgExpire'; 
 
-// --- TƏRCÜMƏ MƏLUMATLARI ---
 function localizeAmount(aznAmount, lang) {
     const rates = EXCHANGE_RATES;
     const currencyInfo = CURRENCIES[lang];
@@ -705,18 +515,10 @@ function getLocalizedMinAmount(methodType, lang) {
     return `${formattedAmount} ${symbol}`;
 }
 
-function getAZNEquivalentMinWithdrawal(lang) {
-    if (lang === 'en') return 2.40 / EXCHANGE_RATES.AZN_TO_USD; 
-    else if (lang === 'tr') return 100 / EXCHANGE_RATES.AZN_TO_TRY;
-    else if (lang === 'ru') return 188 / EXCHANGE_RATES.AZN_TO_RUB;
-    else return 4.0; 
-}
-
 const TRANSLATIONS = {
     'az': {
-        pageTitle: 'Manat Pay', loading: 'Yüklənir...',
-        currentBalance: 'Ümumi Balans', withdrawBalance: 'Çəkilə bilən Balans',
-        dailyAds: 'Gündəlik Qazanc', adReward: (r) => `Hər reklama görə ${r} qazanın`, 
+        loading: 'Yüklənir...', yourBalance: 'Balansınız',
+        dailyAdsHeader: 'Günlük Reklamlar', adReward: (r) => `Hər reklama görə ${r} qazanın`, 
         watched: 'İzlənən', maximum: 'Maksimum', maxCount: '100', progressText: 'İrəliləyiş: ',
         watchAd: 'Reklam İzle', adLimitReached: '📣 Gündəlik limitə çatdınız!',
         rewardAddedConfirmed: (r) => `✅ ${r} əlavə olundu!`, wait: '⏳ {s}s gözləyin',
@@ -725,16 +527,18 @@ const TRANSLATIONS = {
         methodError: 'Metod seçin', detailsError: 'Detalları daxil edin', amountError: 'Məbləği düzgün daxil edin',
         minAmount: (min) => `Minimum məbləğ ${min}`, balanceError: 'Balans kifayət etmir',
         withdrawSuccess: '✅ Çıxarış göndərildi! 48 saat ərzində yerinə yetiriləcək.',
-        home: 'Ev', tasks: 'Görevler', wallet: 'Cüzdan',
+        home: 'Ev', tasks: 'Görevler', wallet: 'Cüzdan', profile: 'Profil',
         placeholderDetails_m10: '10 rəqəmli nömrə', placeholderDetails_azercell: '050xxxxxxx',
         placeholderDetails_bakcell: '055xxxxxxx', placeholderDetails_nar: '070xxxxxxx',
         placeholderDetails_bank: '16 rəqəmli kart nömrəsi', placeholderDetails_usdt: 'TON adresi',
-        placeholderAmount: 'Məbləğ', completed: 'Tamamlandı', taskSuccess: (r) => `✅ Görev Tamamlandı! ${r} balansa əlavə edildi.`
+        placeholderAmount: 'Məbləğ', completed: 'Tamamlandı', taskSuccess: (r) => `✅ Görev Tamamlandı! ${r} balansa əlavə edildi.`,
+        setUsername: 'Ad təyin et', enterUsername: 'Adınızı daxil edin', save: 'Yadda saxla', cancel: 'Ləğv et',
+        theme: 'Tema', language: 'Dil', statistics: 'Statistika', support: 'Dəstək',
+        statTotalAds: 'İzlənən Ümumi Reklam', statAdEarnings: 'Reklam Qazancı', statTaskEarnings: 'Görev Qazancı'
     },
     'en': {
-        pageTitle: 'Manat Pay', loading: 'Loading...',
-        currentBalance: 'Total Balance', withdrawBalance: 'Withdrawable Balance',
-        dailyAds: 'Daily Earnings', adReward: (r) => `Earn ${r} for each ad`, 
+        loading: 'Loading...', yourBalance: 'Your Balance',
+        dailyAdsHeader: 'Daily Ads', adReward: (r) => `Earn ${r} for each ad`, 
         watched: 'Watched', maximum: 'Maximum', maxCount: '100', progressText: 'Progress: ',
         watchAd: 'Watch Ad', adLimitReached: '📣 Daily limit reached!',
         rewardAddedConfirmed: (r) => `✅ ${r} added!`, wait: '⏳ {s}s wait',
@@ -743,16 +547,18 @@ const TRANSLATIONS = {
         methodError: 'Select a method', detailsError: 'Enter details', amountError: 'Enter correct amount',
         minAmount: (min) => `Minimum amount ${min}`, balanceError: 'Insufficient balance',
         withdrawSuccess: '✅ Withdrawal sent! It will be executed within 48 hours.',
-        home: 'Home', tasks: 'Tasks', wallet: 'Wallet',
+        home: 'Home', tasks: 'Tasks', wallet: 'Wallet', profile: 'Profile',
         placeholderDetails_m10: '10 digit M10 number', placeholderDetails_azercell: '050xxxxxxx',
         placeholderDetails_bakcell: '055xxxxxxx', placeholderDetails_nar: '070xxxxxxx',
         placeholderDetails_bank: '16 digit card number', placeholderDetails_usdt: 'TON address',
-        placeholderAmount: 'Amount', completed: 'Completed', taskSuccess: (r) => `✅ Task Completed! ${r} added to balance.`
+        placeholderAmount: 'Amount', completed: 'Completed', taskSuccess: (r) => `✅ Task Completed! ${r} added to balance.`,
+        setUsername: 'Set Username', enterUsername: 'Enter your username', save: 'Save', cancel: 'Cancel',
+        theme: 'Theme', language: 'Language', statistics: 'Statistics', support: 'Support',
+        statTotalAds: 'Total Ads Watched', statAdEarnings: 'Ad Earnings', statTaskEarnings: 'Task Earnings'
     },
     'tr': {
-        pageTitle: 'Manat Pay', loading: 'Yükleniyor...',
-        currentBalance: 'Toplam Bakiye', withdrawBalance: 'Çekilebilir Bakiye',
-        dailyAds: 'Günlük Kazanç', adReward: (r) => `Her reklam için ${r} kazanın`, 
+        loading: 'Yükleniyor...', yourBalance: 'Bakiyeniz',
+        dailyAdsHeader: 'Günlük Reklamlar', adReward: (r) => `Her reklam için ${r} kazanın`, 
         watched: 'İzlenen', maximum: 'Maksimum', maxCount: '100', progressText: 'İlerleme: ',
         watchAd: 'Reklam İzle', adLimitReached: '📣 Günlük sınıra ulaştınız!',
         rewardAddedConfirmed: (r) => `✅ ${r} eklendi!`, wait: '⏳ {s}sn bekleyin',
@@ -761,16 +567,18 @@ const TRANSLATIONS = {
         methodError: 'Yöntem seçin', detailsError: 'Bilgileri girin', amountError: 'Miktarı doğru girin',
         minAmount: (min) => `Minimum miktar ${min}`, balanceError: 'Yetersiz bakiye',
         withdrawSuccess: '✅ Çekim talebi gönderildi! 48 saat içinde tamamlanacaktır.',
-        home: 'Ana Sayfa', tasks: 'Görevler', wallet: 'Cüzdan',
+        home: 'Ana Sayfa', tasks: 'Görevler', wallet: 'Cüzdan', profile: 'Profil',
         placeholderDetails_m10: '10 haneli M10 numarası', placeholderDetails_azercell: '050xxxxxxx',
         placeholderDetails_bakcell: '055xxxxxxx', placeholderDetails_nar: '070xxxxxxx',
         placeholderDetails_bank: '16 haneli kart numarası', placeholderDetails_usdt: 'TON adresi',
-        placeholderAmount: 'Miktar', completed: 'Tamamlandı', taskSuccess: (r) => `✅ Görev Tamamlandı! ${r} bakiyeye eklendi.`
+        placeholderAmount: 'Miktar', completed: 'Tamamlandı', taskSuccess: (r) => `✅ Görev Tamamlandı! ${r} bakiyeye eklendi.`,
+        setUsername: 'Ad belirle', enterUsername: 'Adınızı girin', save: 'Kaydet', cancel: 'İptal',
+        theme: 'Tema', language: 'Dil', statistics: 'İstatistikler', support: 'Destek',
+        statTotalAds: 'İzlenen Toplam Reklam', statAdEarnings: 'Reklam Kazancı', statTaskEarnings: 'Görev Kazancı'
     },
     'ru': { 
-        pageTitle: 'Manat Pay', loading: 'Загрузка...',
-        currentBalance: 'Общий Баланс', withdrawBalance: 'Доступный Баланс',
-        dailyAds: 'Дневной Заработок', adReward: (r) => `Зарабатывайте ${r} за каждую рекламу`, 
+        loading: 'Загрузка...', yourBalance: 'Ваш Баланс',
+        dailyAdsHeader: 'Ежедневная Реклама', adReward: (r) => `Зарабатывайте ${r} за каждую рекламу`, 
         watched: 'Просмотрено', maximum: 'Максимум', maxCount: '100', progressText: 'Прогресс: ',
         watchAd: 'Смотреть Рекламу', adLimitReached: '📣 Достигнут дневной лимит!',
         rewardAddedConfirmed: (r) => `✅ ${r} добавлено!`, wait: '⏳ {s}с ожидайте',
@@ -779,49 +587,108 @@ const TRANSLATIONS = {
         methodError: 'Выберите способ', detailsError: 'Введите данные', amountError: 'Введите правильную сумму',
         minAmount: (min) => `Минимальная сумма ${min}`, balanceError: 'Недостаточно средств',
         withdrawSuccess: '✅ Заявка отправлена! Будет исполнена в течение 48 часов.',
-        home: 'Главная', tasks: 'Задания', wallet: 'Кошелек',
+        home: 'Главная', tasks: 'Задания', wallet: 'Кошелек', profile: 'Профиль',
         placeholderDetails_m10: '10-значный номер M10', placeholderDetails_azercell: '050xxxxxxx',
         placeholderDetails_bakcell: '055xxxxxxx', placeholderDetails_nar: '070xxxxxxx',
         placeholderDetails_bank: '16-значный номер карты', placeholderDetails_usdt: 'TON адрес',
-        placeholderAmount: 'Сумма', completed: 'Выполнено', taskSuccess: (r) => `✅ Задание выполнено! ${r} добавлено на баланс.`
+        placeholderAmount: 'Сумма', completed: 'Выполнено', taskSuccess: (r) => `✅ Задание выполнено! ${r} добавлено на баланс.`,
+        setUsername: 'Установить имя', enterUsername: 'Введите ваше имя', save: 'Сохранить', cancel: 'Отмена',
+        theme: 'Тема', language: 'Язык', statistics: 'Статистика', support: 'Поддержка',
+        statTotalAds: 'Всего просмотрено реклам', statAdEarnings: 'Заработок с рекламы', statTaskEarnings: 'Заработок с заданий'
     }
 };
 
 let currentLang = localStorage.getItem('lang') || 'az';
+document.getElementById('langSelect').value = currentLang;
 const LIMIT = 100;
 
 let bal = parseFloat(safeGet(BAL_KEY, -1)); 
-// Başlanğıc balans 0.00 olaraq təyin edilir
-if (bal === -1 || isNaN(bal)) { 
-    bal = 0.00; 
-    safeSet(BAL_KEY, bal);
-}
+if (bal === -1 || isNaN(bal)) { bal = 0.00; safeSet(BAL_KEY, bal); }
 
 let totalAds = parseInt(safeGet(TOTAL_ADS_KEY, 0));
-let totalEarned = parseFloat(safeGet(TOTAL_EARNED_KEY, bal)); 
+let totalAdEarnings = parseFloat(safeGet(TOTAL_AD_EARNINGS_KEY, 0));
+let totalTaskEarnings = parseFloat(safeGet(TOTAL_TASK_EARNINGS_KEY, 0));
 let cnt=parseInt(safeGet(COUNT_KEY,0));
 let resetTime=safeGet(RESET_KEY,null);
 
-let tInterval = null; 
-let remainingSeconds = 0; 
-const MAX_SECONDS = 10;
-let rewardMsgTimeout = null; 
+let tInterval = null; let remainingSeconds = 0; const MAX_SECONDS = 10; let rewardMsgTimeout = null; 
 
-// 23:55 AZT-də sıfırlama (UTC ilə 19:55 edir, bütün ölkələr üçün eyni an)
 function getNextResetTime(){
   const now = new Date();
   let resetUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 19, 55, 0, 0));
-  if(now.getTime() > resetUTC.getTime()){
-      resetUTC.setUTCDate(resetUTC.getUTCDate() + 1);
-  }
+  if(now.getTime() > resetUTC.getTime()){ resetUTC.setUTCDate(resetUTC.getUTCDate() + 1); }
   return resetUTC.getTime();
 }
 
 if(!resetTime||Date.now()>resetTime){
-  cnt=0;
-  resetTime=getNextResetTime();
-  safeSet(RESET_KEY,resetTime);
-  safeSet(COUNT_KEY,cnt);
+  cnt=0; resetTime=getNextResetTime(); safeSet(RESET_KEY,resetTime); safeSet(COUNT_KEY,cnt);
+}
+
+function loadProfile() {
+    const savedName = localStorage.getItem(USERNAME_KEY);
+    const displayEl = document.getElementById('displayUsername');
+    if (savedName) {
+        displayEl.textContent = savedName;
+        displayEl.removeAttribute('data-translate-key');
+    } else {
+        displayEl.setAttribute('data-translate-key', 'setUsername');
+        applyTranslationToElement(displayEl, 'setUsername', currentLang);
+    }
+}
+
+function openUsernameEdit() {
+    document.getElementById('displayNameContainer').style.display = 'none';
+    const editBox = document.getElementById('usernameEditBox');
+    editBox.style.display = 'block';
+    
+    const input = document.getElementById('usernameInput');
+    const savedName = localStorage.getItem(USERNAME_KEY);
+    input.value = savedName || '';
+    input.focus();
+}
+
+function cancelUsernameEdit() {
+    document.getElementById('usernameEditBox').style.display = 'none';
+    document.getElementById('displayNameContainer').style.display = 'flex';
+}
+
+function saveUsername() {
+    const inputVal = document.getElementById('usernameInput').value.trim();
+    if (inputVal.length > 0 && inputVal.length <= 15) {
+        localStorage.setItem(USERNAME_KEY, inputVal);
+    } else if (inputVal.length === 0) {
+        localStorage.removeItem(USERNAME_KEY);
+    }
+    cancelUsernameEdit();
+    loadProfile();
+}
+
+function openSupport() {
+    window.open('https://t.me/manatpay_support', '_blank');
+}
+
+function showStatsView() {
+    document.getElementById('profileMainView').style.display = 'none';
+    document.getElementById('statsView').style.display = 'block';
+    updateStatsUI();
+}
+
+function hideStatsView() {
+    document.getElementById('statsView').style.display = 'none';
+    document.getElementById('profileMainView').style.display = 'block';
+}
+
+function updateStatsUI() {
+    const lang = currentLang;
+    document.getElementById('statAdsWatched').textContent = totalAds;
+    
+    const adInfo = localizeAmount(totalAdEarnings, lang);
+    document.getElementById('statAdEarningsVal').textContent = adInfo.formatted;
+    
+    const taskInfo = localizeAmount(totalTaskEarnings, lang);
+    document.getElementById('statTaskEarningsVal').textContent = taskInfo.formatted;
+    
+    document.querySelectorAll('.stat-currency').forEach(el => el.textContent = adInfo.symbol);
 }
 
 function update(){
@@ -829,42 +696,25 @@ function update(){
   const rates = EXCHANGE_RATES;
   const currencyInfo = CURRENCIES[lang];
   
-  let mainBalance = bal;
-  let secondaryBalance = bal;
-  let mainSymbol = currencyInfo.symbol;
-  let secondarySymbol = currencyInfo.secondarySymbol;
+  let mainBalance = bal; let secondaryBalance = bal;
+  let mainSymbol = currencyInfo.symbol; let secondarySymbol = currencyInfo.secondarySymbol;
   let secondaryText = currencyInfo.secondary;
 
-  let mainFormat = (val) => val.toFixed(4);
-  let secondaryFormat = (val) => val.toFixed(4);
+  let mainFormat = (val) => val.toFixed(4); let secondaryFormat = (val) => val.toFixed(4);
   
-  if (lang === 'tr') {
-      mainBalance = bal * rates.AZN_TO_TRY; secondaryBalance = bal * rates.AZN_TO_USD;
-      mainFormat = (val) => val.toFixed(2); secondaryFormat = (val) => val.toFixed(4);
-  } else if (lang === 'en') {
-      mainBalance = bal * rates.AZN_TO_USD; 
-      if (currencyInfo.secondary === 'RUB') { secondaryBalance = bal * rates.AZN_TO_RUB; secondaryFormat = (val) => val.toFixed(2); } 
-      else { secondaryBalance = bal; }
-      mainFormat = (val) => val.toFixed(4);
-  } else if (lang === 'ru') { 
-      mainBalance = bal * rates.AZN_TO_RUB; secondaryBalance = bal * rates.AZN_TO_USD;
-      mainFormat = (val) => val.toFixed(2); secondaryFormat = (val) => val.toFixed(4);
-  } else { 
-      mainBalance = bal; secondaryBalance = bal * rates.AZN_TO_USD;
-  }
+  if (lang === 'tr') { mainBalance = bal * rates.AZN_TO_TRY; secondaryBalance = bal * rates.AZN_TO_USD; mainFormat = (val) => val.toFixed(2); secondaryFormat = (val) => val.toFixed(4); } 
+  else if (lang === 'en') { mainBalance = bal * rates.AZN_TO_USD; if (currencyInfo.secondary === 'RUB') { secondaryBalance = bal * rates.AZN_TO_RUB; secondaryFormat = (val) => val.toFixed(2); } else { secondaryBalance = bal; } mainFormat = (val) => val.toFixed(4); } 
+  else if (lang === 'ru') { mainBalance = bal * rates.AZN_TO_RUB; secondaryBalance = bal * rates.AZN_TO_USD; mainFormat = (val) => val.toFixed(2); secondaryFormat = (val) => val.toFixed(4); } 
+  else { mainBalance = bal; secondaryBalance = bal * rates.AZN_TO_USD; }
   
   document.getElementById('balance').textContent = mainFormat(mainBalance);
   document.getElementById('balance2').textContent = mainFormat(mainBalance);
-  
   document.getElementById('currencySymbol').textContent = mainSymbol;
   document.getElementById('currencySymbol2').textContent = mainSymbol;
-  
   document.getElementById('secondaryBalance').textContent = secondaryFormat(secondaryBalance);
   document.getElementById('secondaryBalance2').textContent = secondaryFormat(secondaryBalance);
-  
   document.getElementById('secondaryCurrencySymbol').textContent = secondarySymbol;
   document.getElementById('secondaryCurrencySymbol2').textContent = secondarySymbol;
-  
   document.getElementById('secondaryCurrencyText').textContent = secondaryText;
   document.getElementById('secondaryCurrencyText2').textContent = secondaryText;
 
@@ -873,12 +723,11 @@ function update(){
   const progressTextSpan = document.getElementById('progressTextSpan');
   if(progressTextSpan) progressTextSpan.textContent = `${cnt}/${LIMIT}`;
   
-  safeSet(BAL_KEY,bal);
-  safeSet(COUNT_KEY,cnt);
-  safeSet(TOTAL_ADS_KEY, totalAds); 
-  safeSet(TOTAL_EARNED_KEY, totalEarned); 
+  safeSet(BAL_KEY,bal); safeSet(COUNT_KEY,cnt); safeSet(TOTAL_ADS_KEY, totalAds); 
+  safeSet(TOTAL_AD_EARNINGS_KEY, totalAdEarnings); safeSet(TOTAL_TASK_EARNINGS_KEY, totalTaskEarnings);
   
   checkAndDisplayRewardMsg();
+  if(document.getElementById('statsView').style.display === 'block') updateStatsUI();
 }
 
 function updateTaskButtons() {
@@ -889,20 +738,14 @@ function updateTaskButtons() {
     const taskRewardKey = `taskReward1`;
     const localizedRewardText = getLocalizedTaskReward(currentLang, AZN_TASK_REWARD);
     const rewardEl = btn.parentElement.querySelector(`p[data-translate-key="${taskRewardKey}"]`);
-    if (rewardEl && t[taskRewardKey]) {
-        rewardEl.innerHTML = t[taskRewardKey](localizedRewardText);
-    }
+    if (rewardEl && t[taskRewardKey]) rewardEl.innerHTML = t[taskRewardKey](localizedRewardText);
     
     if (localStorage.getItem(JOIN_KEY)){
-        btn.classList.remove('waiting'); 
-        btn.classList.add('completed');
-        btn.textContent = t.completed;
-        btn.disabled = true; 
+        btn.classList.remove('waiting'); btn.classList.add('completed');
+        btn.textContent = t.completed; btn.disabled = true; 
     } else {
         if (!btn.classList.contains('waiting')) {
-             btn.classList.remove('completed');
-             btn.disabled = false;
-             btn.textContent = t.joinChannel;
+             btn.classList.remove('completed'); btn.disabled = false; btn.textContent = t.joinChannel;
         }
     }
 }
@@ -912,47 +755,35 @@ function setPlaceholders(methodType) {
     const currency = CURRENCIES[currentLang].main;
     const localizedMinAmount = getLocalizedMinAmount(methodType, currentLang); 
     const detailsKey = `placeholderDetails_${methodType}`;
-    
     details.placeholder = t[detailsKey] || '';
     const minTextOnly = localizedMinAmount.split(' ')[0]; 
     amount.placeholder = `${t.placeholderAmount} (${currency}) - ${minTextOnly}`; 
 }
 
+function applyTranslationToElement(el, key, lang) {
+    const t = TRANSLATIONS[lang];
+    if (typeof t[key] === 'function') {
+         if (key === 'adReward') {
+            const rewardInfo = getLocalizedReward(lang);
+            el.innerHTML = t[key](`<b>${rewardInfo.formattedReward} ${rewardInfo.symbol}</b>`);
+         } else if (key === 'taskReward1') {
+            el.innerHTML = t[key](getLocalizedTaskReward(lang, AZN_TASK_REWARD));
+         }
+    } else if (t[key]) {
+         if(el.tagName === 'INPUT') el.placeholder = t[key];
+         else el.innerHTML = t[key];
+    }
+}
+
 function applyTranslations(lang) {
     const t = TRANSLATIONS[lang];
     if (!t) return;
-
-    document.getElementById('pageTitle').textContent = t.pageTitle;
-    document.getElementById('currentLangDisplay').textContent = lang.toUpperCase(); 
-    document.getElementById('langArrow').textContent = '⬇️'; 
-
-    document.getElementById('langAzBtn').classList.remove('active');
-    document.getElementById('langEnBtn').classList.remove('active');
-    document.getElementById('langTrBtn').classList.remove('active');
-    document.getElementById('langRuBtn')?.classList.remove('active');
-    
-    const langBtnId = `lang${lang.charAt(0).toUpperCase() + lang.slice(1)}Btn`;
-    const activeBtn = document.getElementById(langBtnId);
-    if(activeBtn) activeBtn.classList.add('active');
-
-    const rewardInfo = getLocalizedReward(lang);
-    
     document.querySelectorAll('[data-translate-key]').forEach(el => {
-        const key = el.getAttribute('data-translate-key');
-        if (typeof t[key] === 'function') {
-             if (key === 'adReward') {
-                const formattedRewardText = `<b>${rewardInfo.formattedReward} ${rewardInfo.symbol}</b>`;
-                el.innerHTML = t[key](formattedRewardText);
-             } else if (key === 'taskReward1') {
-                const localizedRewardText = getLocalizedTaskReward(lang, AZN_TASK_REWARD);
-                el.innerHTML = t[key](localizedRewardText);
-             }
-        } else if (t[key]) {
-             el.innerHTML = t[key];
-        }
+        applyTranslationToElement(el, el.getAttribute('data-translate-key'), lang);
     });
     
     updateTaskButtons(); 
+    loadProfile();
 
     document.querySelectorAll('.min-withdraw-label').forEach(label => {
         const methodType = label.getAttribute('data-min-key');
@@ -963,24 +794,15 @@ function applyTranslations(lang) {
     if(progressTextSpan) progressTextSpan.textContent = `${cnt}/${LIMIT}`;
     
     update(); 
-    
     if (document.getElementById('form').style.display === 'block' && type) { setPlaceholders(type); }
     if (tInterval && remainingSeconds > 0) { adBtnContent.textContent = t.wait.replace('{s}', remainingSeconds); } 
     else { if (!adBtn.classList.contains('waiting')) adBtnContent.textContent = t.watchAd; }
 }
 
-function toggleDropdown() {
-    const dropdown = document.getElementById('langDropdown');
-    dropdown.classList.toggle('show');
-    document.getElementById('langArrow').textContent = dropdown.classList.contains('show') ? '▲' : '⬇️'; 
-}
-
 function setLang(lang) {
     currentLang = lang;
     localStorage.setItem('lang', lang);
-    document.getElementById('langArrow').textContent = ''; 
     applyTranslations(lang);
-    toggleDropdown(); 
 }
 
 const adBtn=document.getElementById('adBtn'), msg=document.getElementById('msg');
@@ -995,15 +817,12 @@ function displayRewardMsg(messageHTML) {
     if (rewardMsgElement) { rewardMsgElement.innerHTML = messageHTML; } 
     else {
         rewardMsgElement = document.createElement('div');
-        rewardMsgElement.className = 'reward-msg';
-        rewardMsgElement.id = 'rewardMsg';
+        rewardMsgElement.className = 'reward-msg'; rewardMsgElement.id = 'rewardMsg';
         rewardMsgElement.innerHTML = messageHTML;
         container.appendChild(rewardMsgElement);
     }
-    
     rewardMsgElement.classList.remove('show');
     safeSet(REWARD_MSG_KEY, { html: messageHTML, expire: Date.now() + 2000 });
-
     setTimeout(() => { rewardMsgElement.classList.add('show'); }, 50);
     rewardMsgTimeout = setTimeout(() => {
         if (rewardMsgElement) {
@@ -1018,28 +837,23 @@ function displayRewardMsg(messageHTML) {
 function checkAndDisplayRewardMsg() {
     const container = document.getElementById('adRewardNotificationContainer');
     if (!container) return;
-    
     const currentPage = document.querySelector('.page.active');
     if (!currentPage || currentPage.id !== 'adsPage') {
         let rewardMsgElement = document.getElementById('rewardMsg');
         if (rewardMsgElement) rewardMsgElement.classList.remove('show');
         return;
     }
-    
     const savedMsg = safeGet(REWARD_MSG_KEY, null);
     let rewardMsgElement = document.getElementById('rewardMsg');
-    
     if (savedMsg) {
         const remainingTime = savedMsg.expire - Date.now();
         if (remainingTime > 0) {
             if (!rewardMsgElement) {
                 rewardMsgElement = document.createElement('div');
-                rewardMsgElement.className = 'reward-msg';
-                rewardMsgElement.id = 'rewardMsg';
+                rewardMsgElement.className = 'reward-msg'; rewardMsgElement.id = 'rewardMsg';
                 container.appendChild(rewardMsgElement);
             }
-            rewardMsgElement.innerHTML = savedMsg.html;
-            rewardMsgElement.classList.remove('show');
+            rewardMsgElement.innerHTML = savedMsg.html; rewardMsgElement.classList.remove('show');
             if (rewardMsgTimeout) clearTimeout(rewardMsgTimeout);
             setTimeout(() => { rewardMsgElement.classList.add('show'); }, 50);
             rewardMsgTimeout = setTimeout(() => {
@@ -1047,57 +861,31 @@ function checkAndDisplayRewardMsg() {
                     rewardMsgElement.classList.remove('show');
                     setTimeout(() => { if(rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }, 400);
                 }
-                safeRemove(REWARD_MSG_KEY);
-                rewardMsgTimeout = null;
+                safeRemove(REWARD_MSG_KEY); rewardMsgTimeout = null;
             }, remainingTime);
-        } else {
-            safeRemove(REWARD_MSG_KEY);
-            if (rewardMsgElement && rewardMsgElement.parentNode === container) rewardMsgElement.remove();
-        }
-    } else {
-         if (rewardMsgElement && rewardMsgElement.parentNode === container) rewardMsgElement.remove();
-    }
+        } else { safeRemove(REWARD_MSG_KEY); if (rewardMsgElement && rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }
+    } else { if (rewardMsgElement && rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }
 }
 
 function restoreAdBtnState() {
     const t = TRANSLATIONS[currentLang];
-    
     if (cnt >= LIMIT) {
-        adBtn.classList.remove('waiting');
-        adBtn.disabled = true;
-        adBtnContent.textContent = t.watchAd;
-        const timerBar = adBtn.querySelector('.timer-bar');
-        if (timerBar) timerBar.remove();
-        msg.textContent = t.adLimitReached;
-        checkAndDisplayRewardMsg();
-        return; 
+        adBtn.classList.remove('waiting'); adBtn.disabled = true; adBtnContent.textContent = t.watchAd;
+        const timerBar = adBtn.querySelector('.timer-bar'); if (timerBar) timerBar.remove();
+        msg.textContent = t.adLimitReached; checkAndDisplayRewardMsg(); return; 
     }
-    
     if (tInterval && remainingSeconds > 0) {
-        adBtn.disabled = true;
-        adBtn.classList.add('waiting');
+        adBtn.disabled = true; adBtn.classList.add('waiting');
         let timerBar = adBtn.querySelector('.timer-bar');
-        if (!timerBar) {
-            timerBar = document.createElement('div');
-            timerBar.className = 'timer-bar';
-            adBtn.prepend(timerBar);
-        }
+        if (!timerBar) { timerBar = document.createElement('div'); timerBar.className = 'timer-bar'; adBtn.prepend(timerBar); }
         const elapsed = MAX_SECONDS - remainingSeconds;
         const startPercentage = (elapsed / MAX_SECONDS) * 100;
-        timerBar.style.transition = 'none'; 
-        timerBar.style.width = `${startPercentage}%`; 
-        setTimeout(() => {
-            timerBar.style.transition = `width ${remainingSeconds}s linear`;
-            timerBar.style.width = '100%'; 
-        }, 50); 
-        adBtnContent.textContent = t.wait.replace('{s}', remainingSeconds);
-        msg.textContent = '';
+        timerBar.style.transition = 'none'; timerBar.style.width = `${startPercentage}%`; 
+        setTimeout(() => { timerBar.style.transition = `width ${remainingSeconds}s linear`; timerBar.style.width = '100%'; }, 50); 
+        adBtnContent.textContent = t.wait.replace('{s}', remainingSeconds); msg.textContent = '';
     } else {
-        adBtn.classList.remove('waiting');
-        adBtn.disabled = false;
-        adBtnContent.textContent = t.watchAd;
-        const timerBar = adBtn.querySelector('.timer-bar');
-        if (timerBar) timerBar.remove();
+        adBtn.classList.remove('waiting'); adBtn.disabled = false; adBtnContent.textContent = t.watchAd;
+        const timerBar = adBtn.querySelector('.timer-bar'); if (timerBar) timerBar.remove();
         msg.textContent = '';
     }
     checkAndDisplayRewardMsg();
@@ -1105,7 +893,6 @@ function restoreAdBtnState() {
 
 adBtn.onclick=()=>{
   const t = TRANSLATIONS[currentLang];
-  
   if(cnt>=LIMIT){ msg.textContent=t.adLimitReached; return; }
   if (tInterval) return;
 
@@ -1114,117 +901,71 @@ adBtn.onclick=()=>{
   let rewardMsgElement = document.getElementById('rewardMsg');
   if (rewardMsgElement) {
        rewardMsgElement.classList.remove('show');
-       setTimeout(() => {
-           const container = document.getElementById('adRewardNotificationContainer');
-           if(container && rewardMsgElement.parentNode === container) rewardMsgElement.remove();
-       }, 400); 
+       setTimeout(() => { const container = document.getElementById('adRewardNotificationContainer'); if(container && rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }, 400); 
   }
   
-  adBtn.disabled=true; 
-  adBtn.classList.add('waiting');
-  remainingSeconds = MAX_SECONDS; 
+  adBtn.disabled=true; adBtn.classList.add('waiting'); remainingSeconds = MAX_SECONDS; 
   
   let timerBar = adBtn.querySelector('.timer-bar');
-  if (!timerBar) {
-      timerBar = document.createElement('div');
-      timerBar.className = 'timer-bar';
-      adBtn.prepend(timerBar); 
-  }
+  if (!timerBar) { timerBar = document.createElement('div'); timerBar.className = 'timer-bar'; adBtn.prepend(timerBar); }
   
-  timerBar.style.transition = 'none';
-  timerBar.style.width = '0%';
-  setTimeout(() => {
-    timerBar.style.transition = `width ${MAX_SECONDS}s linear`; 
-    timerBar.style.width = '100%';
-  }, 50); 
+  timerBar.style.transition = 'none'; timerBar.style.width = '0%';
+  setTimeout(() => { timerBar.style.transition = `width ${MAX_SECONDS}s linear`; timerBar.style.width = '100%'; }, 50); 
   
-  adBtnContent.textContent = t.wait.replace('{s}', remainingSeconds); 
-  msg.textContent = '';
+  adBtnContent.textContent = t.wait.replace('{s}', remainingSeconds); msg.textContent = '';
   
-  // YENİ SDK ÇAĞIRIŞI 
   try{if(typeof show_10701408==='function'){show_10701408();}}catch(e){} 
   
   tInterval=setInterval(()=>{
     remainingSeconds--;
     const currentT = TRANSLATIONS[currentLang];
-    
     if (adBtnContent) adBtnContent.textContent = currentT.wait.replace('{s}', remainingSeconds > 0 ? remainingSeconds : '0'); 
     
     if(remainingSeconds === 0){
-        clearInterval(tInterval);
-        tInterval = null;
-        
-        bal+=AZN_REWARD; 
-        totalEarned += AZN_REWARD; 
-        cnt++; totalAds++; 
-        update(); 
+        clearInterval(tInterval); tInterval = null;
+        bal+=AZN_REWARD; totalAdEarnings+=AZN_REWARD; cnt++; totalAds++; update(); 
         
         const currentRewardInfo = getLocalizedReward(currentLang);
-        const formattedRewardText = `<b>${currentRewardInfo.formattedReward} ${currentRewardInfo.symbol}</b>`;
-        
-        displayRewardMsg(currentT.rewardAddedConfirmed(formattedRewardText));
+        displayRewardMsg(currentT.rewardAddedConfirmed(`<b>${currentRewardInfo.formattedReward} ${currentRewardInfo.symbol}</b>`));
         
         if (timerBar) { timerBar.style.transition = 'none'; timerBar.remove(); }
-        
-        adBtn.disabled=false;
-        adBtn.classList.remove('waiting');
-        
+        adBtn.disabled=false; adBtn.classList.remove('waiting');
         if (adBtnContent) adBtnContent.textContent = currentT.watchAd; 
-        if (cnt >= LIMIT) msg.textContent = currentT.adLimitReached;
-        else msg.textContent = ''; 
+        if (cnt >= LIMIT) msg.textContent = currentT.adLimitReached; else msg.textContent = ''; 
     }
   },1000);
 };
 
 const taskNotification = document.getElementById('taskNotification');
 const taskNotificationText = document.getElementById('taskNotificationText');
-
 function showTaskNotification(message) {
     taskNotificationText.innerHTML = message;
-    taskNotification.classList.remove('notification-hide');
-    taskNotification.classList.add('notification-show');
-    setTimeout(() => {
-        taskNotification.classList.remove('notification-show');
-        taskNotification.classList.add('notification-hide');
-    }, 3000);
+    taskNotification.classList.remove('notification-hide'); taskNotification.classList.add('notification-show');
+    setTimeout(() => { taskNotification.classList.remove('notification-show'); taskNotification.classList.add('notification-hide'); }, 3000);
 }
 
-// Bircə ədəd tapşırıq sistemi - Link gizli şəkildə işləyir
 const joinBtn = document.getElementById('joinBtn');
 if (joinBtn) {
     joinBtn.onclick = () => {
         if (localStorage.getItem(JOIN_KEY) || joinBtn.disabled) return; 
-        
         const t = TRANSLATIONS[currentLang];
-        window.open('https://t.me/manat_pay', '_blank'); // Kanala yönləndirir
+        window.open('https://t.me/manat_pay', '_blank'); 
         
-        joinBtn.disabled = true;
-        joinBtn.classList.add('waiting'); 
-        joinBtn.textContent = t.wait.replace('{s}', '3');
+        joinBtn.disabled = true; joinBtn.classList.add('waiting'); joinBtn.textContent = t.wait.replace('{s}', '3');
         
         setTimeout(() => {
-            bal += AZN_TASK_REWARD; 
-            totalEarned += AZN_TASK_REWARD; 
-            safeSet(BAL_KEY, bal);
-            safeSet(TOTAL_EARNED_KEY, totalEarned);
-            localStorage.setItem(JOIN_KEY, '1'); // Gözləmə kilidi
-            
+            bal += AZN_TASK_REWARD; totalTaskEarnings += AZN_TASK_REWARD; 
+            safeSet(BAL_KEY, bal); safeSet(TOTAL_TASK_EARNINGS_KEY, totalTaskEarnings);
+            localStorage.setItem(JOIN_KEY, '1'); 
             update();
-            
-            joinBtn.classList.remove('waiting');
-            joinBtn.classList.add('completed');
-            joinBtn.textContent = t.completed;
-            joinBtn.disabled = true;
-            
-            const localizedRewardText = getLocalizedTaskReward(currentLang, AZN_TASK_REWARD);
-            showTaskNotification(t.taskSuccess(localizedRewardText));
+            joinBtn.classList.remove('waiting'); joinBtn.classList.add('completed'); joinBtn.textContent = t.completed; joinBtn.disabled = true;
+            showTaskNotification(t.taskSuccess(getLocalizedTaskReward(currentLang, AZN_TASK_REWARD)));
         }, 3000); 
     };
 }
 
 function showPage(id, btn){
   if (btn.classList.contains('active')) return; 
-
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));
@@ -1239,35 +980,25 @@ function showPage(id, btn){
 }
 
 const methods = document.querySelectorAll('.method');
-const form = document.getElementById('form');
-const details = document.getElementById('details');
-const amount = document.getElementById('amount');
-const alertBox = document.getElementById('alert');
+const form = document.getElementById('form'); const details = document.getElementById('details');
+const amount = document.getElementById('amount'); const alertBox = document.getElementById('alert');
 let type = '';
 
 methods.forEach(m=>{
   m.onclick=()=>{
     type=m.dataset.type;
-    document.getElementById('methods').style.display='none';
-    form.style.display='block';
-    setPlaceholders(type);
-    details.value=''; amount.value='';
-    alertBox.style.display='none';
+    document.getElementById('methods').style.display='none'; form.style.display='block';
+    setPlaceholders(type); details.value=''; amount.value=''; alertBox.style.display='none';
   };
 });
 
 document.getElementById('backBtn').onclick=()=>{
-  form.style.display='none';
-  document.getElementById('methods').style.display='flex';
-  alertBox.style.display='none';
-  type='';
+  form.style.display='none'; document.getElementById('methods').style.display='flex'; alertBox.style.display='none'; type='';
 };
 
 document.getElementById('withdrawBtn').onclick=()=>{
-  const det = details.value.trim();
-  const amt = parseFloat(amount.value);
-  alertBox.style.display='none';
-  const t = TRANSLATIONS[currentLang];
+  const det = details.value.trim(); const amt = parseFloat(amount.value);
+  alertBox.style.display='none'; const t = TRANSLATIONS[currentLang];
 
   if(!type){ showErr(t.methodError); return; }
   if(!det){ showErr(t.detailsError); return; }
@@ -1289,27 +1020,17 @@ document.getElementById('withdrawBtn').onclick=()=>{
   else if (currentLang === 'ru') withdrawalAmountInAZN = amt / EXCHANGE_RATES.AZN_TO_RUB;
   else withdrawalAmountInAZN = amt; 
 
-  bal -= withdrawalAmountInAZN; 
-  safeSet(BAL_KEY,bal);
-  update();
+  bal -= withdrawalAmountInAZN; safeSet(BAL_KEY,bal); update();
 
-  alertBox.textContent=t.withdrawSuccess;
-  alertBox.className='alert success';
-  alertBox.style.display='block';
+  alertBox.textContent=t.withdrawSuccess; alertBox.className='alert success'; alertBox.style.display='block';
 
   setTimeout(()=>{
-    form.style.display='none';
-    document.getElementById('methods').style.display='flex';
-    alertBox.style.display='none';
-    type='';
+    form.style.display='none'; document.getElementById('methods').style.display='flex';
+    alertBox.style.display='none'; type='';
   }, 2000);
 };
 
-function showErr(msg){
-  alertBox.textContent=msg;
-  alertBox.className='alert error';
-  alertBox.style.display='block';
-}
+function showErr(msg){ alertBox.textContent=msg; alertBox.className='alert error'; alertBox.style.display='block'; }
 
 update();
 applyTranslations(currentLang); 
@@ -1317,8 +1038,7 @@ restoreAdBtnState();
 
 setTimeout(()=>{
   const s=document.getElementById("loadingScreen");
-  s.style.opacity="0";
-  setTimeout(()=>s.style.display="none",700);
+  s.style.opacity="0"; setTimeout(()=>s.style.display="none",700);
 },3000);
 </script>
 </body>
