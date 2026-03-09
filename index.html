@@ -132,8 +132,8 @@ body{
 .ad-btn:hover:not(.waiting){transform:scale(1.02);box-shadow:0 10px 25px var(--btn-shadow);}
 .ad-btn.waiting {background: #bdc3c7 !important;color: #2c3e50 !important;cursor: not-allowed;box-shadow: none !important;position: relative; overflow: hidden; }
 .ad-btn-content { position: relative; z-index: 2; display: block; }
-.timer-bar {position: absolute;top: 0;left: 0;height: 100%;width: 0%; border-radius: 16px;background: linear-gradient(90deg, var(--btn-gradient-start), var(--btn-gradient-end)); z-index: 1; }
-.ad-btn.waiting .ad-btn-content { color: var(--text-light) !important; }
+.ad-btn.waiting .ad-btn-content { color: var(--text-light) !important; animation: pulseText 1.5s infinite; }
+@keyframes pulseText { 0%, 100% {opacity: 1;} 50% {opacity: 0.6;} }
 
 #msg {margin-top: 8px; font-size: 14px;font-weight: 700;min-height: 0; padding: 0;color: #e74c3c;}
 #adRewardNotificationContainer { position: relative; height: 0; overflow: visible; }
@@ -576,7 +576,7 @@ const TRANSLATIONS = {
         loading: 'Yüklənir...', yourBalance: 'Balansınız',
         dailyAdsHeader: 'Günlük Reklamlar', adReward: (r) => `Hər reklama görə ${r} qazanın`, 
         watched: 'İzlənən', maximum: 'Maksimum', maxCount: '100', progressText: 'İrəliləyiş: ',
-        watchAd: 'Reklam İzle', adLimitReached: '📣 Gündəlik limitə çatdınız!',
+        watchAd: 'Reklam İzle', watching: '⏳ İzlənir...', adLimitReached: '📣 Gündəlik limitə çatdınız!',
         rewardAddedConfirmed: (r) => `✅ ${r} əlavə olundu!`, wait: '⏳ {s}s gözləyin',
         premiumTask: 'Premium Görev', taskReward1: (r) => `Kanala qoşul və ${r} qazan!`, joinChannel: 'Kanala Qoşul',
         withdrawTitle: 'Çıxarış', bankCard: 'Bank Kartı', back: 'Geri', withdraw: 'Çıxarış Et',
@@ -599,7 +599,7 @@ const TRANSLATIONS = {
         loading: 'Loading...', yourBalance: 'Your Balance',
         dailyAdsHeader: 'Daily Ads', adReward: (r) => `Earn ${r} for each ad`, 
         watched: 'Watched', maximum: 'Maximum', maxCount: '100', progressText: 'Progress: ',
-        watchAd: 'Watch Ad', adLimitReached: '📣 Daily limit reached!',
+        watchAd: 'Watch Ad', watching: '⏳ Watching...', adLimitReached: '📣 Daily limit reached!',
         rewardAddedConfirmed: (r) => `✅ ${r} added!`, wait: '⏳ {s}s wait',
         premiumTask: 'Premium Task', taskReward1: (r) => `Join channel and earn ${r}!`, joinChannel: 'Join Channel',
         withdrawTitle: 'Withdrawal', bankCard: 'Bank Card', back: 'Back', withdraw: 'Withdraw',
@@ -622,7 +622,7 @@ const TRANSLATIONS = {
         loading: 'Yükleniyor...', yourBalance: 'Bakiyeniz',
         dailyAdsHeader: 'Günlük Reklamlar', adReward: (r) => `Her reklam için ${r} kazanın`, 
         watched: 'İzlenen', maximum: 'Maksimum', maxCount: '100', progressText: 'İlerleme: ',
-        watchAd: 'Reklam İzle', adLimitReached: '📣 Günlük sınıra ulaştınız!',
+        watchAd: 'Reklam İzle', watching: '⏳ İzleniyor...', adLimitReached: '📣 Günlük sınıra ulaştınız!',
         rewardAddedConfirmed: (r) => `✅ ${r} eklendi!`, wait: '⏳ {s}sn bekleyin',
         premiumTask: 'Premium Görev', taskReward1: (r) => `Kanala katıl ve ${r} kazan!`, joinChannel: 'Kanala Katıl',
         withdrawTitle: 'Para Çekme', bankCard: 'Banka Kartı', back: 'Geri', withdraw: 'Para Çek',
@@ -645,7 +645,7 @@ const TRANSLATIONS = {
         loading: 'Загрузка...', yourBalance: 'Ваш Баланс',
         dailyAdsHeader: 'Ежедневная Реклама', adReward: (r) => `Зарабатывайте ${r} за каждую рекламу`, 
         watched: 'Просмотрено', maximum: 'Максимум', maxCount: '100', progressText: 'Прогресс: ',
-        watchAd: 'Смотреть Рекламу', adLimitReached: '📣 Достигнут дневной лимит!',
+        watchAd: 'Смотреть Рекламу', watching: '⏳ Просмотр...', adLimitReached: '📣 Достигнут дневной лимит!',
         rewardAddedConfirmed: (r) => `✅ ${r} добавлено!`, wait: '⏳ {s}с ожидайте',
         premiumTask: 'Премиум Задание', taskReward1: (r) => `Подпишитесь на канал и заработайте ${r}!`, joinChannel: 'Подписаться',
         withdrawTitle: 'Вывод Средств', bankCard: 'Банковская Карта', back: 'Назад', withdraw: 'Вывести',
@@ -679,7 +679,7 @@ let totalTaskEarnings = parseFloat(safeGet(TOTAL_TASK_EARNINGS_KEY, 0));
 let cnt=parseInt(safeGet(COUNT_KEY,0));
 let resetTime=safeGet(RESET_KEY,null);
 
-let tInterval = null; let remainingSeconds = 0; const MAX_SECONDS = 10; let rewardMsgTimeout = null; 
+let rewardMsgTimeout = null; 
 
 function getNextResetTime(){
   const now = new Date();
@@ -713,7 +713,6 @@ function handleAvatarUpload(event) {
     reader.onload = function(e) {
         const img = new Image();
         img.onload = function() {
-            // Şəklin yaddaşda çox yer tutmaması üçün Canvas ilə kiçildirik (Maximum 250x250)
             const canvas = document.createElement('canvas');
             const MAX_SIZE = 250;
             let width = img.width; let height = img.height;
@@ -725,7 +724,7 @@ function handleAvatarUpload(event) {
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, width, height);
             
-            const dataUrl = canvas.toDataURL('image/jpeg', 0.85); // keyfiyyəti bir qədər qısırıq
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.85); 
             try {
                 localStorage.setItem(PROFILE_PIC_KEY, dataUrl);
                 loadProfilePic();
@@ -949,7 +948,7 @@ function applyTranslations(lang) {
     
     updateTaskButtons(); 
     loadProfile();
-    renderHistory(); // Dil dəyişəndə tarixçə mətnlərini yeniləyir
+    renderHistory();
 
     document.querySelectorAll('.min-withdraw-label').forEach(label => {
         const methodType = label.getAttribute('data-min-key');
@@ -961,8 +960,8 @@ function applyTranslations(lang) {
     
     update(); 
     if (document.getElementById('form').style.display === 'block' && type) { setPlaceholders(type); }
-    if (tInterval && remainingSeconds > 0) { adBtnContent.textContent = t.wait.replace('{s}', remainingSeconds); } 
-    else { if (!adBtn.classList.contains('waiting')) adBtnContent.textContent = t.watchAd; }
+    if (adBtn.classList.contains('waiting')) { adBtnContent.textContent = t.watching; } 
+    else { adBtnContent.textContent = t.watchAd; }
 }
 
 function setLang(lang) {
@@ -1037,70 +1036,68 @@ function restoreAdBtnState() {
     const t = TRANSLATIONS[currentLang];
     if (cnt >= LIMIT) {
         adBtn.classList.remove('waiting'); adBtn.disabled = true; adBtnContent.textContent = t.watchAd;
-        const timerBar = adBtn.querySelector('.timer-bar'); if (timerBar) timerBar.remove();
         msg.textContent = t.adLimitReached; checkAndDisplayRewardMsg(); return; 
     }
-    if (tInterval && remainingSeconds > 0) {
-        adBtn.disabled = true; adBtn.classList.add('waiting');
-        let timerBar = adBtn.querySelector('.timer-bar');
-        if (!timerBar) { timerBar = document.createElement('div'); timerBar.className = 'timer-bar'; adBtn.prepend(timerBar); }
-        const elapsed = MAX_SECONDS - remainingSeconds;
-        const startPercentage = (elapsed / MAX_SECONDS) * 100;
-        timerBar.style.transition = 'none'; timerBar.style.width = `${startPercentage}%`; 
-        setTimeout(() => { timerBar.style.transition = `width ${remainingSeconds}s linear`; timerBar.style.width = '100%'; }, 50); 
-        adBtnContent.textContent = t.wait.replace('{s}', remainingSeconds); msg.textContent = '';
-    } else {
-        adBtn.classList.remove('waiting'); adBtn.disabled = false; adBtnContent.textContent = t.watchAd;
-        const timerBar = adBtn.querySelector('.timer-bar'); if (timerBar) timerBar.remove();
-        msg.textContent = '';
-    }
+    adBtn.classList.remove('waiting'); adBtn.disabled = false; adBtnContent.textContent = t.watchAd;
+    msg.textContent = '';
     checkAndDisplayRewardMsg();
 }
 
-adBtn.onclick=()=>{
-  const t = TRANSLATIONS[currentLang];
-  if(cnt>=LIMIT){ msg.textContent=t.adLimitReached; return; }
-  if (tInterval) return;
+adBtn.onclick = () => {
+    const t = TRANSLATIONS[currentLang];
+    if (cnt >= LIMIT) { msg.textContent = t.adLimitReached; return; }
+    if (adBtn.classList.contains('waiting')) return;
 
-  if (rewardMsgTimeout) { clearTimeout(rewardMsgTimeout); rewardMsgTimeout = null; }
-  safeRemove(REWARD_MSG_KEY);
-  let rewardMsgElement = document.getElementById('rewardMsg');
-  if (rewardMsgElement) {
-       rewardMsgElement.classList.remove('show');
-       setTimeout(() => { const container = document.getElementById('adRewardNotificationContainer'); if(container && rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }, 400); 
-  }
-  
-  adBtn.disabled=true; adBtn.classList.add('waiting'); remainingSeconds = MAX_SECONDS; 
-  
-  let timerBar = adBtn.querySelector('.timer-bar');
-  if (!timerBar) { timerBar = document.createElement('div'); timerBar.className = 'timer-bar'; adBtn.prepend(timerBar); }
-  
-  timerBar.style.transition = 'none'; timerBar.style.width = '0%';
-  setTimeout(() => { timerBar.style.transition = `width ${MAX_SECONDS}s linear`; timerBar.style.width = '100%'; }, 50); 
-  
-  adBtnContent.textContent = t.wait.replace('{s}', remainingSeconds); msg.textContent = '';
-  
-  try{if(typeof show_10701408==='function'){show_10701408();}}catch(e){} 
-  
-  tInterval=setInterval(()=>{
-    remainingSeconds--;
-    const currentT = TRANSLATIONS[currentLang];
-    if (adBtnContent) adBtnContent.textContent = currentT.wait.replace('{s}', remainingSeconds > 0 ? remainingSeconds : '0'); 
-    
-    if(remainingSeconds === 0){
-        clearInterval(tInterval); tInterval = null;
-        bal+=AZN_REWARD; totalAdEarnings+=AZN_REWARD; cnt++; totalAds++; update(); 
-        
-        const currentRewardInfo = getLocalizedReward(currentLang);
-        displayRewardMsg(currentT.rewardAddedConfirmed(`<b>${currentRewardInfo.formattedReward} ${currentRewardInfo.symbol}</b>`));
-        
-        if (timerBar) { timerBar.style.transition = 'none'; timerBar.remove(); }
-        adBtn.disabled=false; adBtn.classList.remove('waiting');
-        if (adBtnContent) adBtnContent.textContent = currentT.watchAd; 
-        if (cnt >= LIMIT) msg.textContent = currentT.adLimitReached; else msg.textContent = ''; 
+    if (rewardMsgTimeout) { clearTimeout(rewardMsgTimeout); rewardMsgTimeout = null; }
+    safeRemove(REWARD_MSG_KEY);
+    let rewardMsgElement = document.getElementById('rewardMsg');
+    if (rewardMsgElement) {
+         rewardMsgElement.classList.remove('show');
+         setTimeout(() => { const container = document.getElementById('adRewardNotificationContainer'); if(container && rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }, 400); 
     }
-  },1000);
+    
+    adBtn.disabled = true; 
+    adBtn.classList.add('waiting');
+    adBtnContent.textContent = t.watching; 
+    msg.textContent = '';
+    
+    try {
+        if (typeof show_10701408 === 'function') {
+            const adPromise = show_10701408();
+            // Reklam tam bitdikdə "then", yarımçıq kəsildikdə "catch" işə düşür
+            if (adPromise && typeof adPromise.then === 'function') {
+                adPromise.then(() => {
+                    giveAdReward(t);
+                }).catch((e) => {
+                    resetAdBtnState(t);
+                });
+            } else {
+                // Əgər SDK Promise qaytarmırsa, sadəcə testi keçirik
+                setTimeout(() => giveAdReward(t), 2000); 
+            }
+        } else {
+            setTimeout(() => resetAdBtnState(t), 1000);
+        }
+    } catch(e) {
+        resetAdBtnState(t);
+    } 
 };
+
+function giveAdReward(t) {
+    bal += AZN_REWARD; totalAdEarnings += AZN_REWARD; cnt++; totalAds++; update(); 
+    
+    const currentRewardInfo = getLocalizedReward(currentLang);
+    displayRewardMsg(t.rewardAddedConfirmed(`<b>${currentRewardInfo.formattedReward} ${currentRewardInfo.symbol}</b>`));
+    
+    resetAdBtnState(t);
+}
+
+function resetAdBtnState(t) {
+    adBtn.disabled = false; 
+    adBtn.classList.remove('waiting');
+    adBtnContent.textContent = t.watchAd; 
+    if (cnt >= LIMIT) msg.textContent = t.adLimitReached; else msg.textContent = ''; 
+}
 
 const taskNotification = document.getElementById('taskNotification');
 const taskNotificationText = document.getElementById('taskNotificationText');
@@ -1191,13 +1188,13 @@ document.getElementById('withdrawBtn').onclick=()=>{
   // TARİXÇƏYƏ ƏLAVƏ ETMƏK
   const historyItem = {
       method: type,
-      amount: withdrawalAmountInAZN, // Ekranda həmişə AZN göstəriləcək
-      status: 'pending', // 'gözləmədə' kimi tərcümə olunacaq
+      amount: withdrawalAmountInAZN, 
+      status: 'pending', 
       date: Date.now()
   };
   withdrawHistory.push(historyItem);
   safeSet(HISTORY_KEY, withdrawHistory);
-  renderHistory(); // Siyahını yeniləyirik
+  renderHistory(); 
 
   alertBox.textContent=t.withdrawSuccess; alertBox.className='alert success'; alertBox.style.display='block';
 
