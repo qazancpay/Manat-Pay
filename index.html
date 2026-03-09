@@ -69,14 +69,22 @@ body{
   100%{background-position:0% 50;}
 }
 
-.container{max-width:480px;margin:auto;padding:20px;padding-top:20px;} 
+/* Düzəliş: Bütün səhifəni tam ekran rejimi üçün aşağı çəkdik */
+.container{
+    max-width:480px;
+    margin:auto;
+    padding:20px;
+    padding-top:45px; 
+} 
 
 /* DİL VƏ TEMA SEÇİMİ */
 .top-controls {
     display: flex;
     justify-content: flex-end; 
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px; /* Düymələri bir az daha aşağı saldıq */
+    position: relative;
+    z-index: 50;
 }
 
 .right-controls {
@@ -101,8 +109,16 @@ body{
     display: flex;
     align-items: center;
     height: 40px; 
+    position: relative;
+    z-index: 10;
 }
-.lang-current-btn span { margin-right: 5px; }
+
+/* Düzəliş: Klik xətasının qarşısını almaq üçün içindəki span-ların kliklənməsini ləğv etdik */
+.lang-current-btn span, .theme-toggle-btn span { 
+    pointer-events: none; 
+}
+.lang-current-btn span:first-child { margin-right: 5px; }
+
 .lang-current-btn:hover, .theme-toggle-btn:hover {
     box-shadow: 0 4px 15px var(--btn-shadow);
 }
