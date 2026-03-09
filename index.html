@@ -78,7 +78,8 @@ body{
   100%{background-position:0% 50;}
 }
 
-.container{max-width:480px;margin:auto;padding:20px;} 
+/* Ekranı bir az aşağı salmaq üçün padding-top dəyərini artırdıq (50px) */
+.container{max-width:480px;margin:auto;padding:50px 20px 20px;} 
 
 .page{display:none;animation:fadeIn .4s ease;}
 .page.active{display:block;}
@@ -185,14 +186,13 @@ body.dark-theme .toggle-thumb { transform: translateX(22px); }
 .btn-support { background: linear-gradient(90deg, #9b59b6, #8e44ad); color: white; box-shadow: 0 6px 15px rgba(155, 89, 182, 0.3); }
 .profile-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
 
-/* Stats View (Hidden by default) */
+/* Stats View */
 #statsView { display: none; text-align: left; animation: fadeIn .3s ease; }
 .back-btn { background: none; border: none; color: var(--accent); font-weight: 800; font-size: 16px; cursor: pointer; margin-bottom: 15px; display: flex; align-items: center; gap: 5px; }
 .stat-box { background: var(--bg-start); border-radius: 16px; padding: 15px; margin-bottom: 12px; border: 1px solid var(--card-border); display: flex; align-items: center; justify-content: space-between; }
 .stat-box-title { font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 5px; }
 .stat-box-value { font-size: 18px; font-weight: 800; color: var(--text-dark); }
 .stat-icon { font-size: 24px; opacity: 0.8; }
-
 
 #form{display:none;margin-top:12px;}
 #form input{width:100%;padding:14px;margin:8px 0;border-radius:14px;border:1px solid var(--card-border);background:var(--card-bg);color:var(--input-text); font-size: 15px;font-weight: 600;outline: none;transition: border 0.3s;}
@@ -204,7 +204,7 @@ body.dark-theme .toggle-thumb { transform: translateX(22px); }
 .alert.error{background:#fadbd8;color:#c0392b;}
 .alert.success{background:#d5f5e3;color:#27ae60;}
 
-/* BAŞLANĞIC EKRAN STİLİ - TEMA İLƏ UYĞUN */
+/* BAŞLANĞIC EKRAN STİLİ */
 #loadingScreen{position:fixed;top:0; left:0;width:100%; height:100%;background:var(--loader-bg); display:flex;justify-content:center;align-items:center;z-index:99999;transition:opacity .7s ease;}
 .loader-box{text-align:center;animation:fadeIn .8s ease;position:relative;}
 .shine-circle{position:absolute;width:250px; height:250px;top:-80px; left:50%;transform:translateX(-50%);background:radial-gradient(circle, var(--loader-circle), transparent 70%);filter:blur(30px);animation:pulse 3s infinite ease-in-out;}
@@ -228,7 +228,7 @@ body.dark-theme .toggle-thumb { transform: translateX(22px); }
 <body id="body">
 
 <script>
-// TEMA TƏTBİQİ (Başlanğıc ekranı rənglərinin düzgün olması üçün dərhal çalışır)
+// TEMA TƏTBİQİ
 function safeGet(k,d=0){try{return JSON.parse(localStorage.getItem(k))??d;}catch{return d;}}
 function safeSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
 const THEME_KEY = 'theme';
@@ -279,6 +279,12 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
   </div>
   
   <div id="tasksPage" class="page">
+    <div class="balance-card">
+      <h3 data-translate-key="yourBalance">Balansınız</h3>
+      <div class="amount"><span id="balance3">0.0000</span> <span id="currencySymbol3">₼</span></div>
+      <div class="usd"><span id="secondaryCurrencySymbol3">$</span><span id="secondaryBalance3">0.0000</span> <span id="secondaryCurrencyText3">USD</span></div>
+    </div>
+
     <div class="task-card">
       <h2 data-translate-key="premiumTask">Premium Görev</h2>
       <p data-translate-key="taskReward1">Kanala qoşul və <b>0.1000 ₼</b> qazan!</p>
@@ -707,16 +713,26 @@ function update(){
   else if (lang === 'ru') { mainBalance = bal * rates.AZN_TO_RUB; secondaryBalance = bal * rates.AZN_TO_USD; mainFormat = (val) => val.toFixed(2); secondaryFormat = (val) => val.toFixed(4); } 
   else { mainBalance = bal; secondaryBalance = bal * rates.AZN_TO_USD; }
   
+  // Update all instances of balance UI
   document.getElementById('balance').textContent = mainFormat(mainBalance);
   document.getElementById('balance2').textContent = mainFormat(mainBalance);
+  document.getElementById('balance3').textContent = mainFormat(mainBalance);
+
   document.getElementById('currencySymbol').textContent = mainSymbol;
   document.getElementById('currencySymbol2').textContent = mainSymbol;
+  document.getElementById('currencySymbol3').textContent = mainSymbol;
+
   document.getElementById('secondaryBalance').textContent = secondaryFormat(secondaryBalance);
   document.getElementById('secondaryBalance2').textContent = secondaryFormat(secondaryBalance);
+  document.getElementById('secondaryBalance3').textContent = secondaryFormat(secondaryBalance);
+
   document.getElementById('secondaryCurrencySymbol').textContent = secondarySymbol;
   document.getElementById('secondaryCurrencySymbol2').textContent = secondarySymbol;
+  document.getElementById('secondaryCurrencySymbol3').textContent = secondarySymbol;
+
   document.getElementById('secondaryCurrencyText').textContent = secondaryText;
   document.getElementById('secondaryCurrencyText2').textContent = secondaryText;
+  document.getElementById('secondaryCurrencyText3').textContent = secondaryText;
 
   document.getElementById('adsCount').textContent=cnt;
   document.getElementById('progress').style.width=(cnt/LIMIT*100)+'%';
