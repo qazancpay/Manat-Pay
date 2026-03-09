@@ -150,7 +150,15 @@ body{
 
 /* --- PROFIL SƏHİFƏSİ & AYARLAR STİLİ --- */
 .profile-header { display: flex; align-items: center; justify-content: center; flex-direction: column; margin-bottom: 25px; position: relative;}
-.profile-avatar { width: 80px; height: 80px; background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 35px; color: #fff; margin-bottom: 12px; box-shadow: 0 8px 20px var(--btn-shadow); }
+
+/* PROFIL AVATAR VE SEKIL */
+.profile-avatar { width: 85px; height: 85px; background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 35px; color: #fff; margin-bottom: 12px; box-shadow: 0 8px 20px var(--btn-shadow); position: relative; cursor: pointer; }
+.profile-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: none; }
+.profile-avatar.has-image img { display: block; }
+.profile-avatar.has-image .default-icon { display: none; }
+.avatar-edit-icon { position: absolute; bottom: 0; right: -5px; background: var(--card-bg); color: var(--text-dark); border: 1px solid var(--card-border); width: 28px; height: 28px; border-radius: 50%; font-size: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 2; transition: 0.2s;}
+.profile-avatar:hover .avatar-edit-icon { transform: scale(1.1); }
+
 .profile-name-container { display: flex; align-items: center; justify-content: center; gap: 8px;}
 .profile-name { font-size: 20px; font-weight: 800; color: var(--text-dark); }
 .edit-icon { cursor: pointer; color: var(--accent); font-size: 16px; transition: 0.2s;}
@@ -203,6 +211,19 @@ body.dark-theme .toggle-thumb { transform: translateX(22px); }
 .alert{margin-top:10px;padding:12px;border-radius:12px;display:none; font-weight: 700; text-align: center;}
 .alert.error{background:#fadbd8;color:#c0392b;}
 .alert.success{background:#d5f5e3;color:#27ae60;}
+
+/* ÇIXARIŞ TARİXÇƏSİ STİLİ */
+.history-card { background: var(--card-bg); border-radius: 20px; padding: 18px 15px; margin-top: 25px; border: 1px solid var(--card-border); text-align: left; }
+.history-title { font-size: 16px; font-weight: 800; color: var(--text-dark); margin-bottom: 12px; text-align: center; }
+.history-list { display: flex; flex-direction: column; gap: 10px; }
+.history-item { background: var(--bg-start); padding: 14px; border-radius: 14px; border: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; }
+.history-info { display: flex; flex-direction: column; gap: 5px; }
+.history-method { font-weight: 800; font-size: 14px; color: var(--text-dark); text-transform: uppercase; }
+.history-date { font-size: 11px; color: var(--text-muted); font-weight: 600; }
+.history-status-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+.history-amount { font-weight: 800; font-size: 15px; color: var(--accent); }
+.history-status { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 8px; background: rgba(243, 156, 18, 0.15); color: #f39c12; }
+.history-empty { text-align: center; font-size: 14px; color: var(--text-muted); padding: 15px; font-weight: 600; }
 
 /* BAŞLANĞIC EKRAN STİLİ */
 #loadingScreen{position:fixed;top:0; left:0;width:100%; height:100%;background:var(--loader-bg); display:flex;justify-content:center;align-items:center;z-index:99999;transition:opacity .7s ease;}
@@ -338,12 +359,24 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
       <button id="withdrawBtn" data-translate-key="withdraw">Çıxarış Et</button>
       <div id="alert" class="alert"></div>
     </div>
+
+    <div class="history-card" id="historyCard">
+        <h3 class="history-title" data-translate-key="withdrawHistory">Çıxarış Tarixçəsi</h3>
+        <div class="history-list" id="historyList">
+            </div>
+    </div>
+
   </div>
 
   <div id="profilePage" class="page">
     <div class="profile-card" id="profileMainView">
         <div class="profile-header">
-            <div class="profile-avatar">👤</div>
+            <div class="profile-avatar" onclick="document.getElementById('avatarInput').click()">
+                <span class="default-icon">👤</span>
+                <img id="profileImage" src="" alt="Profile">
+                <div class="avatar-edit-icon">📷</div>
+            </div>
+            <input type="file" id="avatarInput" accept="image/*" style="display:none;" onchange="handleAvatarUpload(event)">
             
             <div class="profile-name-container" id="displayNameContainer">
                 <div class="profile-name" id="displayUsername" data-translate-key="setUsername">Ad təyin et</div>
@@ -498,6 +531,10 @@ const TOTAL_AD_EARNINGS_KEY = 'totalAdEarnings';
 const TOTAL_TASK_EARNINGS_KEY = 'totalTaskEarnings';
 const USERNAME_KEY = 'user_profile_name';
 const REWARD_MSG_KEY = 'rewardMsgExpire'; 
+const PROFILE_PIC_KEY = 'user_profile_pic';
+const HISTORY_KEY = 'withdraw_history';
+
+let withdrawHistory = safeGet(HISTORY_KEY, []);
 
 function localizeAmount(aznAmount, lang) {
     const rates = EXCHANGE_RATES;
@@ -554,6 +591,7 @@ const TRANSLATIONS = {
         setUsername: 'Ad təyin et', enterUsername: 'Adınızı daxil edin', save: 'Yadda saxla', cancel: 'Ləğv et',
         theme: 'Tema', language: 'Dil', statistics: 'Statistika', support: 'Dəstək',
         statTotalAds: 'İzlənən Ümumi Reklam', statAdEarnings: 'Reklam Qazancı', statTaskEarnings: 'Görev Qazancı',
+        withdrawHistory: 'Çıxarış Tarixçəsi', pending: 'Gözləmədə', emptyHistory: 'Tarixçə boşdur',
         shareBtn: 'Dostlarını Dəvət Et',
         shareMsg: "💰 Mən artıq Manat Pay ilə qazanc əldə edirəm!\n\n📺 Sadəcə reklam izləyərək pul qazanmaq mümkündür. Sən də aşağıdaki linkdən qoşul və qazanc əldə etməyə başla 👇\n\n🔗 {LINK}\n\n📲 Telefonundan reklam izləyərək asan və rahat şəkildə qazanc əldə et.\n\n🔥 Tələsməyi unutma! Yeni istifadəçilər üçün imkanlar və daha çox qazanc növləri tezliklə əlavə olunacaq.\n\n🚀 Fürsəti qaçırma indi başla və Manat Pay ilə qazan!"
     },
@@ -576,6 +614,7 @@ const TRANSLATIONS = {
         setUsername: 'Set Username', enterUsername: 'Enter your username', save: 'Save', cancel: 'Cancel',
         theme: 'Theme', language: 'Language', statistics: 'Statistics', support: 'Support',
         statTotalAds: 'Total Ads Watched', statAdEarnings: 'Ad Earnings', statTaskEarnings: 'Task Earnings',
+        withdrawHistory: 'Withdrawal History', pending: 'Pending', emptyHistory: 'History is empty',
         shareBtn: 'Invite Friends',
         shareMsg: "💰 I'm already earning with Manat Pay!\n\n📺 It's possible to earn money just by watching ads. Join from the link below and start earning too 👇\n\n🔗 {LINK}\n\n📲 Earn easily and comfortably by watching ads from your phone.\n\n🔥 Don't forget to hurry! Opportunities for new users and more ways to earn will be added soon.\n\n🚀 Don't miss the opportunity, start now and earn with Manat Pay!"
     },
@@ -598,6 +637,7 @@ const TRANSLATIONS = {
         setUsername: 'Ad belirle', enterUsername: 'Adınızı girin', save: 'Kaydet', cancel: 'İptal',
         theme: 'Tema', language: 'Dil', statistics: 'İstatistikler', support: 'Destek',
         statTotalAds: 'İzlenen Toplam Reklam', statAdEarnings: 'Reklam Kazancı', statTaskEarnings: 'Görev Kazancı',
+        withdrawHistory: 'Çekim Geçmişi', pending: 'Beklemede', emptyHistory: 'Geçmiş boş',
         shareBtn: 'Arkadaşlarını Davet Et',
         shareMsg: "💰 Ben şimdiden Manat Pay ile kazanıyorum!\n\n📺 Sadece reklam izleyerek para kazanmak mümkün. Sen de aşağıdaki linkten katıl ve kazanmaya başla 👇\n\n🔗 {LINK}\n\n📲 Telefonundan reklam izleyerek kolay ve rahat bir şekilde kazan.\n\n🔥 Acele etmeyi unutma! Yeni kullanıcılar için fırsatlar ve daha fazla kazanç türü yakında eklenecek.\n\n🚀 Fırsatı kaçırma, şimdi başla ve Manat Pay ile kazan!"
     },
@@ -620,6 +660,7 @@ const TRANSLATIONS = {
         setUsername: 'Установить имя', enterUsername: 'Введите ваше имя', save: 'Сохранить', cancel: 'Отмена',
         theme: 'Тема', language: 'Язык', statistics: 'Статистика', support: 'Поддержка',
         statTotalAds: 'Всего просмотрено реклам', statAdEarnings: 'Заработок с рекламы', statTaskEarnings: 'Заработок с заданий',
+        withdrawHistory: 'История Выводов', pending: 'В ожидании', emptyHistory: 'История пуста',
         shareBtn: 'Пригласить друзей',
         shareMsg: "💰 Я уже зарабатываю с Manat Pay!\n\n📺 Зарабатывать деньги можно просто просматривая рекламу. Присоединяйтесь по ссылке ниже и начните зарабатывать тоже 👇\n\n🔗 {LINK}\n\n📲 Зарабатывайте легко и удобно, просматривая рекламу с телефона.\n\n🔥 Не забудьте поторопиться! Возможности для новых пользователей и новые способы заработка будут добавлены в ближайшее время.\n\n🚀 Не упустите возможность, начните сейчас и зарабатывайте с Manat Pay!"
     }
@@ -651,6 +692,52 @@ if(!resetTime||Date.now()>resetTime){
   cnt=0; resetTime=getNextResetTime(); safeSet(RESET_KEY,resetTime); safeSet(COUNT_KEY,cnt);
 }
 
+// PROFİL ŞƏKLİ YÜKLƏNMƏSİ
+function loadProfilePic() {
+    const pic = localStorage.getItem(PROFILE_PIC_KEY);
+    const avatar = document.querySelector('.profile-avatar');
+    const img = document.getElementById('profileImage');
+    if (pic) {
+        img.src = pic;
+        avatar.classList.add('has-image');
+    } else {
+        avatar.classList.remove('has-image');
+    }
+}
+
+function handleAvatarUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+            // Şəklin yaddaşda çox yer tutmaması üçün Canvas ilə kiçildirik (Maximum 250x250)
+            const canvas = document.createElement('canvas');
+            const MAX_SIZE = 250;
+            let width = img.width; let height = img.height;
+
+            if (width > height) { if (width > MAX_SIZE) { height *= MAX_SIZE / width; width = MAX_SIZE; } } 
+            else { if (height > MAX_SIZE) { width *= MAX_SIZE / height; height = MAX_SIZE; } }
+            
+            canvas.width = width; canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.85); // keyfiyyəti bir qədər qısırıq
+            try {
+                localStorage.setItem(PROFILE_PIC_KEY, dataUrl);
+                loadProfilePic();
+            } catch (err) {
+                alert("Xəta: Şəkil çox böyükdür və yadda saxlanıla bilmir.");
+            }
+        }
+        img.src = e.target.result;
+    }
+    reader.readAsDataURL(file);
+}
+
 function loadProfile() {
     const savedName = localStorage.getItem(USERNAME_KEY);
     const displayEl = document.getElementById('displayUsername');
@@ -661,6 +748,7 @@ function loadProfile() {
         displayEl.setAttribute('data-translate-key', 'setUsername');
         applyTranslationToElement(displayEl, 'setUsername', currentLang);
     }
+    loadProfilePic();
 }
 
 function openUsernameEdit() {
@@ -690,7 +778,6 @@ function saveUsername() {
     loadProfile();
 }
 
-// TELEGRAM PAYLAŞ FONKSİYONSU
 function shareOnTelegram() {
     const t = TRANSLATIONS[currentLang];
     const message = t.shareMsg.replace('{LINK}', userRefLink);
@@ -742,7 +829,6 @@ function update(){
   else if (lang === 'ru') { mainBalance = bal * rates.AZN_TO_RUB; secondaryBalance = bal * rates.AZN_TO_USD; mainFormat = (val) => val.toFixed(2); secondaryFormat = (val) => val.toFixed(4); } 
   else { mainBalance = bal; secondaryBalance = bal * rates.AZN_TO_USD; }
   
-  // Update all instances of balance UI
   document.getElementById('balance').textContent = mainFormat(mainBalance);
   document.getElementById('balance2').textContent = mainFormat(mainBalance);
   document.getElementById('balance3').textContent = mainFormat(mainBalance);
@@ -773,6 +859,40 @@ function update(){
   
   checkAndDisplayRewardMsg();
   if(document.getElementById('statsView').style.display === 'block') updateStatsUI();
+}
+
+// ÇIXARIŞ TARİXÇƏSİNİ GÖSTƏRMƏK
+function renderHistory() {
+    const list = document.getElementById('historyList');
+    const t = TRANSLATIONS[currentLang];
+    list.innerHTML = '';
+    
+    if (withdrawHistory.length === 0) {
+        list.innerHTML = `<div class="history-empty">${t.emptyHistory}</div>`;
+        return;
+    }
+    
+    const reversed = [...withdrawHistory].reverse();
+    reversed.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'history-item';
+        
+        const d = new Date(item.date);
+        const dateStr = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        const statusText = t[item.status] || item.status;
+        
+        div.innerHTML = `
+            <div class="history-info">
+                <div class="history-method">${item.method}</div>
+                <div class="history-date">${dateStr}</div>
+            </div>
+            <div class="history-status-wrap">
+                <div class="history-amount">${item.amount.toFixed(4)} ₼</div>
+                <div class="history-status">${statusText}</div>
+            </div>
+        `;
+        list.appendChild(div);
+    });
 }
 
 function updateTaskButtons() {
@@ -829,6 +949,7 @@ function applyTranslations(lang) {
     
     updateTaskButtons(); 
     loadProfile();
+    renderHistory(); // Dil dəyişəndə tarixçə mətnlərini yeniləyir
 
     document.querySelectorAll('.min-withdraw-label').forEach(label => {
         const methodType = label.getAttribute('data-min-key');
@@ -1066,6 +1187,17 @@ document.getElementById('withdrawBtn').onclick=()=>{
   else withdrawalAmountInAZN = amt; 
 
   bal -= withdrawalAmountInAZN; safeSet(BAL_KEY,bal); update();
+  
+  // TARİXÇƏYƏ ƏLAVƏ ETMƏK
+  const historyItem = {
+      method: type,
+      amount: withdrawalAmountInAZN, // Ekranda həmişə AZN göstəriləcək
+      status: 'pending', // 'gözləmədə' kimi tərcümə olunacaq
+      date: Date.now()
+  };
+  withdrawHistory.push(historyItem);
+  safeSet(HISTORY_KEY, withdrawHistory);
+  renderHistory(); // Siyahını yeniləyirik
 
   alertBox.textContent=t.withdrawSuccess; alertBox.className='alert success'; alertBox.style.display='block';
 
