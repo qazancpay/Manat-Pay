@@ -69,22 +69,16 @@ body{
   100%{background-position:0% 50;}
 }
 
-/* Düzəliş: Bütün səhifəni tam ekran rejimi üçün aşağı çəkdik */
-.container{
-    max-width:480px;
-    margin:auto;
-    padding:20px;
-    padding-top:45px; 
-} 
+.container{max-width:480px;margin:auto;padding:20px;padding-top:20px;} 
 
 /* DİL VƏ TEMA SEÇİMİ */
 .top-controls {
     display: flex;
     justify-content: flex-end; 
     align-items: center;
-    margin-bottom: 25px; /* Düymələri bir az daha aşağı saldıq */
+    margin-bottom: 20px;
     position: relative;
-    z-index: 50;
+    z-index: 100; /* Klik sahəsinin qarşısını digər elementlərin kəsməməsi üçün */
 }
 
 .right-controls {
@@ -96,8 +90,8 @@ body{
 .lang-switcher-container {
     position: relative;
 }
+
 .lang-current-btn, .theme-toggle-btn {
-    padding: 6px 10px;
     border: 1px solid var(--card-border);
     background: var(--card-bg);
     color: var(--text-dark);
@@ -108,21 +102,34 @@ body{
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     display: flex;
     align-items: center;
+    justify-content: center;
     height: 40px; 
     position: relative;
-    z-index: 10;
 }
 
-/* Düzəliş: Klik xətasının qarşısını almaq üçün içindəki span-ların kliklənməsini ləğv etdik */
-.lang-current-btn span, .theme-toggle-btn span { 
-    pointer-events: none; 
+.lang-current-btn {
+    padding: 0 12px;
 }
-.lang-current-btn span:first-child { margin-right: 5px; }
+
+.theme-toggle-btn {
+    padding: 0;
+    width: 40px; /* Dəqiq kvadrat olması üçün */
+}
+
+.lang-current-btn span { 
+    margin-right: 5px; 
+    pointer-events: none;
+}
 
 .lang-current-btn:hover, .theme-toggle-btn:hover {
     box-shadow: 0 4px 15px var(--btn-shadow);
 }
-.theme-icon { font-size: 20px; }
+
+.theme-icon { 
+    font-size: 20px; 
+    line-height: 1; 
+    pointer-events: none; /* İkonun klik sahəsini korlamaması üçün */
+}
 
 .lang-dropdown {
     position: absolute;
