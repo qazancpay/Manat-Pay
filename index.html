@@ -78,7 +78,6 @@ body{
   100%{background-position:0% 50;}
 }
 
-/* Ekranı bir az aşağı salmaq üçün padding-top dəyərini artırdıq (50px) */
 .container{max-width:480px;margin:auto;padding:50px 20px 20px;} 
 
 .page{display:none;animation:fadeIn .4s ease;}
@@ -182,6 +181,7 @@ body.dark-theme .toggle-thumb { transform: translateX(22px); }
 
 /* Profile Action Buttons */
 .profile-btn { width: 100%; padding: 14px; margin-bottom: 12px; border-radius: 14px; font-weight: 800; font-size: 15px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; border: none; }
+.btn-share { background: linear-gradient(90deg, #f39c12, #e67e22); color: white; box-shadow: 0 6px 15px rgba(243, 156, 18, 0.3); }
 .btn-stats { background: linear-gradient(90deg, #3498db, #2980b9); color: white; box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3); }
 .btn-support { background: linear-gradient(90deg, #9b59b6, #8e44ad); color: white; box-shadow: 0 6px 15px rgba(155, 89, 182, 0.3); }
 .profile-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
@@ -384,6 +384,10 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
             </div>
         </div>
 
+        <button class="profile-btn btn-share" onclick="shareOnTelegram()">
+            🚀 <span data-translate-key="shareBtn">Dostlarını Dəvət Et</span>
+        </button>
+        
         <button class="profile-btn btn-stats" onclick="showStatsView()">
             📊 <span data-translate-key="statistics">Statistika</span>
         </button>
@@ -466,6 +470,15 @@ function toggleTheme() {
 }
 applyTheme(savedTheme === 'dark');
 
+// --- UNİKAL LİNK ÜÇÜN REFERAL İD YARADILMASI ---
+const REF_KEY = 'user_referral_id';
+let userRefId = localStorage.getItem(REF_KEY);
+if (!userRefId) {
+    userRefId = Math.floor(1000000000 + Math.random() * 9000000000).toString(); 
+    localStorage.setItem(REF_KEY, userRefId);
+}
+const userRefLink = `https://t.me/manatpayrbot?startapp=${userRefId}`;
+
 // --- VALYUTA VƏ MƏZƏNNƏLƏR ---
 const EXCHANGE_RATES = { AZN_TO_USD: 0.59, AZN_TO_TRY: 25.00, AZN_TO_RUB: 46.45 };
 const CURRENCIES = {
@@ -540,7 +553,9 @@ const TRANSLATIONS = {
         placeholderAmount: 'Məbləğ', completed: 'Tamamlandı', taskSuccess: (r) => `✅ Görev Tamamlandı! ${r} balansa əlavə edildi.`,
         setUsername: 'Ad təyin et', enterUsername: 'Adınızı daxil edin', save: 'Yadda saxla', cancel: 'Ləğv et',
         theme: 'Tema', language: 'Dil', statistics: 'Statistika', support: 'Dəstək',
-        statTotalAds: 'İzlənən Ümumi Reklam', statAdEarnings: 'Reklam Qazancı', statTaskEarnings: 'Görev Qazancı'
+        statTotalAds: 'İzlənən Ümumi Reklam', statAdEarnings: 'Reklam Qazancı', statTaskEarnings: 'Görev Qazancı',
+        shareBtn: 'Dostlarını Dəvət Et',
+        shareMsg: "💰 Mən artıq Manat Pay ilə qazanc əldə edirəm!\n\n📺 Sadəcə reklam izləyərək pul qazanmaq mümkündür. Sən də aşağıdaki linkdən qoşul və qazanc əldə etməyə başla 👇\n\n🔗 {LINK}\n\n📲 Telefonundan reklam izləyərək asan və rahat şəkildə qazanc əldə et.\n\n🔥 Tələsməyi unutma! Yeni istifadəçilər üçün imkanlar və daha çox qazanc növləri tezliklə əlavə olunacaq.\n\n🚀 Fürsəti qaçırma indi başla və Manat Pay ilə qazan!"
     },
     'en': {
         loading: 'Loading...', yourBalance: 'Your Balance',
@@ -560,7 +575,9 @@ const TRANSLATIONS = {
         placeholderAmount: 'Amount', completed: 'Completed', taskSuccess: (r) => `✅ Task Completed! ${r} added to balance.`,
         setUsername: 'Set Username', enterUsername: 'Enter your username', save: 'Save', cancel: 'Cancel',
         theme: 'Theme', language: 'Language', statistics: 'Statistics', support: 'Support',
-        statTotalAds: 'Total Ads Watched', statAdEarnings: 'Ad Earnings', statTaskEarnings: 'Task Earnings'
+        statTotalAds: 'Total Ads Watched', statAdEarnings: 'Ad Earnings', statTaskEarnings: 'Task Earnings',
+        shareBtn: 'Invite Friends',
+        shareMsg: "💰 I'm already earning with Manat Pay!\n\n📺 It's possible to earn money just by watching ads. Join from the link below and start earning too 👇\n\n🔗 {LINK}\n\n📲 Earn easily and comfortably by watching ads from your phone.\n\n🔥 Don't forget to hurry! Opportunities for new users and more ways to earn will be added soon.\n\n🚀 Don't miss the opportunity, start now and earn with Manat Pay!"
     },
     'tr': {
         loading: 'Yükleniyor...', yourBalance: 'Bakiyeniz',
@@ -580,7 +597,9 @@ const TRANSLATIONS = {
         placeholderAmount: 'Miktar', completed: 'Tamamlandı', taskSuccess: (r) => `✅ Görev Tamamlandı! ${r} bakiyeye eklendi.`,
         setUsername: 'Ad belirle', enterUsername: 'Adınızı girin', save: 'Kaydet', cancel: 'İptal',
         theme: 'Tema', language: 'Dil', statistics: 'İstatistikler', support: 'Destek',
-        statTotalAds: 'İzlenen Toplam Reklam', statAdEarnings: 'Reklam Kazancı', statTaskEarnings: 'Görev Kazancı'
+        statTotalAds: 'İzlenen Toplam Reklam', statAdEarnings: 'Reklam Kazancı', statTaskEarnings: 'Görev Kazancı',
+        shareBtn: 'Arkadaşlarını Davet Et',
+        shareMsg: "💰 Ben şimdiden Manat Pay ile kazanıyorum!\n\n📺 Sadece reklam izleyerek para kazanmak mümkün. Sen de aşağıdaki linkten katıl ve kazanmaya başla 👇\n\n🔗 {LINK}\n\n📲 Telefonundan reklam izleyerek kolay ve rahat bir şekilde kazan.\n\n🔥 Acele etmeyi unutma! Yeni kullanıcılar için fırsatlar ve daha fazla kazanç türü yakında eklenecek.\n\n🚀 Fırsatı kaçırma, şimdi başla ve Manat Pay ile kazan!"
     },
     'ru': { 
         loading: 'Загрузка...', yourBalance: 'Ваш Баланс',
@@ -600,7 +619,9 @@ const TRANSLATIONS = {
         placeholderAmount: 'Сумма', completed: 'Выполнено', taskSuccess: (r) => `✅ Задание выполнено! ${r} добавлено на баланс.`,
         setUsername: 'Установить имя', enterUsername: 'Введите ваше имя', save: 'Сохранить', cancel: 'Отмена',
         theme: 'Тема', language: 'Язык', statistics: 'Статистика', support: 'Поддержка',
-        statTotalAds: 'Всего просмотрено реклам', statAdEarnings: 'Заработок с рекламы', statTaskEarnings: 'Заработок с заданий'
+        statTotalAds: 'Всего просмотрено реклам', statAdEarnings: 'Заработок с рекламы', statTaskEarnings: 'Заработок с заданий',
+        shareBtn: 'Пригласить друзей',
+        shareMsg: "💰 Я уже зарабатываю с Manat Pay!\n\n📺 Зарабатывать деньги можно просто просматривая рекламу. Присоединяйтесь по ссылке ниже и начните зарабатывать тоже 👇\n\n🔗 {LINK}\n\n📲 Зарабатывайте легко и удобно, просматривая рекламу с телефона.\n\n🔥 Не забудьте поторопиться! Возможности для новых пользователей и новые способы заработка будут добавлены в ближайшее время.\n\n🚀 Не упустите возможность, начните сейчас и зарабатывайте с Manat Pay!"
     }
 };
 
@@ -667,6 +688,14 @@ function saveUsername() {
     }
     cancelUsernameEdit();
     loadProfile();
+}
+
+// TELEGRAM PAYLAŞ FONKSİYONSU
+function shareOnTelegram() {
+    const t = TRANSLATIONS[currentLang];
+    const message = t.shareMsg.replace('{LINK}', userRefLink);
+    const encodedMessage = encodeURIComponent(message);
+    window.open(`https://t.me/share/url?url=&text=${encodedMessage}`, '_blank');
 }
 
 function openSupport() {
