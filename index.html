@@ -113,32 +113,41 @@ body{
 .ad-card h2{font-size:18px;color:var(--text-dark);margin-bottom:6px; font-weight: 800;}
 .ad-card p{margin:4px 0;color:var(--text-dark);font-size:13px; font-weight: 600;}
 
-/* --- YENİ GÖREVLER KART DİZAYNI --- */
-.task-list-container { display: flex; flex-direction: column; gap: 15px; margin-bottom: 10px; }
-.modern-task-card {
-    background: var(--card-bg); border-radius: 20px; padding: 18px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08); border: 1px solid var(--card-border);
-    text-align: left; position: relative; overflow: hidden;
-    transition: background-color 0.5s, box-shadow 0.3s;
-}
-.modern-task-card:hover { box-shadow: 0 12px 30px rgba(0,0,0,0.12); transform: translateY(-2px); }
-.task-header { display: flex; align-items: center; gap: 15px; margin-bottom: 12px; }
-.task-icon { width: 50px; height: 50px; border-radius: 15px; background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; box-shadow: 0 5px 15px var(--btn-shadow); flex-shrink: 0;}
-.task-info h2 { font-size: 16px; font-weight: 800; color: var(--text-dark); margin: 0 0 4px 0; }
-.task-info p { font-size: 13px; color: var(--text-muted); font-weight: 600; margin: 0; line-height: 1.4; }
-.task-action-btn { width: 100%; padding: 14px; font-size: 14px; font-weight: 800; border-radius: 14px; border: none; cursor: pointer; transition: 0.3s; margin-top: 5px; }
-.btn-primary { background: linear-gradient(90deg, var(--accent), #2ecc71); color: white; box-shadow: 0 6px 15px var(--btn-shadow); }
-.btn-secondary { background: linear-gradient(90deg, #3498db, #2980b9); color: white; box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3); }
-.task-action-btn:hover:not(:disabled) { transform: scale(1.02); filter: brightness(1.1); }
-.task-action-btn.completed { background: gray !important; box-shadow: none !important; cursor: not-allowed !important; opacity: 0.6; transform: none !important; }
-.task-action-btn.waiting { background: #f1c40f !important; cursor: wait !important; opacity: 0.9; box-shadow: none !important; }
+/* --- YENİ GÖREVLƏR SƏHİFƏSİ (TASKS PAGE) STİLLƏRİ --- */
+.task-list { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
+.task-item { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 20px; position: relative; overflow: hidden; text-align: left; transition: transform 0.3s, box-shadow 0.3s; box-shadow: 0 8px 25px rgba(0,0,0,0.05); }
+.task-item:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.1); }
 
-/* 10K Görevi İlerleme Çubuğu */
-.task-progress-wrap { margin: 12px 0; }
-.task-progress-bar { height: 10px; background: var(--progress-bg); border-radius: 6px; overflow: hidden; }
-.task-progress-fill { height: 100%; background: linear-gradient(90deg, #f39c12, #e67e22); width: 0%; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-.task-progress-text { font-size: 12px; font-weight: 800; color: var(--text-dark); text-align: right; display: block; margin-top: 6px; }
+/* Premium Task Xüsusi Stili */
+.task-item.premium { background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 165, 0, 0.05)); border: 1px solid rgba(243, 156, 18, 0.4); }
+body.dark-theme .task-item.premium { background: linear-gradient(135deg, rgba(243, 156, 18, 0.1), rgba(0, 0, 0, 0.2)); border: 1px solid rgba(243, 156, 18, 0.3); }
 
+.task-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.task-title { font-size: 17px; font-weight: 800; display: flex; align-items: center; gap: 8px; color: var(--text-dark); }
+.task-reward-badge { background: var(--accent); color: white; padding: 5px 12px; border-radius: 10px; font-weight: 800; font-size: 14px; box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3); }
+.task-item.premium .task-reward-badge { background: linear-gradient(90deg, #f1c40f, #f39c12); box-shadow: 0 4px 10px rgba(243, 156, 18, 0.3); color: #fff; }
+
+.task-desc { font-size: 14px; color: var(--text-muted); font-weight: 600; margin-bottom: 18px; line-height: 1.4; }
+
+/* Proqress Bar Task üçün */
+.task-progress-wrap { margin-bottom: 18px; background: var(--bg-start); padding: 12px; border-radius: 12px; border: 1px solid var(--card-border); }
+.task-progress-bar { height: 10px; background: rgba(150,150,150,0.2); border-radius: 6px; overflow: hidden; }
+.task-progress-fill { height: 100%; background: linear-gradient(90deg, #f1c40f, #f39c12); width: 0%; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+.task-progress-text { display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; color: var(--text-dark); margin-top: 8px; }
+
+/* Görev Düymələri */
+.task-btn { width: 100%; padding: 14px; font-size: 15px; font-weight: 800; border: none; border-radius: 14px; cursor: pointer; transition: 0.3s; }
+.task-btn.action { background: linear-gradient(90deg, #3498db, #2980b9); color: white; box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3); }
+.task-btn.action:hover { transform: scale(1.02); box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4); }
+
+.task-btn.claim { background: linear-gradient(90deg, #2ecc71, #27ae60); color: white; box-shadow: 0 6px 15px rgba(46, 204, 113, 0.3); animation: pulseBtn 2s infinite; }
+.task-btn.claim:hover { transform: scale(1.02); }
+
+.task-btn.locked { background: var(--bg-start); color: var(--text-muted); cursor: not-allowed; box-shadow: none; border: 1px solid var(--card-border); opacity: 0.8; }
+.task-btn.completed { background: rgba(150,150,150,0.2); color: var(--text-muted); cursor: not-allowed; box-shadow: none; border: 1px solid rgba(150,150,150,0.1); }
+.task-btn.waiting { background: #f1c40f !important; color: #fff !important; cursor: wait !important; opacity: 0.9; box-shadow: none !important; }
+
+@keyframes pulseBtn { 0%, 100% {transform: scale(1);} 50% {transform: scale(1.02); box-shadow: 0 8px 20px rgba(46, 204, 113, 0.5);} }
 
 .stats{display:flex;justify-content:space-around;margin-top:15px;}
 .stat{background:var(--progress-bg);border-radius:12px;padding:12px 18px; flex: 1; margin: 0 5px;}
@@ -259,7 +268,7 @@ body.dark-theme .toggle-thumb { transform: translateX(22px); }
 .loader-text{margin-top:18px;font-size:16px;font-weight:700;color:var(--loader-text);letter-spacing:2px;animation:blink 1.5s infinite;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.6;}}
 
-/* BİLDİRİŞ EKRANI */
+/* TAPŞIRIQ BİLDİRİŞİ */
 #taskNotification {position: fixed;top: 20px;left: 50%;transform: translate(-50%, -100px); background: var(--notification-bg);color: var(--notification-text);padding: 15px 25px;border-radius: 14px;box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);font-weight: 800;font-size: 15px;opacity: 0;z-index: 10000;transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-align: center;border: 2px solid rgba(255,255,255,0.2);}
 .notification-show {opacity: 1 !important;transform: translate(-50%, 0) !important; }
 .notification-hide {opacity: 0;transform: translate(-50%, -100px); }
@@ -326,32 +335,33 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
       <div class="usd"><span id="secondaryCurrencySymbol3">$</span><span id="secondaryBalance3">0.0000</span> <span id="secondaryCurrencyText3">USD</span></div>
     </div>
 
-    <div class="task-list-container">
+    <div class="task-list">
         
-        <div class="modern-task-card">
+        <div class="task-item premium">
             <div class="task-header">
-                <div class="task-icon">📣</div>
-                <div class="task-info">
-                    <h2 data-translate-key="socialTaskTitle">Sosyal Görev</h2>
-                    <p data-translate-key="taskReward1">Kanala qoşul və <b>0.1000 ₼</b> qazan!</p>
+                <div class="task-title">👑 <span data-translate-key="premiumTaskTitle">Premium Görev</span></div>
+                <div class="task-reward-badge" id="task10kRewardBadge">100 ₼</div>
+            </div>
+            <div class="task-desc" data-translate-key="task10kDesc">10.000 Reklam izlə və böyük mükafatı qazan!</div>
+            
+            <div class="task-progress-wrap">
+                <div class="task-progress-bar"><div class="task-progress-fill" id="task10kProgressFill"></div></div>
+                <div class="task-progress-text">
+                    <span data-translate-key="progressText">İrəliləyiş:</span>
+                    <span id="task10kProgressText">0 / 10000</span>
                 </div>
             </div>
-            <button id="joinBtn" class="task-action-btn btn-secondary" data-translate-key="joinChannel">Kanala Qoşul</button>
+            
+            <button id="claim10kBtn" class="task-btn locked" data-translate-key="lockedBtn">Kilidli</button>
         </div>
 
-        <div class="modern-task-card">
+        <div class="task-item">
             <div class="task-header">
-                <div class="task-icon" style="background: linear-gradient(135deg, #f39c12, #e67e22); box-shadow: 0 5px 15px rgba(243, 156, 18, 0.4);">💎</div>
-                <div class="task-info">
-                    <h2 data-translate-key="premiumTaskTitle">Premium Görev</h2>
-                    <p data-translate-key="premiumTaskDesc">10.000 Reklam izlə, <b>100 ₼</b> qazan!</p>
-                </div>
+                <div class="task-title">📢 <span data-translate-key="standardTaskTitle">Standart Görev</span></div>
+                <div class="task-reward-badge" id="taskJoinRewardBadge">0.1000 ₼</div>
             </div>
-            <div class="task-progress-wrap">
-                <div class="task-progress-bar"><div class="task-progress-fill" id="ads10kProgressFill"></div></div>
-                <span class="task-progress-text" id="ads10kProgressText">0 / 10000</span>
-            </div>
-            <button id="claim10kBtn" class="task-action-btn btn-primary" data-translate-key="claimBtn">Mükafatı Al</button>
+            <div class="task-desc" data-translate-key="taskJoinDesc">Rəsmi Telegram kanalımıza qoşul və qazan!</div>
+            <button id="joinBtn" class="task-btn action" data-translate-key="joinChannel">Kanala Qoşul</button>
         </div>
 
     </div>
@@ -406,8 +416,7 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
 
     <div class="history-card" id="historyCard">
         <h3 class="history-title" data-translate-key="withdrawHistory">Çıxarış Tarixçəsi</h3>
-        <div class="history-list" id="historyList">
-            </div>
+        <div class="history-list" id="historyList"></div>
     </div>
 
   </div>
@@ -567,11 +576,11 @@ const CURRENCIES = {
 
 const AZN_REWARD = 0.001; 
 const AZN_TASK_REWARD = 0.1; 
-const AZN_10K_REWARD = 100; // YENİ GÖREV ÖDÜLÜ
+const AZN_10K_REWARD = 100; // Yeni Premium Görev Məbləği
 
 const BAL_KEY='bal',COUNT_KEY='cnt',RESET_KEY='resetTime';
 const JOIN_KEY='joined_manat_pay'; 
-const ADS_10K_KEY = 'claimed_10k_ads'; // YENİ GÖREV KONTROLÜ
+const CLAIMED_10K_KEY = 'task_10k_claimed'; // 10k reklam yaddaşı
 const TOTAL_ADS_KEY = 'totalAdsWatched';
 const TOTAL_AD_EARNINGS_KEY = 'totalAdEarnings';
 const TOTAL_TASK_EARNINGS_KEY = 'totalTaskEarnings';
@@ -595,17 +604,11 @@ function localizeAmount(aznAmount, lang) {
     return { amount: amount, formatted: format(amount), symbol: currencyInfo.symbol };
 }
 
-// Yeni Tam Sayı (Küsüratsız) Formatlayıcı - 100₼ Görevi için
-function getLocalizedWholeReward(aznAmount, lang) {
-    const rates = EXCHANGE_RATES;
-    const currencyInfo = CURRENCIES[lang];
-    let amount = aznAmount;
-    
-    if (lang === 'tr') amount = aznAmount * rates.AZN_TO_TRY; 
-    else if (lang === 'en') amount = aznAmount * rates.AZN_TO_USD;
-    else if (lang === 'ru') amount = aznAmount * rates.AZN_TO_RUB; 
-    
-    return `<b>${Math.round(amount)} ${currencyInfo.symbol}</b>`;
+// 100 AZN kimi məbləğləri "100.0000" yerinə "100" kimi təmiz göstərmək üçün
+function getCleanLocalizedAmount(aznAmount, lang) {
+    const info = localizeAmount(aznAmount, lang);
+    let formatted = parseFloat(info.amount).toString(); 
+    return `${formatted} ${info.symbol}`;
 }
 
 function getLocalizedReward(lang) {
@@ -615,7 +618,7 @@ function getLocalizedReward(lang) {
 
 function getLocalizedTaskReward(lang, aznReward) {
     const info = localizeAmount(aznReward, lang);
-    return `<b>${info.formatted} ${info.symbol}</b>`;
+    return `${info.formatted} ${info.symbol}`;
 }
 
 function getLocalizedMinAmount(methodType, lang) {
@@ -637,8 +640,9 @@ const TRANSLATIONS = {
         watched: 'İzlənən', maximum: 'Maksimum', maxCount: '100', progressText: 'İrəliləyiş: ',
         watchAd: 'Reklam İzle', watching: '⏳ İzlənir...', adLimitReached: '📣 Gündəlik limitə çatdınız!',
         rewardAddedConfirmed: (r) => `✅ ${r} əlavə olundu!`, wait: '⏳ {s}s gözləyin',
-        socialTaskTitle: 'Sosial Görev', taskReward1: (r) => `Kanala qoşul və ${r} qazan!`, joinChannel: 'Kanala Qoşul',
-        premiumTaskTitle: 'Premium Görev', premiumTaskDesc: (r) => `10.000 Reklam izlə, ${r} qazan!`, claimBtn: 'Mükafatı Al',
+        premiumTaskTitle: 'Premium Görev', standardTaskTitle: 'Standart Görev',
+        task10kDesc: '10.000 Reklam izlə və böyük mükafatı qazan!', taskJoinDesc: 'Rəsmi Telegram kanalımıza qoşul və qazan!',
+        joinChannel: 'Kanala Qoşul', claimReward: 'Mükafatı Al', lockedBtn: 'Kilidli', completed: 'Tamamlandı',
         withdrawTitle: 'Çıxarış', bankCard: 'Bank Kartı', back: 'Geri', withdraw: 'Çıxarış Et',
         methodError: 'Metod seçin', detailsError: 'Detalları daxil edin', amountError: 'Məbləği düzgün daxil edin',
         minAmount: (min) => `Minimum məbləğ ${min}`, balanceError: 'Balans kifayət etmir',
@@ -647,7 +651,7 @@ const TRANSLATIONS = {
         placeholderDetails_m10: '10 rəqəmli nömrə', placeholderDetails_azercell: '050xxxxxxx',
         placeholderDetails_bakcell: '055xxxxxxx', placeholderDetails_nar: '070xxxxxxx',
         placeholderDetails_bank: '16 rəqəmli kart nömrəsi', placeholderDetails_usdt: 'TON adresi',
-        placeholderAmount: 'Məbləğ', completed: 'Tamamlandı', taskSuccess: (r) => `✅ Görev Tamamlandı! ${r} balansa əlavə edildi.`,
+        placeholderAmount: 'Məbləğ', taskSuccess: (r) => `✅ Görev Tamamlandı! ${r} balansa əlavə edildi.`,
         setUsername: 'Ad təyin et', enterUsername: 'Adınızı daxil edin', save: 'Yadda saxla', cancel: 'Ləğv et',
         theme: 'Tema', language: 'Dil', statistics: 'Statistika', support: 'Dəstək',
         statTotalAds: 'İzlənən Ümumi Reklam', statAdEarnings: 'Reklam Qazancı', statTaskEarnings: 'Görev Qazancı',
@@ -661,8 +665,9 @@ const TRANSLATIONS = {
         watched: 'Watched', maximum: 'Maximum', maxCount: '100', progressText: 'Progress: ',
         watchAd: 'Watch Ad', watching: '⏳ Watching...', adLimitReached: '📣 Daily limit reached!',
         rewardAddedConfirmed: (r) => `✅ ${r} added!`, wait: '⏳ {s}s wait',
-        socialTaskTitle: 'Social Task', taskReward1: (r) => `Join channel and earn ${r}!`, joinChannel: 'Join Channel',
-        premiumTaskTitle: 'Premium Task', premiumTaskDesc: (r) => `Watch 10,000 Ads, earn ${r}!`, claimBtn: 'Claim Reward',
+        premiumTaskTitle: 'Premium Task', standardTaskTitle: 'Standard Task',
+        task10kDesc: 'Watch 10,000 Ads and win a huge reward!', taskJoinDesc: 'Join our official Telegram channel and earn!',
+        joinChannel: 'Join Channel', claimReward: 'Claim Reward', lockedBtn: 'Locked', completed: 'Completed',
         withdrawTitle: 'Withdrawal', bankCard: 'Bank Card', back: 'Back', withdraw: 'Withdraw',
         methodError: 'Select a method', detailsError: 'Enter details', amountError: 'Enter correct amount',
         minAmount: (min) => `Minimum amount ${min}`, balanceError: 'Insufficient balance',
@@ -671,7 +676,7 @@ const TRANSLATIONS = {
         placeholderDetails_m10: '10 digit M10 number', placeholderDetails_azercell: '050xxxxxxx',
         placeholderDetails_bakcell: '055xxxxxxx', placeholderDetails_nar: '070xxxxxxx',
         placeholderDetails_bank: '16 digit card number', placeholderDetails_usdt: 'TON address',
-        placeholderAmount: 'Amount', completed: 'Completed', taskSuccess: (r) => `✅ Task Completed! ${r} added to balance.`,
+        placeholderAmount: 'Amount', taskSuccess: (r) => `✅ Task Completed! ${r} added to balance.`,
         setUsername: 'Set Username', enterUsername: 'Enter your username', save: 'Save', cancel: 'Cancel',
         theme: 'Theme', language: 'Language', statistics: 'Statistics', support: 'Support',
         statTotalAds: 'Total Ads Watched', statAdEarnings: 'Ad Earnings', statTaskEarnings: 'Task Earnings',
@@ -685,8 +690,9 @@ const TRANSLATIONS = {
         watched: 'İzlenen', maximum: 'Maksimum', maxCount: '100', progressText: 'İlerleme: ',
         watchAd: 'Reklam İzle', watching: '⏳ İzleniyor...', adLimitReached: '📣 Günlük sınıra ulaştınız!',
         rewardAddedConfirmed: (r) => `✅ ${r} eklendi!`, wait: '⏳ {s}sn bekleyin',
-        socialTaskTitle: 'Sosyal Görev', taskReward1: (r) => `Kanala katıl ve ${r} kazan!`, joinChannel: 'Kanala Katıl',
-        premiumTaskTitle: 'Premium Görev', premiumTaskDesc: (r) => `10.000 Reklam izle, ${r} kazan!`, claimBtn: 'Ödülü Al',
+        premiumTaskTitle: 'Premium Görev', standardTaskTitle: 'Standart Görev',
+        task10kDesc: '10.000 Reklam izle ve büyük ödülü kazan!', taskJoinDesc: 'Resmi Telegram kanalımıza katıl ve kazan!',
+        joinChannel: 'Kanala Katıl', claimReward: 'Ödülü Al', lockedBtn: 'Kilitli', completed: 'Tamamlandı',
         withdrawTitle: 'Para Çekme', bankCard: 'Banka Kartı', back: 'Geri', withdraw: 'Para Çek',
         methodError: 'Yöntem seçin', detailsError: 'Bilgileri girin', amountError: 'Miktarı doğru girin',
         minAmount: (min) => `Minimum miktar ${min}`, balanceError: 'Yetersiz bakiye',
@@ -695,7 +701,7 @@ const TRANSLATIONS = {
         placeholderDetails_m10: '10 haneli M10 numarası', placeholderDetails_azercell: '050xxxxxxx',
         placeholderDetails_bakcell: '055xxxxxxx', placeholderDetails_nar: '070xxxxxxx',
         placeholderDetails_bank: '16 haneli kart numarası', placeholderDetails_usdt: 'TON adresi',
-        placeholderAmount: 'Miktar', completed: 'Tamamlandı', taskSuccess: (r) => `✅ Görev Tamamlandı! ${r} bakiyeye eklendi.`,
+        placeholderAmount: 'Miktar', taskSuccess: (r) => `✅ Görev Tamamlandı! ${r} bakiyeye eklendi.`,
         setUsername: 'Ad belirle', enterUsername: 'Adınızı girin', save: 'Kaydet', cancel: 'İptal',
         theme: 'Tema', language: 'Dil', statistics: 'İstatistikler', support: 'Destek',
         statTotalAds: 'İzlenen Toplam Reklam', statAdEarnings: 'Reklam Kazancı', statTaskEarnings: 'Görev Kazancı',
@@ -709,8 +715,9 @@ const TRANSLATIONS = {
         watched: 'Просмотрено', maximum: 'Максимум', maxCount: '100', progressText: 'Прогресс: ',
         watchAd: 'Смотреть Рекламу', watching: '⏳ Просмотр...', adLimitReached: '📣 Достигнут дневной лимит!',
         rewardAddedConfirmed: (r) => `✅ ${r} добавлено!`, wait: '⏳ {s}с ожидайте',
-        socialTaskTitle: 'Социальное Задание', taskReward1: (r) => `Подпишитесь на канал и заработайте ${r}!`, joinChannel: 'Подписаться',
-        premiumTaskTitle: 'Премиум Задание', premiumTaskDesc: (r) => `Посмотри 10,000 реклам, заработай ${r}!`, claimBtn: 'Забрать',
+        premiumTaskTitle: 'Премиум Задание', standardTaskTitle: 'Стандартное Задание',
+        task10kDesc: 'Посмотрите 10 000 реклам и получите большую награду!', taskJoinDesc: 'Подпишитесь на наш официальный Telegram канал и заработайте!',
+        joinChannel: 'Подписаться', claimReward: 'Забрать награду', lockedBtn: 'Заблокировано', completed: 'Выполнено',
         withdrawTitle: 'Вывод Средств', bankCard: 'Банковская Карта', back: 'Назад', withdraw: 'Вывести',
         methodError: 'Выберите способ', detailsError: 'Введите данные', amountError: 'Введите правильную сумму',
         minAmount: (min) => `Минимальная сумма ${min}`, balanceError: 'Недостаточно средств',
@@ -719,7 +726,7 @@ const TRANSLATIONS = {
         placeholderDetails_m10: '10-значный номер M10', placeholderDetails_azercell: '050xxxxxxx',
         placeholderDetails_bakcell: '055xxxxxxx', placeholderDetails_nar: '070xxxxxxx',
         placeholderDetails_bank: '16-значный номер карты', placeholderDetails_usdt: 'TON адрес',
-        placeholderAmount: 'Сумма', completed: 'Выполнено', taskSuccess: (r) => `✅ Задание выполнено! ${r} добавлено на баланс.`,
+        placeholderAmount: 'Сумма', taskSuccess: (r) => `✅ Задание выполнено! ${r} добавлено на баланс.`,
         setUsername: 'Установить имя', enterUsername: 'Введите ваше имя', save: 'Сохранить', cancel: 'Отмена',
         theme: 'Тема', language: 'Язык', statistics: 'Статистика', support: 'Поддержка',
         statTotalAds: 'Всего просмотрено реклам', statAdEarnings: 'Заработок с рекламы', statTaskEarnings: 'Заработок с заданий',
@@ -875,61 +882,6 @@ function updateStatsUI() {
     document.querySelectorAll('.stat-currency').forEach(el => el.textContent = adInfo.symbol);
 }
 
-// 10K GÖREVİNİN UI GÜNCELLEMESİ
-function update10kTaskUI() {
-    const t = TRANSLATIONS[currentLang];
-    const claimBtn = document.getElementById('claim10kBtn');
-    const progressFill = document.getElementById('ads10kProgressFill');
-    const progressText = document.getElementById('ads10kProgressText');
-    
-    if(!claimBtn) return;
-
-    let currentAds = totalAds;
-    if (currentAds > 10000) currentAds = 10000;
-    
-    // Barı Güncelle
-    progressFill.style.width = (currentAds / 10000 * 100) + '%';
-    progressText.textContent = `${currentAds} / 10000`;
-    
-    // Açıklamayı Güncelle (Küsüratsız tutar yazısı)
-    const descEl = document.querySelector('[data-translate-key="premiumTaskDesc"]');
-    if (descEl && t.premiumTaskDesc) {
-        descEl.innerHTML = t.premiumTaskDesc(getLocalizedWholeReward(AZN_10K_REWARD, currentLang));
-    }
-
-    // Buton Durumu
-    if (localStorage.getItem(ADS_10K_KEY)) {
-        claimBtn.classList.add('completed');
-        claimBtn.disabled = true;
-        claimBtn.textContent = t.completed;
-    } else if (currentAds >= 10000) {
-        claimBtn.classList.remove('completed');
-        claimBtn.disabled = false;
-        claimBtn.textContent = t.claimBtn;
-    } else {
-        claimBtn.classList.add('completed'); 
-        claimBtn.disabled = true;
-        claimBtn.textContent = t.claimBtn;
-    }
-}
-
-// 10K ÖDÜL BUTONU TIKLAMASI
-document.getElementById('claim10kBtn').onclick = () => {
-    if (totalAds >= 10000 && !localStorage.getItem(ADS_10K_KEY)) {
-        bal += AZN_10K_REWARD;
-        totalTaskEarnings += AZN_10K_REWARD;
-        
-        safeSet(BAL_KEY, bal);
-        safeSet(TOTAL_TASK_EARNINGS_KEY, totalTaskEarnings);
-        localStorage.setItem(ADS_10K_KEY, '1');
-        
-        update(); 
-        
-        const t = TRANSLATIONS[currentLang];
-        showTaskNotification(t.taskSuccess(getLocalizedWholeReward(AZN_10K_REWARD, currentLang)));
-    }
-};
-
 function update(){
   const lang = currentLang;
   const rates = EXCHANGE_RATES;
@@ -975,8 +927,8 @@ function update(){
   safeSet(TOTAL_AD_EARNINGS_KEY, totalAdEarnings); safeSet(TOTAL_TASK_EARNINGS_KEY, totalTaskEarnings);
   
   checkAndDisplayRewardMsg();
-  update10kTaskUI(); // İlerleme çubuğunu günceller
-
+  updateTaskButtons(); // Hər dəfə balans dəyişəndə proqressi və düymələri yenilə!
+  
   if(document.getElementById('statsView').style.display === 'block') updateStatsUI();
 }
 
@@ -1014,27 +966,49 @@ function renderHistory() {
     });
 }
 
+// GÖREVLƏR SƏHİFƏSİNİN YENİLƏNMƏSİ
 function updateTaskButtons() {
     const t = TRANSLATIONS[currentLang];
-    const btn = document.getElementById('joinBtn');
-    if (!btn) return;
-
-    const taskRewardKey = `taskReward1`;
-    const localizedRewardText = getLocalizedTaskReward(currentLang, AZN_TASK_REWARD);
-    const rewardEl = btn.parentElement.querySelector(`p[data-translate-key="${taskRewardKey}"]`);
-    if (rewardEl && t[taskRewardKey]) rewardEl.innerHTML = t[taskRewardKey](localizedRewardText);
     
-    if (localStorage.getItem(JOIN_KEY)){
-        btn.classList.remove('waiting'); btn.classList.add('completed');
-        btn.textContent = t.completed; btn.disabled = true; 
-    } else {
-        if (!btn.classList.contains('waiting')) {
-             btn.classList.remove('completed'); btn.disabled = false; btn.textContent = t.joinChannel;
+    // 1. Standart Task (Kanala Qoşul)
+    const joinBtn = document.getElementById('joinBtn');
+    const joinBadge = document.getElementById('taskJoinRewardBadge');
+    if (joinBadge) joinBadge.innerHTML = getLocalizedTaskReward(currentLang, AZN_TASK_REWARD);
+
+    if (joinBtn) {
+        if (localStorage.getItem(JOIN_KEY)){
+            joinBtn.className = 'task-btn completed';
+            joinBtn.textContent = t.completed; joinBtn.disabled = true; 
+        } else {
+            if (!joinBtn.classList.contains('waiting')) {
+                 joinBtn.className = 'task-btn action'; joinBtn.disabled = false; joinBtn.textContent = t.joinChannel;
+            }
         }
     }
+
+    // 2. Premium Task (10k Reklam İzle)
+    const claim10kBtn = document.getElementById('claim10kBtn');
+    const badge10k = document.getElementById('task10kRewardBadge');
+    const progressFill = document.getElementById('task10kProgressFill');
+    const progressText = document.getElementById('task10kProgressText');
+
+    if (badge10k) badge10k.innerHTML = getCleanLocalizedAmount(AZN_10K_REWARD, currentLang);
     
-    // 10K Görevinin dil ve duruma göre güncellenmesi çağırılıyor
-    update10kTaskUI();
+    if (progressText) progressText.textContent = `${totalAds} / 10000`;
+    if (progressFill) progressFill.style.width = Math.min(100, (totalAds / 10000) * 100) + '%';
+    
+    if (claim10kBtn) {
+        if (localStorage.getItem(CLAIMED_10K_KEY)) {
+            claim10kBtn.className = 'task-btn completed';
+            claim10kBtn.textContent = t.completed; claim10kBtn.disabled = true;
+        } else if (totalAds >= 10000) {
+            claim10kBtn.className = 'task-btn claim';
+            claim10kBtn.textContent = t.claimReward; claim10kBtn.disabled = false;
+        } else {
+            claim10kBtn.className = 'task-btn locked';
+            claim10kBtn.textContent = t.lockedBtn; claim10kBtn.disabled = true;
+        }
+    }
 }
 
 function setPlaceholders(methodType) {
@@ -1053,10 +1027,6 @@ function applyTranslationToElement(el, key, lang) {
          if (key === 'adReward') {
             const rewardInfo = getLocalizedReward(lang);
             el.innerHTML = t[key](`<b>${rewardInfo.formattedReward} ${rewardInfo.symbol}</b>`);
-         } else if (key === 'taskReward1') {
-            el.innerHTML = t[key](getLocalizedTaskReward(lang, AZN_TASK_REWARD));
-         } else if (key === 'premiumTaskDesc') {
-            el.innerHTML = t[key](getLocalizedWholeReward(AZN_10K_REWARD, lang));
          }
     } else if (t[key]) {
          if(el.tagName === 'INPUT') el.placeholder = t[key];
@@ -1230,6 +1200,7 @@ function showTaskNotification(message) {
     setTimeout(() => { taskNotification.classList.remove('notification-show'); taskNotification.classList.add('notification-hide'); }, 3000);
 }
 
+// 1. Standart Görev (Kanal)
 const joinBtn = document.getElementById('joinBtn');
 if (joinBtn) {
     joinBtn.onclick = () => {
@@ -1244,10 +1215,29 @@ if (joinBtn) {
             safeSet(BAL_KEY, bal); safeSet(TOTAL_TASK_EARNINGS_KEY, totalTaskEarnings);
             localStorage.setItem(JOIN_KEY, '1'); 
             update();
-            joinBtn.classList.remove('waiting'); joinBtn.classList.add('completed'); joinBtn.textContent = t.completed; joinBtn.disabled = true;
-            showTaskNotification(t.taskSuccess(getLocalizedTaskReward(currentLang, AZN_TASK_REWARD)));
+            showTaskNotification(t.taskSuccess(`<b>${getLocalizedTaskReward(currentLang, AZN_TASK_REWARD)}</b>`));
         }, 3000); 
     };
+}
+
+// 2. Premium Görev (10,000 Reklam) Düyməsi Action
+const claim10kBtn = document.getElementById('claim10kBtn');
+if (claim10kBtn) {
+    claim10kBtn.addEventListener('click', function() {
+        if (localStorage.getItem(CLAIMED_10K_KEY) || this.disabled) return;
+        
+        if (totalAds >= 10000) {
+            const t = TRANSLATIONS[currentLang];
+            bal += AZN_10K_REWARD;
+            totalTaskEarnings += AZN_10K_REWARD;
+            safeSet(BAL_KEY, bal);
+            safeSet(TOTAL_TASK_EARNINGS_KEY, totalTaskEarnings);
+            localStorage.setItem(CLAIMED_10K_KEY, '1');
+            
+            update();
+            showTaskNotification(t.taskSuccess(`<b>${getCleanLocalizedAmount(AZN_10K_REWARD, currentLang)}</b>`));
+        }
+    });
 }
 
 function showPage(id, btn){
