@@ -750,6 +750,7 @@ let cnt=parseInt(safeGet(COUNT_KEY,0));
 let resetTime=safeGet(RESET_KEY,null);
 
 let rewardMsgTimeout = null; 
+let isAdRunning = false; // Yeni debounce kilidi
 
 function getNextResetTime(){
   const now = new Date();
@@ -927,7 +928,7 @@ function update(){
   safeSet(TOTAL_AD_EARNINGS_KEY, totalAdEarnings); safeSet(TOTAL_TASK_EARNINGS_KEY, totalTaskEarnings);
   
   checkAndDisplayRewardMsg();
-  updateTaskButtons(); // Hər dəfə balans dəyişəndə proqressi və düymələri yenilə!
+  updateTaskButtons(); 
   
   if(document.getElementById('statsView').style.display === 'block') updateStatsUI();
 }
@@ -970,7 +971,6 @@ function renderHistory() {
 function updateTaskButtons() {
     const t = TRANSLATIONS[currentLang];
     
-    // 1. Standart Task (Kanala Qoşul)
     const joinBtn = document.getElementById('joinBtn');
     const joinBadge = document.getElementById('taskJoinRewardBadge');
     if (joinBadge) joinBadge.innerHTML = getLocalizedTaskReward(currentLang, AZN_TASK_REWARD);
@@ -986,7 +986,6 @@ function updateTaskButtons() {
         }
     }
 
-    // 2. Premium Task (10k Reklam İzle)
     const claim10kBtn = document.getElementById('claim10kBtn');
     const badge10k = document.getElementById('task10kRewardBadge');
     const progressFill = document.getElementById('task10kProgressFill');
@@ -1082,7 +1081,7 @@ function displayRewardMsg(messageHTML) {
         container.appendChild(rewardMsgElement);
     }
     rewardMsgElement.classList.remove('show');
-    safeSet(REWARD_MSG_KEY, { html: messageHTML, expire: Date.now() + 2000 });
+    safeSet(REWARD_MSG_KEY, { html: messageHTML, expire: Date.now() + 2500 }); // Daha uzun görünüş
     setTimeout(() => { rewardMsgElement.classList.add('show'); }, 50);
     rewardMsgTimeout = setTimeout(() => {
         if (rewardMsgElement) {
@@ -1091,7 +1090,7 @@ function displayRewardMsg(messageHTML) {
         }
         safeRemove(REWARD_MSG_KEY);
         rewardMsgTimeout = null;
-    }, 2000);
+    }, 2500);
 }
 
 function checkAndDisplayRewardMsg() {
@@ -1129,6 +1128,7 @@ function checkAndDisplayRewardMsg() {
 
 function restoreAdBtnState() {
     const t = TRANSLATIONS[currentLang];
+    isAdRunning = false;
     if (cnt >= LIMIT) {
         adBtn.classList.remove('waiting'); adBtn.disabled = true; adBtnContent.textContent = t.watchAd;
         msg.textContent = t.adLimitReached; checkAndDisplayRewardMsg(); return; 
@@ -1138,10 +1138,14 @@ function restoreAdBtnState() {
     checkAndDisplayRewardMsg();
 }
 
-adBtn.onclick = () => {
+// ASYNC AWAIT İLƏ YENİLƏNMİŞ DÜYMƏ MƏNTİQİ
+adBtn.onclick = async () => {
     const t = TRANSLATIONS[currentLang];
+    
     if (cnt >= LIMIT) { msg.textContent = t.adLimitReached; return; }
-    if (adBtn.classList.contains('waiting')) return;
+    if (isAdRunning || adBtn.classList.contains('waiting')) return;
+    
+    isAdRunning = true; // Debounce kilidi qoyuldu
 
     if (rewardMsgTimeout) { clearTimeout(rewardMsgTimeout); rewardMsgTimeout = null; }
     safeRemove(REWARD_MSG_KEY);
@@ -1158,26 +1162,28 @@ adBtn.onclick = () => {
     
     try {
         if (typeof show_10701408 === 'function') {
-            const adPromise = show_10701408();
-            if (adPromise && typeof adPromise.then === 'function') {
-                adPromise.then(() => {
-                    giveAdReward(t);
-                }).catch((e) => {
-                    resetAdBtnState(t);
-                });
+            const adResult = show_10701408();
+            // Əgər SDK Promise qaytarırsa onu gözləyirik
+            if (adResult && typeof adResult.then === 'function') {
+                await adResult;
+                giveAdReward(t);
             } else {
-                setTimeout(() => giveAdReward(t), 2000); 
+                // Əgər promise qaytarmırsa, mükafatı 1.5 saniyə sonra veririk (saxta gecikmə)
+                setTimeout(() => giveAdReward(t), 1500); 
             }
         } else {
+            // SDK tapılmadıqda və ya yüklənmədikdə
             setTimeout(() => resetAdBtnState(t), 1000);
         }
     } catch(e) {
+        console.error("Ad block or network error", e);
         resetAdBtnState(t);
     } 
 };
 
 function giveAdReward(t) {
-    bal += AZN_REWARD; totalAdEarnings += AZN_REWARD; cnt++; totalAds++; update(); 
+    bal += AZN_REWARD; totalAdEarnings += AZN_REWARD; cnt++; totalAds++; 
+    update(); // Bütün rəqəmləri yenilə
     
     const currentRewardInfo = getLocalizedReward(currentLang);
     displayRewardMsg(t.rewardAddedConfirmed(`<b>${currentRewardInfo.formattedReward} ${currentRewardInfo.symbol}</b>`));
@@ -1186,6 +1192,7 @@ function giveAdReward(t) {
 }
 
 function resetAdBtnState(t) {
+    isAdRunning = false; // Kilidi aç
     adBtn.disabled = false; 
     adBtn.classList.remove('waiting');
     adBtnContent.textContent = t.watchAd; 
@@ -1200,7 +1207,6 @@ function showTaskNotification(message) {
     setTimeout(() => { taskNotification.classList.remove('notification-show'); taskNotification.classList.add('notification-hide'); }, 3000);
 }
 
-// 1. Standart Görev (Kanal)
 const joinBtn = document.getElementById('joinBtn');
 if (joinBtn) {
     joinBtn.onclick = () => {
@@ -1220,7 +1226,6 @@ if (joinBtn) {
     };
 }
 
-// 2. Premium Görev (10,000 Reklam) Düyməsi Action
 const claim10kBtn = document.getElementById('claim10kBtn');
 if (claim10kBtn) {
     claim10kBtn.addEventListener('click', function() {
@@ -1298,7 +1303,6 @@ document.getElementById('withdrawBtn').onclick=()=>{
 
   bal -= withdrawalAmountInAZN; safeSet(BAL_KEY,bal); update();
   
-  // TARİXÇƏYƏ ƏLAVƏ ETMƏK
   const historyItem = {
       method: type,
       amount: withdrawalAmountInAZN, 
