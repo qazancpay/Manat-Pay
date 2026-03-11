@@ -604,7 +604,6 @@ function localizeAmount(aznAmount, lang) {
     return { amount: amount, formatted: format(amount), symbol: currencyInfo.symbol };
 }
 
-// 100 AZN kimi məbləğləri "100.0000" yerinə "100" kimi təmiz göstərmək üçün
 function getCleanLocalizedAmount(aznAmount, lang) {
     const info = localizeAmount(aznAmount, lang);
     let formatted = parseFloat(info.amount).toString(); 
@@ -750,7 +749,7 @@ let cnt=parseInt(safeGet(COUNT_KEY,0));
 let resetTime=safeGet(RESET_KEY,null);
 
 let rewardMsgTimeout = null; 
-let isAdRunning = false; // Yeni debounce kilidi
+let isAdRunning = false; // Debounce kilidi
 
 function getNextResetTime(){
   const now = new Date();
@@ -1081,7 +1080,7 @@ function displayRewardMsg(messageHTML) {
         container.appendChild(rewardMsgElement);
     }
     rewardMsgElement.classList.remove('show');
-    safeSet(REWARD_MSG_KEY, { html: messageHTML, expire: Date.now() + 2500 }); // Daha uzun görünüş
+    safeSet(REWARD_MSG_KEY, { html: messageHTML, expire: Date.now() + 2500 }); 
     setTimeout(() => { rewardMsgElement.classList.add('show'); }, 50);
     rewardMsgTimeout = setTimeout(() => {
         if (rewardMsgElement) {
@@ -1128,24 +1127,32 @@ function checkAndDisplayRewardMsg() {
 
 function restoreAdBtnState() {
     const t = TRANSLATIONS[currentLang];
-    isAdRunning = false;
+    
+    // BUG FIX 2: Əgər arxa planda reklam hələ də işləyirsə butonu aktiv etmə
+    if (isAdRunning) {
+        adBtn.classList.add('waiting');
+        adBtn.disabled = true;
+        adBtnContent.textContent = t.watching;
+        return; // İşləmi burada dayandırır ki, buton aktivləşməsin
+    }
+
     if (cnt >= LIMIT) {
         adBtn.classList.remove('waiting'); adBtn.disabled = true; adBtnContent.textContent = t.watchAd;
         msg.textContent = t.adLimitReached; checkAndDisplayRewardMsg(); return; 
     }
+    
     adBtn.classList.remove('waiting'); adBtn.disabled = false; adBtnContent.textContent = t.watchAd;
     msg.textContent = '';
     checkAndDisplayRewardMsg();
 }
 
-// ASYNC AWAIT İLƏ YENİLƏNMİŞ DÜYMƏ MƏNTİQİ
 adBtn.onclick = async () => {
     const t = TRANSLATIONS[currentLang];
     
     if (cnt >= LIMIT) { msg.textContent = t.adLimitReached; return; }
     if (isAdRunning || adBtn.classList.contains('waiting')) return;
     
-    isAdRunning = true; // Debounce kilidi qoyuldu
+    isAdRunning = true; 
 
     if (rewardMsgTimeout) { clearTimeout(rewardMsgTimeout); rewardMsgTimeout = null; }
     safeRemove(REWARD_MSG_KEY);
@@ -1163,17 +1170,15 @@ adBtn.onclick = async () => {
     try {
         if (typeof show_10701408 === 'function') {
             const adResult = show_10701408();
-            // Əgər SDK Promise qaytarırsa onu gözləyirik
             if (adResult && typeof adResult.then === 'function') {
                 await adResult;
                 giveAdReward(t);
             } else {
-                // Əgər promise qaytarmırsa, mükafatı 1.5 saniyə sonra veririk (saxta gecikmə)
-                setTimeout(() => giveAdReward(t), 1500); 
+                // BUG FIX 1: Süni 1.5 saniyə gecikmə ləğv olundu. Birbaşa mükafatı veririk.
+                giveAdReward(t); 
             }
         } else {
-            // SDK tapılmadıqda və ya yüklənmədikdə
-            setTimeout(() => resetAdBtnState(t), 1000);
+            resetAdBtnState(t);
         }
     } catch(e) {
         console.error("Ad block or network error", e);
@@ -1183,7 +1188,7 @@ adBtn.onclick = async () => {
 
 function giveAdReward(t) {
     bal += AZN_REWARD; totalAdEarnings += AZN_REWARD; cnt++; totalAds++; 
-    update(); // Bütün rəqəmləri yenilə
+    update(); 
     
     const currentRewardInfo = getLocalizedReward(currentLang);
     displayRewardMsg(t.rewardAddedConfirmed(`<b>${currentRewardInfo.formattedReward} ${currentRewardInfo.symbol}</b>`));
@@ -1192,7 +1197,7 @@ function giveAdReward(t) {
 }
 
 function resetAdBtnState(t) {
-    isAdRunning = false; // Kilidi aç
+    isAdRunning = false; 
     adBtn.disabled = false; 
     adBtn.classList.remove('waiting');
     adBtnContent.textContent = t.watchAd; 
