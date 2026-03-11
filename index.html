@@ -437,7 +437,7 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
       </div>
     </div>
     <div class="form" id="form">
-      <button id="backBtn" style="background:none;border:none;color:var(--accent);font-weight:800;font-size:16px;box-shadow:none; justify-content:flex-start; padding-left:0;">
+      <button id="backBtn" style="background:none;border:none;color:var(--accent);font-weight:800;font-size:16px;box-shadow:none; justify-content:flex-start; padding: 10px 10px 10px 0; width: max-content; margin-top: 0;">
         <i data-lucide="arrow-left" style="width:20px;height:20px;"></i>
         <span data-translate-key="back">Geri</span>
       </button>
@@ -573,7 +573,7 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
 </div>
 
 <script>
-// İKONLARI AKTİVLƏŞDİRMƏK (ƏN VACİB KOD)
+// İKONLARI AKTİVLƏŞDİRMƏK
 lucide.createIcons();
 
 function safeRemove(k){try{localStorage.removeItem(k);}catch(e){}}
@@ -591,7 +591,7 @@ function applyTheme(isDark) {
         themeThumb.innerHTML = '<i data-lucide="sun" style="width:14px;height:14px;"></i>'; 
         safeSet(THEME_KEY, 'light');
     }
-    lucide.createIcons(); // Ikon yenilənəndə təzədən render edirik
+    lucide.createIcons(); 
 }
 function toggleTheme() {
     const isDark = body.classList.contains('dark-theme');
@@ -619,11 +619,11 @@ const CURRENCIES = {
 
 const AZN_REWARD = 0.001; 
 const AZN_TASK_REWARD = 0.1; 
-const AZN_10K_REWARD = 100; // Yeni Premium Görev Məbləği
+const AZN_10K_REWARD = 100;
 
 const BAL_KEY='bal',COUNT_KEY='cnt',RESET_KEY='resetTime';
 const JOIN_KEY='joined_manat_pay'; 
-const CLAIMED_10K_KEY = 'task_10k_claimed'; // 10k reklam yaddaşı
+const CLAIMED_10K_KEY = 'task_10k_claimed'; 
 const TOTAL_ADS_KEY = 'totalAdsWatched';
 const TOTAL_AD_EARNINGS_KEY = 'totalAdEarnings';
 const TOTAL_TASK_EARNINGS_KEY = 'totalTaskEarnings';
@@ -1054,7 +1054,7 @@ function updateTaskButtons() {
             claim10kBtn.disabled = true;
         }
     }
-    lucide.createIcons(); // Ikonları yenidən yaradırıq
+    lucide.createIcons(); 
 }
 
 function setPlaceholders(methodType) {
@@ -1393,6 +1393,26 @@ setTimeout(()=>{
   const s=document.getElementById("loadingScreen");
   s.style.opacity="0"; setTimeout(()=>s.style.display="none",700);
 },3000);
+
+// --- YENİ: KLAVİATURA (KEYBOARD) DETEKTORU ---
+// Ekranın ölçüsü kiçildikdə (Klaviatura açılanda) menyunu gizlət, 
+// bağlandıqda (Geri düyməsi sıxıldıqda və ya focusdan çıxdıqda) göstər
+const navMenu = document.querySelector('.menu');
+const initialWindowHeight = window.innerHeight;
+
+window.addEventListener('resize', () => {
+    // Əgər ekranın hündürlüyü əvvəlkindən xeyli kiçildisə (klaviatura açıldı)
+    if (window.innerHeight < initialWindowHeight - 100) {
+        navMenu.style.display = 'none';
+    } else {
+        // Ekran normal formasına qayıtdı (Klaviatura bağlandı)
+        navMenu.style.display = 'flex';
+        // Əgər istifadəçi geri düyməsini sıxaraq klaviaturanı bağlayıbsa, focusu inputdan götür
+        if(document.activeElement && document.activeElement.tagName === 'INPUT'){
+            document.activeElement.blur();
+        }
+    }
+});
 </script>
 </body>
 </html>
