@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
 <title id="pageTitle">Manat Pay</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
 <script src="//libtl.com/sdk.js" data-zone="10701408" data-sdk="show_10701408"></script>
 <style>
 /* --- RƏNG DƏYİŞƏNLƏRİ (VARS) - MANAT PAY TEMA --- */
@@ -124,6 +125,9 @@ body.dark-theme .task-item.premium { background: linear-gradient(135deg, rgba(24
 
 .task-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 .task-title { font-size: 17px; font-weight: 800; display: flex; align-items: center; gap: 8px; color: var(--text-dark); }
+.task-icon { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 8px; color: white; }
+.task-icon-premium { background: linear-gradient(135deg, #f1c40f, #f39c12); }
+.task-icon-standard { background: linear-gradient(135deg, #3498db, #2980b9); }
 .task-reward-badge { background: var(--accent); color: white; padding: 5px 12px; border-radius: 10px; font-weight: 800; font-size: 14px; box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3); }
 .task-item.premium .task-reward-badge { background: linear-gradient(90deg, #f1c40f, #f39c12); box-shadow: 0 4px 10px rgba(243, 156, 18, 0.3); color: #fff; }
 
@@ -136,7 +140,7 @@ body.dark-theme .task-item.premium { background: linear-gradient(135deg, rgba(24
 .task-progress-text { display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; color: var(--text-dark); margin-top: 8px; }
 
 /* Görev Düymələri */
-.task-btn { width: 100%; padding: 14px; font-size: 15px; font-weight: 800; border: none; border-radius: 14px; cursor: pointer; transition: 0.3s; }
+.task-btn { width: 100%; padding: 14px; font-size: 15px; font-weight: 800; border: none; border-radius: 14px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;}
 .task-btn.action { background: linear-gradient(90deg, #3498db, #2980b9); color: white; box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3); }
 .task-btn.action:hover { transform: scale(1.02); box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4); }
 
@@ -157,10 +161,10 @@ body.dark-theme .task-item.premium { background: linear-gradient(135deg, rgba(24
 .progress-fill{height:100%;background:var(--accent);width:0%;transition:width .5s cubic-bezier(0.4, 0, 0.2, 1);} 
 
 /* REKLAM DÜYMƏSİ */
-.ad-btn{width:100%;margin-top:15px;padding:14px;font-size:15px;font-weight:800;border:none;border-radius:16px;color:var(--text-light);cursor:pointer;transition:0.3s;background:linear-gradient(90deg,var(--btn-gradient-start),var(--btn-gradient-end));box-shadow:0 8px 20px var(--btn-shadow);position: relative; overflow: hidden; z-index: 1; }
+.ad-btn{width:100%;margin-top:15px;padding:14px;font-size:15px;font-weight:800;border:none;border-radius:16px;color:var(--text-light);cursor:pointer;transition:0.3s;background:linear-gradient(90deg,var(--btn-gradient-start),var(--btn-gradient-end));box-shadow:0 8px 20px var(--btn-shadow);position: relative; overflow: hidden; z-index: 1; display:flex; align-items:center; justify-content:center; gap:8px;}
 .ad-btn:hover:not(.waiting){transform:scale(1.02);box-shadow:0 10px 25px var(--btn-shadow);}
 .ad-btn.waiting {background: #bdc3c7 !important;color: #2c3e50 !important;cursor: not-allowed;box-shadow: none !important;position: relative; overflow: hidden; }
-.ad-btn-content { position: relative; z-index: 2; display: block; }
+.ad-btn-content { position: relative; z-index: 2; display: flex; align-items:center; gap: 8px;}
 .ad-btn.waiting .ad-btn-content { color: var(--text-light) !important; animation: pulseText 1.5s infinite; }
 @keyframes pulseText { 0%, 100% {opacity: 1;} 50% {opacity: 0.6;} }
 
@@ -169,31 +173,35 @@ body.dark-theme .task-item.premium { background: linear-gradient(135deg, rgba(24
 .reward-msg {position: absolute;top: -10px; left: 50%;transform: translateX(-50%) translateY(-100%); background: var(--notification-bg); color: var(--notification-text);padding: 10px 20px;border-radius: 12px;box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);font-weight: 800;font-size: 14px;opacity: 0;z-index: 100; white-space: nowrap;transition: opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 .reward-msg.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* --- NAVİQASİYA PANELİ --- */
+/* --- NAVİQASİYA PANELİ (YENİLƏNMİŞ UI İKONLARI İLƏ) --- */
 .menu{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);width:92%;max-width:400px; display:flex;justify-content:space-between;background:var(--menu-bg);padding:8px; border-radius:24px;box-shadow:0 8px 25px rgba(0,0,0,.15);backdrop-filter:blur(10px);z-index: 999;border: 1px solid var(--card-border);}
-.menu button{flex:1;margin:0 4px; padding: 8px 2px;border:none;border-radius:18px;background:transparent;color:var(--text-dark);cursor: pointer;transition:0.3s;display: flex;flex-direction: column;align-items: center;justify-content: center;height: 60px; opacity: 0.7;}
-.menu button .nav-icon { font-size: 22px; margin-bottom: 4px; line-height: 1; transition: 0.3s;}
+.menu button{flex:1;margin:0 4px; padding: 8px 2px;border:none;border-radius:18px;background:transparent;color:var(--text-dark);cursor: pointer;transition:0.3s;display: flex;flex-direction: column;align-items: center;justify-content: center;height: 60px; opacity: 0.6;}
+.menu button .nav-icon { width: 24px; height: 24px; margin-bottom: 4px; transition: 0.3s; stroke-width: 2.2px; }
 .menu button .nav-text { font-size: 11px; font-weight: 800; line-height: 1.2; }
 .menu button.active{background:linear-gradient(135deg,var(--btn-gradient-start),var(--btn-gradient-end));color: var(--text-light);box-shadow:0 6px 15px var(--btn-shadow);cursor: default; pointer-events: none; opacity: 1;transform: translateY(-5px);}
+.menu button.active .nav-icon { stroke-width: 2.5px; } /* Aktiv olanda ikon biraz daha qalınlaşır */
 .menu button:not(.active):hover { opacity: 1; transform: translateY(-2px); }
 
 /* --- PROFIL SƏHİFƏSİ & AYARLAR STİLİ --- */
 .profile-header { display: flex; align-items: center; justify-content: center; flex-direction: column; margin-bottom: 25px; position: relative;}
 
 /* PROFIL AVATAR VE SEKIL */
-.profile-avatar { width: 85px; height: 85px; background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 35px; color: #fff; margin-bottom: 12px; box-shadow: 0 8px 20px var(--btn-shadow); position: relative; cursor: pointer; }
+.profile-avatar { width: 85px; height: 85px; background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; margin-bottom: 12px; box-shadow: 0 8px 20px var(--btn-shadow); position: relative; cursor: pointer; }
+.profile-avatar .default-icon { width: 40px; height: 40px; stroke-width: 2px;}
 .profile-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: none; }
 .profile-avatar.has-image img { display: block; }
 .profile-avatar.has-image .default-icon { display: none; }
-.avatar-edit-icon { position: absolute; bottom: 0; right: -5px; background: var(--card-bg); color: var(--text-dark); border: 1px solid var(--card-border); width: 28px; height: 28px; border-radius: 50%; font-size: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 2; transition: 0.2s;}
+.avatar-edit-icon { position: absolute; bottom: 0; right: -5px; background: var(--card-bg); color: var(--text-dark); border: 1px solid var(--card-border); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 2; transition: 0.2s;}
+.avatar-edit-icon i { width: 14px; height: 14px; }
 .profile-avatar:hover .avatar-edit-icon { transform: scale(1.1); }
 
 .profile-name-container { display: flex; align-items: center; justify-content: center; gap: 8px;}
 .profile-name { font-size: 20px; font-weight: 800; color: var(--text-dark); }
-.edit-icon { cursor: pointer; color: var(--accent); font-size: 16px; transition: 0.2s;}
+.edit-icon { cursor: pointer; color: var(--accent); transition: 0.2s; display: flex; align-items: center;}
+.edit-icon i { width: 16px; height: 16px; stroke-width: 2.5px;}
 .edit-icon:hover { transform: scale(1.1); }
 
-/* İSTİFADƏÇİ ID STİLİ (YENİ ƏLAVƏ) */
+/* İSTİFADƏÇİ ID STİLİ */
 .profile-id { font-size: 14px; font-weight: 800; color: var(--text-muted); margin-top: 4px; pointer-events: none; }
 
 .username-edit-box { display: none; width: 100%; margin-top: 10px; }
@@ -207,13 +215,16 @@ body.dark-theme .task-item.premium { background: linear-gradient(135deg, rgba(24
 .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(150,150,150,0.1); }
 .setting-item:last-child { border-bottom: none; }
 .setting-info { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 15px; color: var(--text-dark); }
-.setting-icon { font-size: 20px; }
+.setting-icon { display: flex; align-items: center; justify-content: center; }
+.setting-icon i { width: 20px; height: 20px; color: var(--accent); }
 
 /* Theme Toggle Button */
 .toggle-switch { width: 50px; height: 28px; background-color: #ccc; border-radius: 30px; position: relative; cursor: pointer; transition: 0.3s; }
 body.dark-theme .toggle-switch { background-color: var(--accent); }
-.toggle-thumb { width: 22px; height: 22px; background-color: #fff; border-radius: 50%; position: absolute; top: 3px; left: 3px; transition: 0.3s; display: flex; align-items: center; justify-content: center; font-size: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+.toggle-thumb { width: 22px; height: 22px; background-color: #fff; border-radius: 50%; position: absolute; top: 3px; left: 3px; transition: 0.3s; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
 body.dark-theme .toggle-thumb { transform: translateX(22px); }
+.toggle-thumb i { width: 14px; height: 14px; color: #f39c12; }
+body.dark-theme .toggle-thumb i { color: #2c3e50; }
 
 /* Language Select */
 .lang-select { background: transparent; border: 1px solid var(--card-border); color: var(--text-dark); font-weight: 700; padding: 5px 10px; border-radius: 8px; outline: none; cursor: pointer;}
@@ -221,6 +232,7 @@ body.dark-theme .toggle-thumb { transform: translateX(22px); }
 
 /* Profile Action Buttons */
 .profile-btn { width: 100%; padding: 14px; margin-bottom: 12px; border-radius: 14px; font-weight: 800; font-size: 15px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; border: none; }
+.profile-btn i { width: 20px; height: 20px; }
 .btn-share { background: linear-gradient(90deg, #f39c12, #e67e22); color: white; box-shadow: 0 6px 15px rgba(243, 156, 18, 0.3); }
 .btn-stats { background: linear-gradient(90deg, #3498db, #2980b9); color: white; box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3); }
 .btn-support { background: linear-gradient(90deg, #9b59b6, #8e44ad); color: white; box-shadow: 0 6px 15px rgba(155, 89, 182, 0.3); }
@@ -229,16 +241,19 @@ body.dark-theme .toggle-thumb { transform: translateX(22px); }
 /* Stats View */
 #statsView { display: none; text-align: left; animation: fadeIn .3s ease; }
 .back-btn { background: none; border: none; color: var(--accent); font-weight: 800; font-size: 16px; cursor: pointer; margin-bottom: 15px; display: flex; align-items: center; gap: 5px; }
+.back-btn i { width: 18px; height: 18px; }
 .stat-box { background: var(--bg-start); border-radius: 16px; padding: 15px; margin-bottom: 12px; border: 1px solid var(--card-border); display: flex; align-items: center; justify-content: space-between; }
 .stat-box-title { font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 5px; }
 .stat-box-value { font-size: 18px; font-weight: 800; color: var(--text-dark); }
-.stat-icon { font-size: 24px; opacity: 0.8; }
+.stat-icon { display: flex; align-items: center; opacity: 0.8; }
+.stat-icon i { width: 28px; height: 28px; color: var(--accent); }
 
 #form{display:none;margin-top:12px;}
 #form input{width:100%;padding:14px;margin:8px 0;border-radius:14px;border:1px solid var(--card-border);background:var(--card-bg);color:var(--input-text); font-size: 15px;font-weight: 600;outline: none;transition: border 0.3s;}
 #form input:focus { border-color: var(--accent); }
 #form input::placeholder { color: var(--input-text); opacity: 0.5; }
-#form button{width:100%;padding:14px;margin-top:10px;border:none;border-radius:14px;background:linear-gradient(90deg,var(--accent),#2ecc71);color:var(--text-light);font-weight:800;font-size: 15px;cursor:pointer; transition: 0.3s;box-shadow: 0 6px 15px var(--btn-shadow);}
+#form button{width:100%;padding:14px;margin-top:10px;border:none;border-radius:14px;background:linear-gradient(90deg,var(--accent),#2ecc71);color:var(--text-light);font-weight:800;font-size: 15px;cursor:pointer; transition: 0.3s;box-shadow: 0 6px 15px var(--btn-shadow); display:flex; align-items:center; justify-content:center; gap:8px;}
+#form button i { width: 20px; height: 20px; }
 #form button:hover { transform: scale(1.02); }
 .alert{margin-top:10px;padding:12px;border-radius:12px;display:none; font-weight: 700; text-align: center;}
 .alert.error{background:#fadbd8;color:#c0392b;}
@@ -325,7 +340,10 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
       <div class="progress"><div class="progress-fill" id="progress"></div></div>
       <p style="margin-top:8px; font-weight:700;" data-translate-key="progressText">İrəliləyiş: <span id="progressTextSpan">0/100</span></p>
       <button id="adBtn" class="ad-btn">
-        <span class="ad-btn-content" data-translate-key="watchAd">Reklam İzle</span>
+        <span class="ad-btn-content">
+          <i data-lucide="play-circle"></i>
+          <span data-translate-key="watchAd">Reklam İzle</span>
+        </span>
       </button>
       <div id="msg"></div> 
     </div>
@@ -342,7 +360,10 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
         
         <div class="task-item premium">
             <div class="task-header">
-                <div class="task-title">👑 <span data-translate-key="premiumTaskTitle">Premium Görev</span></div>
+                <div class="task-title">
+                  <div class="task-icon task-icon-premium"><i data-lucide="crown" style="width:18px;height:18px;"></i></div>
+                  <span data-translate-key="premiumTaskTitle">Premium Görev</span>
+                </div>
                 <div class="task-reward-badge" id="task10kRewardBadge">100 ₼</div>
             </div>
             <div class="task-desc" data-translate-key="task10kDesc">10.000 Reklam izlə və böyük mükafatı qazan!</div>
@@ -360,11 +381,17 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
 
         <div class="task-item">
             <div class="task-header">
-                <div class="task-title">📢 <span data-translate-key="standardTaskTitle">Standart Görev</span></div>
+                <div class="task-title">
+                  <div class="task-icon task-icon-standard"><i data-lucide="megaphone" style="width:16px;height:16px;"></i></div>
+                  <span data-translate-key="standardTaskTitle">Standart Görev</span>
+                </div>
                 <div class="task-reward-badge" id="taskJoinRewardBadge">0.1000 ₼</div>
             </div>
             <div class="task-desc" data-translate-key="taskJoinDesc">Rəsmi Telegram kanalımıza qoşul və qazan!</div>
-            <button id="joinBtn" class="task-btn action" data-translate-key="joinChannel">Kanala Qoşul</button>
+            <button id="joinBtn" class="task-btn action">
+              <i data-lucide="send" style="width:18px;height:18px;"></i>
+              <span data-translate-key="joinChannel">Kanala Qoşul</span>
+            </button>
         </div>
 
     </div>
@@ -410,10 +437,16 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
       </div>
     </div>
     <div class="form" id="form">
-      <button id="backBtn" style="background:none;border:none;color:var(--accent);font-weight:800;font-size:16px;box-shadow:none;">⬅ <span data-translate-key="back">Geri</span></button>
+      <button id="backBtn" style="background:none;border:none;color:var(--accent);font-weight:800;font-size:16px;box-shadow:none; justify-content:flex-start; padding-left:0;">
+        <i data-lucide="arrow-left" style="width:20px;height:20px;"></i>
+        <span data-translate-key="back">Geri</span>
+      </button>
       <input id="details" placeholder="">
       <input id="amount" type="number" placeholder="Məbləğ">
-      <button id="withdrawBtn" data-translate-key="withdraw">Çıxarış Et</button>
+      <button id="withdrawBtn">
+        <i data-lucide="credit-card"></i>
+        <span data-translate-key="withdraw">Çıxarış Et</span>
+      </button>
       <div id="alert" class="alert"></div>
     </div>
 
@@ -428,15 +461,15 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
     <div class="profile-card" id="profileMainView">
         <div class="profile-header">
             <div class="profile-avatar" onclick="document.getElementById('avatarInput').click()">
-                <span class="default-icon">👤</span>
+                <i data-lucide="user" class="default-icon"></i>
                 <img id="profileImage" src="" alt="Profile">
-                <div class="avatar-edit-icon">📷</div>
+                <div class="avatar-edit-icon"><i data-lucide="camera"></i></div>
             </div>
             <input type="file" id="avatarInput" accept="image/*" style="display:none;" onchange="handleAvatarUpload(event)">
             
             <div class="profile-name-container" id="displayNameContainer">
                 <div class="profile-name" id="displayUsername" data-translate-key="setUsername">Ad təyin et</div>
-                <div class="edit-icon" onclick="openUsernameEdit()">✏️</div>
+                <div class="edit-icon" onclick="openUsernameEdit()"><i data-lucide="edit-3"></i></div>
             </div>
             <div class="profile-id">ID: <span id="displayUserId"></span></div>
 
@@ -452,17 +485,17 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
         <div class="settings-list">
             <div class="setting-item">
                 <div class="setting-info">
-                    <span class="setting-icon">🎨</span>
+                    <span class="setting-icon"><i data-lucide="palette"></i></span>
                     <span data-translate-key="theme">Tema</span>
                 </div>
                 <div class="toggle-switch" onclick="toggleTheme()">
-                    <div class="toggle-thumb" id="themeThumb">🔆</div>
+                    <div class="toggle-thumb" id="themeThumb"><i data-lucide="sun"></i></div>
                 </div>
             </div>
             
             <div class="setting-item">
                 <div class="setting-info">
-                    <span class="setting-icon">🌍</span>
+                    <span class="setting-icon"><i data-lucide="globe"></i></span>
                     <span data-translate-key="language">Dil</span>
                 </div>
                 <select class="lang-select" id="langSelect" onchange="setLang(this.value)">
@@ -475,19 +508,21 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
         </div>
 
         <button class="profile-btn btn-share" onclick="shareOnTelegram()">
-            🚀 <span data-translate-key="shareBtn">Dostlarını Dəvət Et</span>
+            <i data-lucide="users"></i> <span data-translate-key="shareBtn">Dostlarını Dəvət Et</span>
         </button>
         
         <button class="profile-btn btn-stats" onclick="showStatsView()">
-            📊 <span data-translate-key="statistics">Statistika</span>
+            <i data-lucide="bar-chart-2"></i> <span data-translate-key="statistics">Statistika</span>
         </button>
         <button class="profile-btn btn-support" onclick="openSupport()">
-            🎧 <span data-translate-key="support">Dəstək</span>
+            <i data-lucide="headphones"></i> <span data-translate-key="support">Dəstək</span>
         </button>
     </div>
 
     <div class="profile-card" id="statsView">
-        <button class="back-btn" onclick="hideStatsView()">⬅ <span data-translate-key="back">Geri</span></button>
+        <button class="back-btn" onclick="hideStatsView()">
+          <i data-lucide="arrow-left"></i> <span data-translate-key="back">Geri</span>
+        </button>
         <h2 style="text-align:center;margin-bottom:20px;color:var(--text-dark);font-weight:800;" data-translate-key="statistics">Statistika</h2>
         
         <div class="stat-box">
@@ -495,7 +530,7 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
                 <div class="stat-box-title" data-translate-key="statTotalAds">İzlənən Ümumi Reklam</div>
                 <div class="stat-box-value" id="statAdsWatched">0</div>
             </div>
-            <div class="stat-icon">📺</div>
+            <div class="stat-icon"><i data-lucide="tv"></i></div>
         </div>
         
         <div class="stat-box">
@@ -503,7 +538,7 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
                 <div class="stat-box-title" data-translate-key="statAdEarnings">Reklam Qazancı</div>
                 <div class="stat-box-value"><span id="statAdEarningsVal">0.0000</span> <span class="stat-currency">₼</span></div>
             </div>
-            <div class="stat-icon">💰</div>
+            <div class="stat-icon"><i data-lucide="coins"></i></div>
         </div>
         
         <div class="stat-box">
@@ -511,7 +546,7 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
                 <div class="stat-box-title" data-translate-key="statTaskEarnings">Görev Qazancı</div>
                 <div class="stat-box-value"><span id="statTaskEarningsVal">0.0000</span> <span class="stat-currency">₼</span></div>
             </div>
-            <div class="stat-icon">📝</div>
+            <div class="stat-icon"><i data-lucide="clipboard-check"></i></div>
         </div>
     </div>
   </div>
@@ -520,24 +555,27 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
 
 <div class="menu">
   <button onclick="showPage('adsPage',this)" class="active" data-page-id="adsPage">
-    <span class="nav-icon">🏠</span>
+    <i data-lucide="house" class="nav-icon"></i>
     <span class="nav-text" data-translate-key="home">Ev</span>
   </button>
   <button onclick="showPage('tasksPage',this)" data-page-id="tasksPage">
-    <span class="nav-icon">📝</span>
+    <i data-lucide="clipboard-list" class="nav-icon"></i>
     <span class="nav-text" data-translate-key="tasks">Görevler</span>
   </button>
   <button onclick="showPage('walletPage',this)" data-page-id="walletPage">
-    <span class="nav-icon">💼</span>
+    <i data-lucide="wallet" class="nav-icon"></i>
     <span class="nav-text" data-translate-key="wallet">Cüzdan</span>
   </button>
   <button onclick="showPage('profilePage',this)" data-page-id="profilePage">
-    <span class="nav-icon">👤</span>
+    <i data-lucide="user" class="nav-icon"></i>
     <span class="nav-text" data-translate-key="profile">Profil</span>
   </button>
 </div>
 
 <script>
+// İKONLARI AKTİVLƏŞDİRMƏK (ƏN VACİB KOD)
+lucide.createIcons();
+
 function safeRemove(k){try{localStorage.removeItem(k);}catch(e){}}
 
 const body = document.getElementById('body');
@@ -546,19 +584,20 @@ const themeThumb = document.getElementById('themeThumb');
 function applyTheme(isDark) {
     if (isDark) {
         body.classList.add('dark-theme');
-        themeThumb.textContent = '🌙'; 
+        themeThumb.innerHTML = '<i data-lucide="moon" style="width:14px;height:14px;"></i>'; 
         safeSet(THEME_KEY, 'dark');
     } else {
         body.classList.remove('dark-theme');
-        themeThumb.textContent = '🔆'; 
+        themeThumb.innerHTML = '<i data-lucide="sun" style="width:14px;height:14px;"></i>'; 
         safeSet(THEME_KEY, 'light');
     }
+    lucide.createIcons(); // Ikon yenilənəndə təzədən render edirik
 }
 function toggleTheme() {
     const isDark = body.classList.contains('dark-theme');
     applyTheme(!isDark);
 }
-applyTheme(savedTheme === 'dark');
+applyTheme(safeGet(THEME_KEY, 'light') === 'dark');
 
 // --- UNİKAL LİNK ÜÇÜN REFERAL İD YARADILMASI ---
 const REF_KEY = 'user_referral_id';
@@ -594,6 +633,8 @@ const PROFILE_PIC_KEY = 'user_profile_pic';
 const HISTORY_KEY = 'withdraw_history';
 
 let withdrawHistory = safeGet(HISTORY_KEY, []);
+let currentLang = localStorage.getItem('lang') || 'az';
+document.getElementById('langSelect').value = currentLang;
 
 function localizeAmount(aznAmount, lang) {
     const rates = EXCHANGE_RATES;
@@ -739,10 +780,7 @@ const TRANSLATIONS = {
     }
 };
 
-let currentLang = localStorage.getItem('lang') || 'az';
-document.getElementById('langSelect').value = currentLang;
 const LIMIT = 100;
-
 let bal = parseFloat(safeGet(BAL_KEY, -1)); 
 if (bal === -1 || isNaN(bal)) { bal = 0.00; safeSet(BAL_KEY, bal); }
 
@@ -753,7 +791,7 @@ let cnt=parseInt(safeGet(COUNT_KEY,0));
 let resetTime=safeGet(RESET_KEY,null);
 
 let rewardMsgTimeout = null; 
-let isAdRunning = false; // Debounce kilidi
+let isAdRunning = false; 
 
 function getNextResetTime(){
   const now = new Date();
@@ -821,10 +859,7 @@ function loadProfile() {
         displayEl.setAttribute('data-translate-key', 'setUsername');
         applyTranslationToElement(displayEl, 'setUsername', currentLang);
     }
-    
-    // YENİ: ID yazısını yeniləmək
     document.getElementById('displayUserId').textContent = userRefId;
-    
     loadProfilePic();
 }
 
@@ -974,7 +1009,6 @@ function renderHistory() {
     });
 }
 
-// GÖREVLƏR SƏHİFƏSİNİN YENİLƏNMƏSİ
 function updateTaskButtons() {
     const t = TRANSLATIONS[currentLang];
     
@@ -985,10 +1019,12 @@ function updateTaskButtons() {
     if (joinBtn) {
         if (localStorage.getItem(JOIN_KEY)){
             joinBtn.className = 'task-btn completed';
-            joinBtn.textContent = t.completed; joinBtn.disabled = true; 
+            joinBtn.innerHTML = `<i data-lucide="check-circle" style="width:18px;height:18px;"></i> ${t.completed}`; 
+            joinBtn.disabled = true; 
         } else {
             if (!joinBtn.classList.contains('waiting')) {
-                 joinBtn.className = 'task-btn action'; joinBtn.disabled = false; joinBtn.textContent = t.joinChannel;
+                 joinBtn.className = 'task-btn action'; joinBtn.disabled = false; 
+                 joinBtn.innerHTML = `<i data-lucide="send" style="width:18px;height:18px;"></i> ${t.joinChannel}`;
             }
         }
     }
@@ -1006,15 +1042,19 @@ function updateTaskButtons() {
     if (claim10kBtn) {
         if (localStorage.getItem(CLAIMED_10K_KEY)) {
             claim10kBtn.className = 'task-btn completed';
-            claim10kBtn.textContent = t.completed; claim10kBtn.disabled = true;
+            claim10kBtn.innerHTML = `<i data-lucide="check-circle" style="width:18px;height:18px;"></i> ${t.completed}`; 
+            claim10kBtn.disabled = true;
         } else if (totalAds >= 10000) {
             claim10kBtn.className = 'task-btn claim';
-            claim10kBtn.textContent = t.claimReward; claim10kBtn.disabled = false;
+            claim10kBtn.innerHTML = `<i data-lucide="gift" style="width:18px;height:18px;"></i> ${t.claimReward}`; 
+            claim10kBtn.disabled = false;
         } else {
             claim10kBtn.className = 'task-btn locked';
-            claim10kBtn.textContent = t.lockedBtn; claim10kBtn.disabled = true;
+            claim10kBtn.innerHTML = `<i data-lucide="lock" style="width:18px;height:18px;"></i> ${t.lockedBtn}`; 
+            claim10kBtn.disabled = true;
         }
     }
+    lucide.createIcons(); // Ikonları yenidən yaradırıq
 }
 
 function setPlaceholders(methodType) {
@@ -1061,8 +1101,12 @@ function applyTranslations(lang) {
     
     update(); 
     if (document.getElementById('form').style.display === 'block' && type) { setPlaceholders(type); }
-    if (adBtn.classList.contains('waiting')) { adBtnContent.textContent = t.watching; } 
-    else { adBtnContent.textContent = t.watchAd; }
+    
+    const adBtnWatchSpan = adBtnContent.querySelector('span');
+    if(adBtnWatchSpan) {
+        if (adBtn.classList.contains('waiting')) { adBtnWatchSpan.textContent = t.watching; } 
+        else { adBtnWatchSpan.textContent = t.watchAd; }
+    }
 }
 
 function setLang(lang) {
@@ -1135,21 +1179,23 @@ function checkAndDisplayRewardMsg() {
 
 function restoreAdBtnState() {
     const t = TRANSLATIONS[currentLang];
+    const textSpan = adBtnContent.querySelector('span');
     
-    // BUG FIX 2: Əgər arxa planda reklam hələ də işləyirsə butonu aktiv etmə
     if (isAdRunning) {
         adBtn.classList.add('waiting');
         adBtn.disabled = true;
-        adBtnContent.textContent = t.watching;
-        return; // İşləmi burada dayandırır ki, buton aktivləşməsin
+        if(textSpan) textSpan.textContent = t.watching;
+        return; 
     }
 
     if (cnt >= LIMIT) {
-        adBtn.classList.remove('waiting'); adBtn.disabled = true; adBtnContent.textContent = t.watchAd;
+        adBtn.classList.remove('waiting'); adBtn.disabled = true; 
+        if(textSpan) textSpan.textContent = t.watchAd;
         msg.textContent = t.adLimitReached; checkAndDisplayRewardMsg(); return; 
     }
     
-    adBtn.classList.remove('waiting'); adBtn.disabled = false; adBtnContent.textContent = t.watchAd;
+    adBtn.classList.remove('waiting'); adBtn.disabled = false; 
+    if(textSpan) textSpan.textContent = t.watchAd;
     msg.textContent = '';
     checkAndDisplayRewardMsg();
 }
@@ -1172,7 +1218,8 @@ adBtn.onclick = async () => {
     
     adBtn.disabled = true; 
     adBtn.classList.add('waiting');
-    adBtnContent.textContent = t.watching; 
+    const textSpan = adBtnContent.querySelector('span');
+    if(textSpan) textSpan.textContent = t.watching; 
     msg.textContent = '';
     
     try {
@@ -1182,7 +1229,6 @@ adBtn.onclick = async () => {
                 await adResult;
                 giveAdReward(t);
             } else {
-                // BUG FIX 1: Süni 1.5 saniyə gecikmə ləğv olundu. Birbaşa mükafatı veririk.
                 giveAdReward(t); 
             }
         } else {
@@ -1208,7 +1254,8 @@ function resetAdBtnState(t) {
     isAdRunning = false; 
     adBtn.disabled = false; 
     adBtn.classList.remove('waiting');
-    adBtnContent.textContent = t.watchAd; 
+    const textSpan = adBtnContent.querySelector('span');
+    if(textSpan) textSpan.textContent = t.watchAd; 
     if (cnt >= LIMIT) msg.textContent = t.adLimitReached; else msg.textContent = ''; 
 }
 
@@ -1227,7 +1274,9 @@ if (joinBtn) {
         const t = TRANSLATIONS[currentLang];
         window.open('https://t.me/manat_pay', '_blank'); 
         
-        joinBtn.disabled = true; joinBtn.classList.add('waiting'); joinBtn.textContent = t.wait.replace('{s}', '3');
+        joinBtn.disabled = true; joinBtn.classList.add('waiting'); 
+        joinBtn.innerHTML = `<i data-lucide="loader" style="width:18px;height:18px;"></i> ${t.wait.replace('{s}', '3')}`;
+        lucide.createIcons();
         
         setTimeout(() => {
             bal += AZN_TASK_REWARD; totalTaskEarnings += AZN_TASK_REWARD; 
