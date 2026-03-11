@@ -193,6 +193,9 @@ body.dark-theme .task-item.premium { background: linear-gradient(135deg, rgba(24
 .edit-icon { cursor: pointer; color: var(--accent); font-size: 16px; transition: 0.2s;}
 .edit-icon:hover { transform: scale(1.1); }
 
+/* İSTİFADƏÇİ ID STİLİ (YENİ ƏLAVƏ) */
+.profile-id { font-size: 14px; font-weight: 800; color: var(--text-muted); margin-top: 4px; pointer-events: none; }
+
 .username-edit-box { display: none; width: 100%; margin-top: 10px; }
 .username-edit-box input { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--card-border); background: var(--bg-start); color: var(--text-dark); font-weight: 700; text-align: center; outline: none; margin-bottom: 10px; }
 .username-actions { display: flex; gap: 10px; }
@@ -435,6 +438,7 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
                 <div class="profile-name" id="displayUsername" data-translate-key="setUsername">Ad təyin et</div>
                 <div class="edit-icon" onclick="openUsernameEdit()">✏️</div>
             </div>
+            <div class="profile-id">ID: <span id="displayUserId"></span></div>
 
             <div class="username-edit-box" id="usernameEditBox">
                 <input type="text" id="usernameInput" maxlength="15" placeholder="Adınızı daxil edin" data-translate-key="enterUsername" />
@@ -817,6 +821,10 @@ function loadProfile() {
         displayEl.setAttribute('data-translate-key', 'setUsername');
         applyTranslationToElement(displayEl, 'setUsername', currentLang);
     }
+    
+    // YENİ: ID yazısını yeniləmək
+    document.getElementById('displayUserId').textContent = userRefId;
+    
     loadProfilePic();
 }
 
