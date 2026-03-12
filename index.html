@@ -174,7 +174,7 @@ body.dark-theme .task-item.premium { background: linear-gradient(135deg, rgba(24
 .reward-msg {position: absolute;top: -10px; left: 50%;transform: translateX(-50%) translateY(-100%); background: var(--notification-bg); color: var(--notification-text);padding: 10px 20px;border-radius: 12px;box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);font-weight: 800;font-size: 14px;opacity: 0;z-index: 100; white-space: nowrap;transition: opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 .reward-msg.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* --- NAVİQASİYA PANELİ (YENİLƏNMİŞ UI İKONLARI İLƏ) --- */
+/* --- NAVİQASİYA PANELİ --- */
 .menu{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);width:92%;max-width:400px; display:flex;justify-content:space-between;background:var(--menu-bg);padding:8px; border-radius:24px;box-shadow:0 8px 25px rgba(0,0,0,.15);backdrop-filter:blur(10px);z-index: 999;border: 1px solid var(--card-border);}
 .menu button{flex:1;margin:0 4px; padding: 8px 2px;border:none;border-radius:18px;background:transparent;color:var(--text-dark);cursor: pointer;transition:0.3s;display: flex;flex-direction: column;align-items: center;justify-content: center;height: 60px; opacity: 0.6;}
 .menu button .nav-icon { width: 24px; height: 24px; margin-bottom: 4px; transition: 0.3s; stroke-width: 2.2px; }
@@ -186,7 +186,6 @@ body.dark-theme .task-item.premium { background: linear-gradient(135deg, rgba(24
 /* --- PROFIL SƏHİFƏSİ & AYARLAR STİLİ --- */
 .profile-header { display: flex; align-items: center; justify-content: center; flex-direction: column; margin-bottom: 25px; position: relative;}
 
-/* PROFIL AVATAR VE SEKIL */
 .profile-avatar { width: 85px; height: 85px; background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; margin-bottom: 12px; box-shadow: 0 8px 20px var(--btn-shadow); position: relative;}
 .profile-avatar .default-icon { width: 40px; height: 40px; stroke-width: 2px;}
 .profile-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: none; }
@@ -195,8 +194,6 @@ body.dark-theme .task-item.premium { background: linear-gradient(135deg, rgba(24
 
 .profile-name-container { display: flex; align-items: center; justify-content: center; gap: 8px;}
 .profile-name { font-size: 20px; font-weight: 800; color: var(--text-dark); }
-
-/* İSTİFADƏÇİ ID STİLİ */
 .profile-id { font-size: 14px; font-weight: 800; color: var(--text-muted); margin-top: 4px; pointer-events: none; }
 
 .settings-list { text-align: left; background: var(--bg-start); border-radius: 16px; padding: 5px 15px; margin-bottom: 20px; border: 1px solid var(--card-border); }
@@ -206,7 +203,6 @@ body.dark-theme .task-item.premium { background: linear-gradient(135deg, rgba(24
 .setting-icon { display: flex; align-items: center; justify-content: center; }
 .setting-icon i { width: 20px; height: 20px; color: var(--accent); }
 
-/* Theme Toggle Button */
 .toggle-switch { width: 50px; height: 28px; background-color: #ccc; border-radius: 30px; position: relative; cursor: pointer; transition: 0.3s; }
 body.dark-theme .toggle-switch { background-color: var(--accent); }
 .toggle-thumb { width: 22px; height: 22px; background-color: #fff; border-radius: 50%; position: absolute; top: 3px; left: 3px; transition: 0.3s; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
@@ -214,11 +210,9 @@ body.dark-theme .toggle-thumb { transform: translateX(22px); }
 .toggle-thumb i { width: 14px; height: 14px; color: #f39c12; }
 body.dark-theme .toggle-thumb i { color: #2c3e50; }
 
-/* Language Select */
 .lang-select { background: transparent; border: 1px solid var(--card-border); color: var(--text-dark); font-weight: 700; padding: 5px 10px; border-radius: 8px; outline: none; cursor: pointer;}
 .lang-select option { background: var(--card-bg); color: var(--text-dark); }
 
-/* Profile Action Buttons */
 .profile-btn { width: 100%; padding: 14px; margin-bottom: 12px; border-radius: 14px; font-weight: 800; font-size: 15px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; border: none; }
 .profile-btn i { width: 20px; height: 20px; }
 .btn-share { background: linear-gradient(90deg, #f39c12, #e67e22); color: white; box-shadow: 0 6px 15px rgba(243, 156, 18, 0.3); }
@@ -362,7 +356,6 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
     </div>
 
     <div class="task-list">
-        
         <div class="task-item premium">
             <div class="task-header">
                 <div class="task-title">
@@ -398,7 +391,6 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
               <span data-translate-key="joinChannel">Kanala Qoşul</span>
             </button>
         </div>
-
     </div>
   </div>
   
@@ -459,7 +451,6 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
         <h3 class="history-title" data-translate-key="withdrawHistory">Çıxarış Tarixçəsi</h3>
         <div class="history-list" id="historyList"></div>
     </div>
-
   </div>
 
   <div id="profilePage" class="page">
@@ -544,7 +535,6 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
         </div>
     </div>
   </div>
-
 </div>
 
 <div class="menu">
@@ -567,7 +557,6 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
 </div>
 
 <script>
-// İKONLARI AKTİVLƏŞDİRMƏK
 lucide.createIcons();
 
 function safeRemove(k){try{localStorage.removeItem(k);}catch(e){}}
@@ -593,7 +582,6 @@ function toggleTheme() {
 }
 applyTheme(safeGet(THEME_KEY, 'light') === 'dark');
 
-// --- TELEGRAM WEB APP YENİLƏNMƏSİ VƏ ŞƏXSİ MƏLUMATLAR ---
 if (window.Telegram && window.Telegram.WebApp) {
     window.Telegram.WebApp.ready();
     window.Telegram.WebApp.expand(); 
@@ -623,7 +611,6 @@ const TOTAL_TASK_EARNINGS_KEY = `totalTaskEarnings_${userRefId}`;
 const REWARD_MSG_KEY = `rewardMsgExpire_${userRefId}`;
 const HISTORY_KEY = `withdraw_history_${userRefId}`;
 
-// --- VALYUTA VƏ MƏZƏNNƏLƏR ---
 const EXCHANGE_RATES = { AZN_TO_USD: 0.59, AZN_TO_TRY: 25.00, AZN_TO_RUB: 46.45 };
 const CURRENCIES = {
     'az': { main: 'AZN', symbol: '₼', secondary: 'USD', secondarySymbol: '$' },
@@ -1303,7 +1290,9 @@ document.getElementById('withdrawBtn').onclick=()=>{
   else if (currentLang === 'ru') withdrawalAmountInAZN = amt / EXCHANGE_RATES.AZN_TO_RUB;
   else withdrawalAmountInAZN = amt; 
 
-  bal -= withdrawalAmountInAZN; safeSet(BAL_KEY,bal); update();
+  // Math.max funksiyası floating point riskindən və mənfi balansdan sığortalayır
+  bal = Math.max(0, bal - withdrawalAmountInAZN); 
+  safeSet(BAL_KEY,bal); update();
   
   const historyItem = {
       method: type,
