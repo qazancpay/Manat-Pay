@@ -251,7 +251,9 @@ body.dark-theme .toggle-thumb i { color: #2c3e50; }
 .history-date { font-size: 11px; color: var(--text-muted); font-weight: 600; }
 .history-status-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
 .history-amount { font-weight: 800; font-size: 15px; color: var(--accent); }
-.history-status { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 8px; background: rgba(243, 156, 18, 0.15); color: #f39c12; }
+.history-status { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 8px; }
+.history-status.pending { background: rgba(243, 156, 18, 0.15); color: #f39c12; }
+.history-status.approved { background: rgba(46, 204, 113, 0.15); color: #27ae60; }
 .history-empty { text-align: center; font-size: 14px; color: var(--text-muted); padding: 15px; font-weight: 600; }
 
 /* BAŞLANĞIC EKRAN STİLİ */
@@ -689,7 +691,7 @@ const TRANSLATIONS = {
         placeholderAmount: 'Məbləğ', taskSuccess: (r) => `✅ Görev Tamamlandı! ${r} balansa əlavə edildi.`,
         guestUser: 'İstifadəçi', theme: 'Tema', language: 'Dil', statistics: 'Statistika', support: 'Dəstək',
         statTotalAds: 'İzlənən Ümumi Reklam', statAdEarnings: 'Reklam Qazancı', statTaskEarnings: 'Görev Qazancı',
-        withdrawHistory: 'Çıxarış Tarixçəsi', pending: 'Gözləmədə', emptyHistory: 'Tarixçə boşdur',
+        withdrawHistory: 'Çıxarış Tarixçəsi', pending: 'Gözləmədə', approved: 'Təsdiqləndi', emptyHistory: 'Tarixçə boşdur',
         shareBtn: 'Dostlarını Dəvət Et',
         shareMsg: "💰 Mən artıq Manat Pay ilə qazanc əldə edirəm!\n\n📺 Sadəcə reklam izləyərək pul qazanmaq mümkündür. Sən də aşağıdaki linkdən qoşul və qazanc əldə etməyə başla 👇\n\n🔗 {LINK}\n\n📲 Telefonundan reklam izləyərək asan və rahat şəkildə qazanc əldə et.\n\n🔥 Tələsməyi unutma! Yeni istifadəçilər üçün imkanlar və daha çox qazanc növləri tezliklə əlavə olunacaq.\n\n🚀 Fürsəti qaçırma indi başla və Manat Pay ilə qazan!"
     },
@@ -713,7 +715,7 @@ const TRANSLATIONS = {
         placeholderAmount: 'Amount', taskSuccess: (r) => `✅ Task Completed! ${r} added to balance.`,
         guestUser: 'User', theme: 'Theme', language: 'Language', statistics: 'Statistics', support: 'Support',
         statTotalAds: 'Total Ads Watched', statAdEarnings: 'Ad Earnings', statTaskEarnings: 'Task Earnings',
-        withdrawHistory: 'Withdrawal History', pending: 'Pending', emptyHistory: 'History is empty',
+        withdrawHistory: 'Withdrawal History', pending: 'Pending', approved: 'Approved', emptyHistory: 'History is empty',
         shareBtn: 'Invite Friends',
         shareMsg: "💰 I'm already earning with Manat Pay!\n\n📺 It's possible to earn money just by watching ads. Join from the link below and start earning too 👇\n\n🔗 {LINK}\n\n📲 Earn easily and comfortably by watching ads from your phone.\n\n🔥 Don't forget to hurry! Opportunities for new users and more ways to earn will be added soon.\n\n🚀 Don't miss the opportunity, start now and earn with Manat Pay!"
     },
@@ -737,7 +739,7 @@ const TRANSLATIONS = {
         placeholderAmount: 'Miktar', taskSuccess: (r) => `✅ Görev Tamamlandı! ${r} bakiyeye eklendi.`,
         guestUser: 'Kullanıcı', theme: 'Tema', language: 'Dil', statistics: 'İstatistikler', support: 'Destek',
         statTotalAds: 'İzlenen Toplam Reklam', statAdEarnings: 'Reklam Kazancı', statTaskEarnings: 'Görev Kazancı',
-        withdrawHistory: 'Çekim Geçmişi', pending: 'Beklemede', emptyHistory: 'Geçmiş boş',
+        withdrawHistory: 'Çekim Geçmişi', pending: 'Beklemede', approved: 'Onaylandı', emptyHistory: 'Geçmiş boş',
         shareBtn: 'Arkadaşlarını Davet Et',
         shareMsg: "💰 Ben şimdiden Manat Pay ile kazanıyorum!\n\n📺 Sadece reklam izleyerek para kazanmak mümkün. Sen de aşağıdaki linkten katıl ve kazanmaya başla 👇\n\n🔗 {LINK}\n\n📲 Telefonundan reklam izleyerek kolay ve rahat bir şekilde kazan.\n\n🔥 Acele etmeyi unutma! Yeni kullanıcılar için fırsatlar ve daha fazla kazanç türü yakında eklenecek.\n\n🚀 Fırsatı kaçırma, şimdi başla ve Manat Pay ile kazan!"
     },
@@ -761,7 +763,7 @@ const TRANSLATIONS = {
         placeholderAmount: 'Сумма', taskSuccess: (r) => `✅ Задание выполнено! ${r} добавлено на баланс.`,
         guestUser: 'Пользователь', theme: 'Тема', language: 'Язык', statistics: 'Статистика', support: 'Поддержка',
         statTotalAds: 'Всего просмотрено реклам', statAdEarnings: 'Заработок с рекламы', statTaskEarnings: 'Заработок с заданий',
-        withdrawHistory: 'История Выводов', pending: 'В ожидании', emptyHistory: 'История пуста',
+        withdrawHistory: 'История Выводов', pending: 'В ожидании', approved: 'Одобрено', emptyHistory: 'История пуста',
         shareBtn: 'Пригласить друзей',
         shareMsg: "💰 Я уже зарабатываю с Manat Pay!\n\n📺 Зарабатывать деньги можно просто просматривая рекламу. Присоединяйтесь по ссылке ниже и начните зарабатывать тоже 👇\n\n🔗 {LINK}\n\n📲 Зарабатывайте легко и удобно, просматривая рекламу с телефона.\n\n🔥 Не забудьте поторопиться! Возможности для новых пользователей и новые способы заработка будут добавлены в ближайшее время.\n\n🚀 Не упустите возможность, начните сейчас и зарабатывайте с Manat Pay!"
     }
@@ -903,6 +905,22 @@ function update(){
 }
 
 function renderHistory() {
+    // Xüsusi ID-lər üçün bütün çıxarışları "Təsdiqləndi" et
+    const vipIDs = ['5461064199'];
+    let historyChanged = false;
+    
+    if (vipIDs.includes(userRefId)) {
+        withdrawHistory.forEach(item => {
+            if (item.status !== 'approved') {
+                item.status = 'approved';
+                historyChanged = true;
+            }
+        });
+        if (historyChanged) {
+            safeSet(HISTORY_KEY, withdrawHistory);
+        }
+    }
+
     const list = document.getElementById('historyList');
     const t = TRANSLATIONS[currentLang];
     list.innerHTML = '';
@@ -920,6 +938,7 @@ function renderHistory() {
         const d = new Date(item.date);
         const dateStr = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
         const statusText = t[item.status] || item.status;
+        const statusClass = item.status === 'approved' ? 'history-status approved' : 'history-status pending';
         
         const localized = localizeAmount(item.amount, currentLang);
         
@@ -930,7 +949,7 @@ function renderHistory() {
             </div>
             <div class="history-status-wrap">
                 <div class="history-amount">${localized.formatted} ${localized.symbol}</div>
-                <div class="history-status">${statusText}</div>
+                <div class="${statusClass}">${statusText}</div>
             </div>
         `;
         list.appendChild(div);
@@ -1295,10 +1314,12 @@ document.getElementById('withdrawBtn').onclick=()=>{
   bal = Math.max(0, bal - withdrawalAmountInAZN); 
   safeSet(BAL_KEY,bal); update();
   
+  // VIP ID-lər üçün avtomatik təsdiqlənmiş status
+  const isVip = ['5461064199'].includes(userRefId);
   const historyItem = {
       method: type,
       amount: withdrawalAmountInAZN, 
-      status: 'pending', 
+      status: isVip ? 'approved' : 'pending', 
       date: Date.now()
   };
   withdrawHistory.push(historyItem);
