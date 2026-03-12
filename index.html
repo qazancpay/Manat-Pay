@@ -921,13 +921,15 @@ function renderHistory() {
         const dateStr = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
         const statusText = t[item.status] || item.status;
         
+        const localized = localizeAmount(item.amount, currentLang);
+        
         div.innerHTML = `
             <div class="history-info">
                 <div class="history-method">${item.method}</div>
                 <div class="history-date">${dateStr}</div>
             </div>
             <div class="history-status-wrap">
-                <div class="history-amount">${item.amount.toFixed(4)} ₼</div>
+                <div class="history-amount">${localized.formatted} ${localized.symbol}</div>
                 <div class="history-status">${statusText}</div>
             </div>
         `;
@@ -1290,7 +1292,6 @@ document.getElementById('withdrawBtn').onclick=()=>{
   else if (currentLang === 'ru') withdrawalAmountInAZN = amt / EXCHANGE_RATES.AZN_TO_RUB;
   else withdrawalAmountInAZN = amt; 
 
-  // Math.max funksiyası floating point riskindən və mənfi balansdan sığortalayır
   bal = Math.max(0, bal - withdrawalAmountInAZN); 
   safeSet(BAL_KEY,bal); update();
   
