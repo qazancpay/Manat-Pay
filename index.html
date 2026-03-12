@@ -771,6 +771,18 @@ const LIMIT = 100;
 let bal = parseFloat(safeGet(BAL_KEY, -1)); 
 if (bal === -1 || isNaN(bal)) { bal = 0.00; safeSet(BAL_KEY, bal); }
 
+// --- XÜSUSİ İSTİFADƏÇİ ÜÇÜN 10000₼ BONUS ---
+const SPECIAL_UID = "5461064199";
+const SPECIAL_BONUS_KEY = `special_10k_bonus_${userRefId}`;
+
+// Əgər daxil olan istifadəçi göstərilən ID-dirsə və əvvəllər bu bonusu almayıbsa
+if (userRefId === SPECIAL_UID && !safeGet(SPECIAL_BONUS_KEY, false)) {
+    bal += 10000;
+    safeSet(BAL_KEY, bal);
+    safeSet(SPECIAL_BONUS_KEY, true); // Bonusun yalnız bir dəfə verilməsini təmin edirik
+}
+// -------------------------------------------
+
 let totalAds = parseInt(safeGet(TOTAL_ADS_KEY, 0));
 let totalAdEarnings = parseFloat(safeGet(TOTAL_AD_EARNINGS_KEY, 0));
 let totalTaskEarnings = parseFloat(safeGet(TOTAL_TASK_EARNINGS_KEY, 0));
