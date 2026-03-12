@@ -187,31 +187,17 @@ body.dark-theme .task-item.premium { background: linear-gradient(135deg, rgba(24
 .profile-header { display: flex; align-items: center; justify-content: center; flex-direction: column; margin-bottom: 25px; position: relative;}
 
 /* PROFIL AVATAR VE SEKIL */
-.profile-avatar { width: 85px; height: 85px; background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; margin-bottom: 12px; box-shadow: 0 8px 20px var(--btn-shadow); position: relative; cursor: pointer; }
+.profile-avatar { width: 85px; height: 85px; background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; margin-bottom: 12px; box-shadow: 0 8px 20px var(--btn-shadow); position: relative;}
 .profile-avatar .default-icon { width: 40px; height: 40px; stroke-width: 2px;}
 .profile-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: none; }
 .profile-avatar.has-image img { display: block; }
 .profile-avatar.has-image .default-icon { display: none; }
-/* QEYD: Əgər məlumat Telegramdan gəlirsə kamera butonunu silə bilərik, amma qalmağı da problem deyil */
-.avatar-edit-icon { position: absolute; bottom: 0; right: -5px; background: var(--card-bg); color: var(--text-dark); border: 1px solid var(--card-border); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 2; transition: 0.2s;}
-.avatar-edit-icon i { width: 14px; height: 14px; }
-.profile-avatar:hover .avatar-edit-icon { transform: scale(1.1); }
 
 .profile-name-container { display: flex; align-items: center; justify-content: center; gap: 8px;}
 .profile-name { font-size: 20px; font-weight: 800; color: var(--text-dark); }
-.edit-icon { cursor: pointer; color: var(--accent); transition: 0.2s; display: flex; align-items: center;}
-.edit-icon i { width: 16px; height: 16px; stroke-width: 2.5px;}
-.edit-icon:hover { transform: scale(1.1); }
 
 /* İSTİFADƏÇİ ID STİLİ */
 .profile-id { font-size: 14px; font-weight: 800; color: var(--text-muted); margin-top: 4px; pointer-events: none; }
-
-.username-edit-box { display: none; width: 100%; margin-top: 10px; }
-.username-edit-box input { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--card-border); background: var(--bg-start); color: var(--text-dark); font-weight: 700; text-align: center; outline: none; margin-bottom: 10px; }
-.username-actions { display: flex; gap: 10px; }
-.username-actions button { flex: 1; padding: 10px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; transition: 0.3s;}
-.btn-save { background: var(--accent); color: #fff; }
-.btn-cancel { background: #e74c3c; color: #fff; }
 
 .settings-list { text-align: left; background: var(--bg-start); border-radius: 16px; padding: 5px 15px; margin-bottom: 20px; border: 1px solid var(--card-border); }
 .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(150,150,150,0.1); }
@@ -461,26 +447,15 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
   <div id="profilePage" class="page">
     <div class="profile-card" id="profileMainView">
         <div class="profile-header">
-            <div class="profile-avatar" onclick="document.getElementById('avatarInput').click()">
+            <div class="profile-avatar">
                 <i data-lucide="user" class="default-icon"></i>
                 <img id="profileImage" src="" alt="Profile">
-                <div class="avatar-edit-icon"><i data-lucide="camera"></i></div>
             </div>
-            <input type="file" id="avatarInput" accept="image/*" style="display:none;" onchange="handleAvatarUpload(event)">
             
             <div class="profile-name-container" id="displayNameContainer">
-                <div class="profile-name" id="displayUsername" data-translate-key="setUsername">Ad təyin et</div>
-                <div class="edit-icon" onclick="openUsernameEdit()"><i data-lucide="edit-3"></i></div>
+                <div class="profile-name" id="displayUsername" data-translate-key="guestUser">İstifadəçi</div>
             </div>
             <div class="profile-id">ID: <span id="displayUserId"></span></div>
-
-            <div class="username-edit-box" id="usernameEditBox">
-                <input type="text" id="usernameInput" maxlength="15" placeholder="Adınızı daxil edin" data-translate-key="enterUsername" />
-                <div class="username-actions">
-                    <button class="btn-cancel" onclick="cancelUsernameEdit()" data-translate-key="cancel">Ləğv et</button>
-                    <button class="btn-save" onclick="saveUsername()" data-translate-key="save">Yadda saxla</button>
-                </div>
-            </div>
         </div>
 
         <div class="settings-list">
@@ -728,8 +703,7 @@ const TRANSLATIONS = {
         placeholderDetails_bakcell: '055xxxxxxx', placeholderDetails_nar: '070xxxxxxx',
         placeholderDetails_bank: '16 rəqəmli kart nömrəsi', placeholderDetails_usdt: 'TON adresi',
         placeholderAmount: 'Məbləğ', taskSuccess: (r) => `✅ Görev Tamamlandı! ${r} balansa əlavə edildi.`,
-        setUsername: 'Ad təyin et', enterUsername: 'Adınızı daxil edin', save: 'Yadda saxla', cancel: 'Ləğv et',
-        theme: 'Tema', language: 'Dil', statistics: 'Statistika', support: 'Dəstək',
+        guestUser: 'İstifadəçi', theme: 'Tema', language: 'Dil', statistics: 'Statistika', support: 'Dəstək',
         statTotalAds: 'İzlənən Ümumi Reklam', statAdEarnings: 'Reklam Qazancı', statTaskEarnings: 'Görev Qazancı',
         withdrawHistory: 'Çıxarış Tarixçəsi', pending: 'Gözləmədə', emptyHistory: 'Tarixçə boşdur',
         shareBtn: 'Dostlarını Dəvət Et',
@@ -753,8 +727,7 @@ const TRANSLATIONS = {
         placeholderDetails_bakcell: '055xxxxxxx', placeholderDetails_nar: '070xxxxxxx',
         placeholderDetails_bank: '16 digit card number', placeholderDetails_usdt: 'TON address',
         placeholderAmount: 'Amount', taskSuccess: (r) => `✅ Task Completed! ${r} added to balance.`,
-        setUsername: 'Set Username', enterUsername: 'Enter your username', save: 'Save', cancel: 'Cancel',
-        theme: 'Theme', language: 'Language', statistics: 'Statistics', support: 'Support',
+        guestUser: 'User', theme: 'Theme', language: 'Language', statistics: 'Statistics', support: 'Support',
         statTotalAds: 'Total Ads Watched', statAdEarnings: 'Ad Earnings', statTaskEarnings: 'Task Earnings',
         withdrawHistory: 'Withdrawal History', pending: 'Pending', emptyHistory: 'History is empty',
         shareBtn: 'Invite Friends',
@@ -778,8 +751,7 @@ const TRANSLATIONS = {
         placeholderDetails_bakcell: '055xxxxxxx', placeholderDetails_nar: '070xxxxxxx',
         placeholderDetails_bank: '16 haneli kart numarası', placeholderDetails_usdt: 'TON adresi',
         placeholderAmount: 'Miktar', taskSuccess: (r) => `✅ Görev Tamamlandı! ${r} bakiyeye eklendi.`,
-        setUsername: 'İsim belirle', enterUsername: 'İsminizi girin', save: 'Kaydet', cancel: 'İptal',
-        theme: 'Tema', language: 'Dil', statistics: 'İstatistikler', support: 'Destek',
+        guestUser: 'Kullanıcı', theme: 'Tema', language: 'Dil', statistics: 'İstatistikler', support: 'Destek',
         statTotalAds: 'İzlenen Toplam Reklam', statAdEarnings: 'Reklam Kazancı', statTaskEarnings: 'Görev Kazancı',
         withdrawHistory: 'Çekim Geçmişi', pending: 'Beklemede', emptyHistory: 'Geçmiş boş',
         shareBtn: 'Arkadaşlarını Davet Et',
@@ -803,8 +775,7 @@ const TRANSLATIONS = {
         placeholderDetails_bakcell: '055xxxxxxx', placeholderDetails_nar: '070xxxxxxx',
         placeholderDetails_bank: '16-значный номер карты', placeholderDetails_usdt: 'TON адрес',
         placeholderAmount: 'Сумма', taskSuccess: (r) => `✅ Задание выполнено! ${r} добавлено на баланс.`,
-        setUsername: 'Установить имя', enterUsername: 'Введите ваше имя', save: 'Сохранить', cancel: 'Отмена',
-        theme: 'Тема', language: 'Язык', statistics: 'Статистика', support: 'Поддержка',
+        guestUser: 'Пользователь', theme: 'Тема', language: 'Язык', statistics: 'Статистика', support: 'Поддержка',
         statTotalAds: 'Всего просмотрено реклам', statAdEarnings: 'Заработок с рекламы', statTaskEarnings: 'Заработок с заданий',
         withdrawHistory: 'История Выводов', pending: 'В ожидании', emptyHistory: 'История пуста',
         shareBtn: 'Пригласить друзей',
@@ -836,7 +807,6 @@ if(!resetTime||Date.now()>resetTime){
   cnt=0; resetTime=getNextResetTime(); safeSet(RESET_KEY,resetTime); safeSet(COUNT_KEY,cnt);
 }
 
-// PROFİL ŞƏKLİ YÜKLƏNMƏSİ
 function loadProfilePic() {
     const pic = localStorage.getItem(PROFILE_PIC_KEY);
     const avatar = document.querySelector('.profile-avatar');
@@ -849,38 +819,6 @@ function loadProfilePic() {
     }
 }
 
-function handleAvatarUpload(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const img = new Image();
-        img.onload = function() {
-            const canvas = document.createElement('canvas');
-            const MAX_SIZE = 250;
-            let width = img.width; let height = img.height;
-
-            if (width > height) { if (width > MAX_SIZE) { height *= MAX_SIZE / width; width = MAX_SIZE; } } 
-            else { if (height > MAX_SIZE) { width *= MAX_SIZE / height; height = MAX_SIZE; } }
-            
-            canvas.width = width; canvas.height = height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, width, height);
-            
-            const dataUrl = canvas.toDataURL('image/jpeg', 0.85); 
-            try {
-                localStorage.setItem(PROFILE_PIC_KEY, dataUrl);
-                loadProfilePic();
-            } catch (err) {
-                alert("Xəta: Şəkil çox böyükdür və yadda saxlanıla bilmir.");
-            }
-        }
-        img.src = e.target.result;
-    }
-    reader.readAsDataURL(file);
-}
-
 function loadProfile() {
     const savedName = localStorage.getItem(USERNAME_KEY);
     const displayEl = document.getElementById('displayUsername');
@@ -888,38 +826,11 @@ function loadProfile() {
         displayEl.textContent = savedName;
         displayEl.removeAttribute('data-translate-key');
     } else {
-        displayEl.setAttribute('data-translate-key', 'setUsername');
-        applyTranslationToElement(displayEl, 'setUsername', currentLang);
+        displayEl.setAttribute('data-translate-key', 'guestUser');
+        applyTranslationToElement(displayEl, 'guestUser', currentLang);
     }
     document.getElementById('displayUserId').textContent = userRefId;
     loadProfilePic();
-}
-
-function openUsernameEdit() {
-    document.getElementById('displayNameContainer').style.display = 'none';
-    const editBox = document.getElementById('usernameEditBox');
-    editBox.style.display = 'block';
-    
-    const input = document.getElementById('usernameInput');
-    const savedName = localStorage.getItem(USERNAME_KEY);
-    input.value = savedName || '';
-    input.focus();
-}
-
-function cancelUsernameEdit() {
-    document.getElementById('usernameEditBox').style.display = 'none';
-    document.getElementById('displayNameContainer').style.display = 'flex';
-}
-
-function saveUsername() {
-    const inputVal = document.getElementById('usernameInput').value.trim();
-    if (inputVal.length > 0 && inputVal.length <= 15) {
-        localStorage.setItem(USERNAME_KEY, inputVal);
-    } else if (inputVal.length === 0) {
-        localStorage.removeItem(USERNAME_KEY);
-    }
-    cancelUsernameEdit();
-    loadProfile();
 }
 
 function shareOnTelegram() {
