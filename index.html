@@ -273,6 +273,19 @@ body.dark-theme .toggle-thumb i { color: #2c3e50; }
 .notification-show {opacity: 1 !important;transform: translate(-50%, 0) !important; }
 .notification-hide {opacity: 0;transform: translate(-50%, -100px); }
 
+/* --- SHARE MODAL STİLLƏRİ --- */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 9999; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
+.modal-overlay.show { display: flex; opacity: 1; }
+.share-modal { background: var(--card-bg); width: 90%; max-width: 340px; border-radius: 24px; padding: 25px 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); border: 1px solid var(--card-border); transform: translateY(20px); transition: transform 0.3s ease; text-align: center; }
+.modal-overlay.show .share-modal { transform: translateY(0); }
+.share-modal-title { font-size: 18px; font-weight: 800; color: var(--text-dark); margin-bottom: 20px; }
+.share-btn-action { width: 100%; padding: 14px; border-radius: 14px; border: none; font-weight: 700; font-size: 15px; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; color: #fff; transition: 0.2s; position: relative; overflow: hidden; }
+.share-btn-action:active { transform: scale(0.97); }
+.share-btn-action.tg { background: linear-gradient(90deg, #2AABEE, #229ED9); box-shadow: 0 6px 15px rgba(34, 158, 217, 0.3); }
+.share-btn-action.wa { background: linear-gradient(90deg, #25D366, #128C7E); box-shadow: 0 6px 15px rgba(37, 211, 102, 0.3); }
+.share-btn-action.copy { background: var(--bg-start); color: var(--text-dark); border: 1px solid var(--card-border); box-shadow: none; }
+.share-btn-action.close-modal { background: transparent; color: #e74c3c; box-shadow: none; margin-bottom: 0; margin-top: 5px; border: 1px solid rgba(231, 76, 60, 0.2); }
+
 </style>
 </head>
 <body id="body">
@@ -296,7 +309,7 @@ if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData
     }
 }
 
-// TEMA VƏ DİL AÇARLARI İSTİFADƏÇİ ID-SİNƏ BAĞLANIR (Multi-Account Fix)
+// TEMA VƏ DİL AÇARLARI İSTİFADƏÇİ ID-SİNƏ BAĞLANIR
 const THEME_KEY = 'theme_' + userRefId;
 const LANG_KEY = 'lang_' + userRefId;
 
@@ -492,7 +505,7 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
             </div>
         </div>
 
-        <button class="profile-btn btn-share" onclick="shareOnTelegram()">
+        <button class="profile-btn btn-share" onclick="openShareModal()">
             <i data-lucide="users"></i> <span data-translate-key="shareBtn">Dostlarını Dəvət Et</span>
         </button>
         
@@ -556,6 +569,28 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
   </button>
 </div>
 
+<div class="modal-overlay" id="shareModalOverlay">
+    <div class="share-modal">
+        <div class="share-modal-title" data-translate-key="shareTitle">Dostlarını Dəvət Et</div>
+        
+        <button class="share-btn-action tg" onclick="shareOnTelegramAction()">
+            <i data-lucide="send"></i> <span data-translate-key="shareTelegram">Telegram ilə paylaş</span>
+        </button>
+        
+        <button class="share-btn-action wa" onclick="shareOnWhatsappAction()">
+            <i data-lucide="message-circle"></i> <span data-translate-key="shareWhatsapp">WhatsApp ilə paylaş</span>
+        </button>
+        
+        <button class="share-btn-action copy" onclick="copyRefLinkAction()">
+            <i data-lucide="copy"></i> <span data-translate-key="copyLink">Linki Kopyala</span>
+        </button>
+        
+        <button class="share-btn-action close-modal" onclick="closeShareModal()">
+            <span data-translate-key="close">Geri</span>
+        </button>
+    </div>
+</div>
+
 <script>
 lucide.createIcons();
 
@@ -599,7 +634,6 @@ if (tgUser) {
 
 const userRefLink = `https://t.me/manatpayrbot?startapp=${userRefId}`;
 
-// DATA AÇARLARI HƏR İSTİFADƏÇİ (ID) ÜÇÜN UNİKALDIR!
 const BAL_KEY = `bal_${userRefId}`;
 const COUNT_KEY = `cnt_${userRefId}`;
 const RESET_KEY = `resetTime_${userRefId}`;
@@ -691,6 +725,7 @@ const TRANSLATIONS = {
         statTotalAds: 'İzlənən Ümumi Reklam', statAdEarnings: 'Reklam Qazancı', statTaskEarnings: 'Görev Qazancı',
         withdrawHistory: 'Çıxarış Tarixçəsi', pending: 'Gözləmədə', emptyHistory: 'Tarixçə boşdur',
         shareBtn: 'Dostlarını Dəvət Et',
+        shareTitle: 'Dostlarını Dəvət Et', shareTelegram: 'Telegram ilə paylaş', shareWhatsapp: 'WhatsApp ilə paylaş', copyLink: 'Linki Kopyala', linkCopied: '✅ Link kopyalandı!', close: 'Geri',
         shareMsg: "💰 Mən artıq Manat Pay ilə qazanc əldə edirəm!\n\n📺 Sadəcə reklam izləyərək pul qazanmaq mümkündür. Sən də aşağıdaki linkdən qoşul və qazanc əldə etməyə başla 👇\n\n🔗 {LINK}\n\n📲 Telefonundan reklam izləyərək asan və rahat şəkildə qazanc əldə et.\n\n🔥 Tələsməyi unutma! Yeni istifadəçilər üçün imkanlar və daha çox qazanc növləri tezliklə əlavə olunacaq.\n\n🚀 Fürsəti qaçırma indi başla və Manat Pay ilə qazan!"
     },
     'en': {
@@ -715,6 +750,7 @@ const TRANSLATIONS = {
         statTotalAds: 'Total Ads Watched', statAdEarnings: 'Ad Earnings', statTaskEarnings: 'Task Earnings',
         withdrawHistory: 'Withdrawal History', pending: 'Pending', emptyHistory: 'History is empty',
         shareBtn: 'Invite Friends',
+        shareTitle: 'Invite Friends', shareTelegram: 'Share on Telegram', shareWhatsapp: 'Share on WhatsApp', copyLink: 'Copy Link', linkCopied: '✅ Link copied!', close: 'Back',
         shareMsg: "💰 I'm already earning with Manat Pay!\n\n📺 It's possible to earn money just by watching ads. Join from the link below and start earning too 👇\n\n🔗 {LINK}\n\n📲 Earn easily and comfortably by watching ads from your phone.\n\n🔥 Don't forget to hurry! Opportunities for new users and more ways to earn will be added soon.\n\n🚀 Don't miss the opportunity, start now and earn with Manat Pay!"
     },
     'tr': {
@@ -739,6 +775,7 @@ const TRANSLATIONS = {
         statTotalAds: 'İzlenen Toplam Reklam', statAdEarnings: 'Reklam Kazancı', statTaskEarnings: 'Görev Kazancı',
         withdrawHistory: 'Çekim Geçmişi', pending: 'Beklemede', emptyHistory: 'Geçmiş boş',
         shareBtn: 'Arkadaşlarını Davet Et',
+        shareTitle: 'Arkadaşlarını Davet Et', shareTelegram: 'Telegram ile paylaş', shareWhatsapp: 'WhatsApp ile paylaş', copyLink: 'Bağlantıyı Kopyala', linkCopied: '✅ Bağlantı kopyalandı!', close: 'Geri',
         shareMsg: "💰 Ben şimdiden Manat Pay ile kazanıyorum!\n\n📺 Sadece reklam izleyerek para kazanmak mümkün. Sen de aşağıdaki linkten katıl ve kazanmaya başla 👇\n\n🔗 {LINK}\n\n📲 Telefonundan reklam izleyerek kolay ve rahat bir şekilde kazan.\n\n🔥 Acele etmeyi unutma! Yeni kullanıcılar için fırsatlar ve daha fazla kazanç türü yakında eklenecek.\n\n🚀 Fırsatı kaçırma, şimdi başla ve Manat Pay ile kazan!"
     },
     'ru': { 
@@ -763,6 +800,7 @@ const TRANSLATIONS = {
         statTotalAds: 'Всего просмотрено реклам', statAdEarnings: 'Заработок с рекламы', statTaskEarnings: 'Заработок с заданий',
         withdrawHistory: 'История Выводов', pending: 'В ожидании', emptyHistory: 'История пуста',
         shareBtn: 'Пригласить друзей',
+        shareTitle: 'Пригласить Друзей', shareTelegram: 'Поделиться в Telegram', shareWhatsapp: 'Поделиться в WhatsApp', copyLink: 'Скопировать ссылку', linkCopied: '✅ Ссылка скопирована!', close: 'Назад',
         shareMsg: "💰 Я уже зарабатываю с Manat Pay!\n\n📺 Зарабатывать деньги можно просто просматривая рекламу. Присоединяйтесь по ссылке ниже и начните зарабатывать тоже 👇\n\n🔗 {LINK}\n\n📲 Зарабатывайте легко и удобно, просматривая рекламу с телефона.\n\n🔥 Не забудьте поторопиться! Возможности для новых пользователей и новые способы заработка будут добавлены в ближайшее время.\n\n🚀 Не упустите возможность, начните сейчас и зарабатывайте с Manat Pay!"
     }
 };
@@ -817,11 +855,65 @@ function loadProfile() {
     loadProfilePic();
 }
 
-function shareOnTelegram() {
+// --- PAYLAŞIM PƏNCƏRƏSİ FUNKSİYALARI ---
+function openShareModal() {
+    const overlay = document.getElementById('shareModalOverlay');
+    overlay.style.display = 'flex';
+    setTimeout(() => overlay.classList.add('show'), 10);
+}
+
+function closeShareModal() {
+    const overlay = document.getElementById('shareModalOverlay');
+    overlay.classList.remove('show');
+    setTimeout(() => overlay.style.display = 'none', 300);
+}
+
+function shareOnTelegramAction() {
     const t = TRANSLATIONS[currentLang];
     const message = t.shareMsg.replace('{LINK}', userRefLink);
     const encodedMessage = encodeURIComponent(message);
     window.open(`https://t.me/share/url?url=&text=${encodedMessage}`, '_blank');
+    closeShareModal();
+}
+
+function shareOnWhatsappAction() {
+    const t = TRANSLATIONS[currentLang];
+    const message = t.shareMsg.replace('{LINK}', userRefLink);
+    const encodedMessage = encodeURIComponent(message);
+    window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
+    closeShareModal();
+}
+
+function copyRefLinkAction() {
+    const t = TRANSLATIONS[currentLang];
+    
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(userRefLink).then(() => {
+            showTaskNotification(t.linkCopied);
+        }).catch(err => fallbackCopyTextToClipboard(userRefLink, t));
+    } else {
+        fallbackCopyTextToClipboard(userRefLink, t);
+    }
+    closeShareModal();
+}
+
+function fallbackCopyTextToClipboard(text, t) {
+    var textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
+    textArea.style.opacity = "0";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+        var successful = document.execCommand('copy');
+        if(successful) showTaskNotification(t.linkCopied);
+    } catch (err) {
+        console.error('Fallback kopyalama xətası:', err);
+    }
+    document.body.removeChild(textArea);
 }
 
 function openSupport() {
@@ -1037,7 +1129,6 @@ function applyTranslations(lang) {
     }
 }
 
-// DİL SEÇİMİ İSTİFADƏÇİ ID-SİNƏ BAĞLANIR
 function setLang(lang) {
     currentLang = lang;
     localStorage.setItem(LANG_KEY, lang);
