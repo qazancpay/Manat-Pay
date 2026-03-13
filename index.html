@@ -396,14 +396,29 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
             <div class="task-header">
                 <div class="task-title">
                   <div class="task-icon task-icon-standard"><i data-lucide="megaphone" style="width:16px;height:16px;"></i></div>
-                  <span data-translate-key="standardTaskTitle">Standart Görev</span>
+                  <span data-translate-key="joinChannelTaskTitle">Kanala Qoşul</span>
                 </div>
                 <div class="task-reward-badge" id="taskJoinRewardBadge">0.1000 ₼</div>
             </div>
             <div class="task-desc" data-translate-key="taskJoinDesc">Rəsmi Telegram kanalımıza qoşul və qazan!</div>
             <button id="joinBtn" class="task-btn action">
               <i data-lucide="send" style="width:18px;height:18px;"></i>
-              <span data-translate-key="joinChannel">Kanala Qoşul</span>
+              <span data-translate-key="joinChannelBtn">Kanala Qoşul</span>
+            </button>
+        </div>
+
+        <div class="task-item">
+            <div class="task-header">
+                <div class="task-title">
+                  <div class="task-icon task-icon-standard"><i data-lucide="users" style="width:16px;height:16px;"></i></div>
+                  <span data-translate-key="joinGroupTaskTitle">Qrupa Qoşul</span>
+                </div>
+                <div class="task-reward-badge" id="taskGroupRewardBadge">0.0300 ₼</div>
+            </div>
+            <div class="task-desc" data-translate-key="taskGroupDesc">Rəsmi Telegram qrupumuza qoşul və qazan!</div>
+            <button id="groupBtn" class="task-btn action">
+              <i data-lucide="users" style="width:18px;height:18px;"></i>
+              <span data-translate-key="joinGroupBtn">Qrupa Qoşul</span>
             </button>
         </div>
     </div>
@@ -640,6 +655,7 @@ const BAL_KEY = `bal_${userRefId}`;
 const COUNT_KEY = `cnt_${userRefId}`;
 const RESET_KEY = `resetTime_${userRefId}`;
 const JOIN_KEY = `joined_manat_pay_${userRefId}`;
+const JOIN_GROUP_KEY = `joined_group_manat_pay_${userRefId}`;
 const CLAIMED_10K_KEY = `task_10k_claimed_${userRefId}`;
 const TOTAL_ADS_KEY = `totalAdsWatched_${userRefId}`;
 const TOTAL_AD_EARNINGS_KEY = `totalAdEarnings_${userRefId}`;
@@ -657,6 +673,7 @@ const CURRENCIES = {
 
 const AZN_REWARD = 0.001; 
 const AZN_TASK_REWARD = 0.1; 
+const AZN_GROUP_REWARD = 0.03; 
 const AZN_10K_REWARD = 100;
 
 let withdrawHistory = safeGet(HISTORY_KEY, []);
@@ -711,9 +728,13 @@ const TRANSLATIONS = {
         watched: 'İzlənən', maximum: 'Maksimum', maxCount: '100', progressText: 'İrəliləyiş: ',
         watchAd: 'Reklam İzle', watching: '⏳ İzlənir...', adLimitReached: '📣 Gündəlik limitə çatdınız!',
         rewardAddedConfirmed: (r) => `✅ ${r} əlavə olundu!`, wait: '⏳ {s}s gözləyin',
-        premiumTaskTitle: 'Premium Görev', standardTaskTitle: 'Standart Görev',
-        task10kDesc: '10.000 Reklam izlə və böyük mükafatı qazan!', taskJoinDesc: 'Rəsmi Telegram kanalımıza qoşul və qazan!',
-        joinChannel: 'Kanala Qoşul', claimReward: 'Mükafatı Al', lockedBtn: 'Kilidli', completed: 'Tamamlandı',
+        premiumTaskTitle: 'Premium Görev', 
+        joinChannelTaskTitle: 'Kanala Qoşul', joinGroupTaskTitle: 'Qrupa Qoşul',
+        task10kDesc: '10.000 Reklam izlə və böyük mükafatı qazan!', 
+        taskJoinDesc: 'Rəsmi Telegram kanalımıza qoşul və qazan!',
+        taskGroupDesc: 'Rəsmi Telegram qrupumuza qoşul və qazan!',
+        joinChannelBtn: 'Kanala Qoşul', joinGroupBtn: 'Qrupa Qoşul',
+        claimReward: 'Mükafatı Al', lockedBtn: 'Kilidli', completed: 'Tamamlandı',
         withdrawTitle: 'Çıxarış', bankCard: 'Bank Kartı', back: 'Geri', withdraw: 'Çıxarış Et',
         methodError: 'Metod seçin', detailsError: 'Detalları daxil edin', amountError: 'Məbləği düzgün daxil edin',
         minAmount: (min) => `Minimum məbləğ ${min}`, balanceError: 'Balans kifayət etmir',
@@ -736,9 +757,13 @@ const TRANSLATIONS = {
         watched: 'Watched', maximum: 'Maximum', maxCount: '100', progressText: 'Progress: ',
         watchAd: 'Watch Ad', watching: '⏳ Watching...', adLimitReached: '📣 Daily limit reached!',
         rewardAddedConfirmed: (r) => `✅ ${r} added!`, wait: '⏳ {s}s wait',
-        premiumTaskTitle: 'Premium Task', standardTaskTitle: 'Standard Task',
-        task10kDesc: 'Watch 10,000 Ads and win a huge reward!', taskJoinDesc: 'Join our official Telegram channel and earn!',
-        joinChannel: 'Join Channel', claimReward: 'Claim Reward', lockedBtn: 'Locked', completed: 'Completed',
+        premiumTaskTitle: 'Premium Task', 
+        joinChannelTaskTitle: 'Join Channel', joinGroupTaskTitle: 'Join Group',
+        task10kDesc: 'Watch 10,000 Ads and win a huge reward!', 
+        taskJoinDesc: 'Join our official Telegram channel and earn!',
+        taskGroupDesc: 'Join our official Telegram group and earn!',
+        joinChannelBtn: 'Join Channel', joinGroupBtn: 'Join Group',
+        claimReward: 'Claim Reward', lockedBtn: 'Locked', completed: 'Completed',
         withdrawTitle: 'Withdrawal', bankCard: 'Bank Card', back: 'Back', withdraw: 'Withdraw',
         methodError: 'Select a method', detailsError: 'Enter details', amountError: 'Enter correct amount',
         minAmount: (min) => `Minimum amount ${min}`, balanceError: 'Insufficient balance',
@@ -761,9 +786,13 @@ const TRANSLATIONS = {
         watched: 'İzlenen', maximum: 'Maksimum', maxCount: '100', progressText: 'İlerleme: ',
         watchAd: 'Reklam İzle', watching: '⏳ İzleniyor...', adLimitReached: '📣 Günlük sınıra ulaştınız!',
         rewardAddedConfirmed: (r) => `✅ ${r} eklendi!`, wait: '⏳ {s}sn bekleyin',
-        premiumTaskTitle: 'Premium Görev', standardTaskTitle: 'Standart Görev',
-        task10kDesc: '10.000 Reklam izle ve büyük ödülü kazan!', taskJoinDesc: 'Resmi Telegram kanalımıza katıl ve kazan!',
-        joinChannel: 'Kanala Katıl', claimReward: 'Ödülü Al', lockedBtn: 'Kilitli', completed: 'Tamamlandı',
+        premiumTaskTitle: 'Premium Görev', 
+        joinChannelTaskTitle: 'Kanala Katıl', joinGroupTaskTitle: 'Gruba Katıl',
+        task10kDesc: '10.000 Reklam izle ve büyük ödülü kazan!', 
+        taskJoinDesc: 'Resmi Telegram kanalımıza katıl ve kazan!',
+        taskGroupDesc: 'Resmi Telegram grubumuza katıl ve kazan!',
+        joinChannelBtn: 'Kanala Katıl', joinGroupBtn: 'Gruba Katıl',
+        claimReward: 'Ödülü Al', lockedBtn: 'Kilitli', completed: 'Tamamlandı',
         withdrawTitle: 'Para Çekme', bankCard: 'Banka Kartı', back: 'Geri', withdraw: 'Para Çek',
         methodError: 'Yöntem seçin', detailsError: 'Bilgileri girin', amountError: 'Miktarı doğru girin',
         minAmount: (min) => `Minimum miktar ${min}`, balanceError: 'Yetersiz bakiye',
@@ -786,9 +815,13 @@ const TRANSLATIONS = {
         watched: 'Просмотрено', maximum: 'Максимум', maxCount: '100', progressText: 'Прогресс: ',
         watchAd: 'Смотреть Рекламу', watching: '⏳ Просмотр...', adLimitReached: '📣 Достигнут дневной лимит!',
         rewardAddedConfirmed: (r) => `✅ ${r} добавлено!`, wait: '⏳ {s}с ожидайте',
-        premiumTaskTitle: 'Премиум Задание', standardTaskTitle: 'Стандартное Задание',
-        task10kDesc: 'Посмотрите 10 000 реклам и получите большую награду!', taskJoinDesc: 'Подпишитесь на наш официальный Telegram канал и заработайте!',
-        joinChannel: 'Подписаться', claimReward: 'Забрать награду', lockedBtn: 'Заблокировано', completed: 'Выполнено',
+        premiumTaskTitle: 'Премиум Задание', 
+        joinChannelTaskTitle: 'Подписаться на Канал', joinGroupTaskTitle: 'Вступить в Группу',
+        task10kDesc: 'Посмотрите 10 000 реклам и получите большую награду!', 
+        taskJoinDesc: 'Подпишитесь на наш официальный Telegram канал и заработайте!',
+        taskGroupDesc: 'Присоединяйтесь к нашей официальной Telegram группе и зарабатывайте!',
+        joinChannelBtn: 'Подписаться', joinGroupBtn: 'Вступить в Группу',
+        claimReward: 'Забрать награду', lockedBtn: 'Заблокировано', completed: 'Выполнено',
         withdrawTitle: 'Вывод Средств', bankCard: 'Банковская Карта', back: 'Назад', withdraw: 'Вывести',
         methodError: 'Выберите способ', detailsError: 'Введите данные', amountError: 'Введите правильную сумму',
         minAmount: (min) => `Минимальная сумма ${min}`, balanceError: 'Недостаточно средств',
@@ -1034,6 +1067,7 @@ function renderHistory() {
 function updateTaskButtons() {
     const t = TRANSLATIONS[currentLang];
     
+    // Kanal Görevi Update
     const joinBtn = document.getElementById('joinBtn');
     const joinBadge = document.getElementById('taskJoinRewardBadge');
     if (joinBadge) joinBadge.innerHTML = getLocalizedTaskReward(currentLang, AZN_TASK_REWARD);
@@ -1046,11 +1080,30 @@ function updateTaskButtons() {
         } else {
             if (!joinBtn.classList.contains('waiting')) {
                  joinBtn.className = 'task-btn action'; joinBtn.disabled = false; 
-                 joinBtn.innerHTML = `<i data-lucide="send" style="width:18px;height:18px;"></i> ${t.joinChannel}`;
+                 joinBtn.innerHTML = `<i data-lucide="send" style="width:18px;height:18px;"></i> ${t.joinChannelBtn}`;
             }
         }
     }
 
+    // Qrup Görevi Update
+    const groupBtn = document.getElementById('groupBtn');
+    const groupBadge = document.getElementById('taskGroupRewardBadge');
+    if (groupBadge) groupBadge.innerHTML = getLocalizedTaskReward(currentLang, AZN_GROUP_REWARD);
+
+    if (groupBtn) {
+        if (localStorage.getItem(JOIN_GROUP_KEY)){
+            groupBtn.className = 'task-btn completed';
+            groupBtn.innerHTML = `<i data-lucide="check-circle" style="width:18px;height:18px;"></i> ${t.completed}`; 
+            groupBtn.disabled = true; 
+        } else {
+            if (!groupBtn.classList.contains('waiting')) {
+                 groupBtn.className = 'task-btn action'; groupBtn.disabled = false; 
+                 groupBtn.innerHTML = `<i data-lucide="users" style="width:18px;height:18px;"></i> ${t.joinGroupBtn}`;
+            }
+        }
+    }
+
+    // 10K Görevi Update
     const claim10kBtn = document.getElementById('claim10kBtn');
     const badge10k = document.getElementById('task10kRewardBadge');
     const progressFill = document.getElementById('task10kProgressFill');
@@ -1289,6 +1342,7 @@ function showTaskNotification(message) {
     setTimeout(() => { taskNotification.classList.remove('notification-show'); taskNotification.classList.add('notification-hide'); }, 3000);
 }
 
+// Kanal Görevi Klik Tədbiri
 const joinBtn = document.getElementById('joinBtn');
 if (joinBtn) {
     joinBtn.onclick = () => {
@@ -1310,6 +1364,29 @@ if (joinBtn) {
     };
 }
 
+// Qrup Görevi Klik Tədbiri
+const groupBtn = document.getElementById('groupBtn');
+if (groupBtn) {
+    groupBtn.onclick = () => {
+        if (localStorage.getItem(JOIN_GROUP_KEY) || groupBtn.disabled) return; 
+        const t = TRANSLATIONS[currentLang];
+        window.open('https://t.me/manatpaychat', '_blank'); 
+        
+        groupBtn.disabled = true; groupBtn.classList.add('waiting'); 
+        groupBtn.innerHTML = `<i data-lucide="loader" style="width:18px;height:18px;"></i> ${t.wait.replace('{s}', '3')}`;
+        lucide.createIcons();
+        
+        setTimeout(() => {
+            bal += AZN_GROUP_REWARD; totalTaskEarnings += AZN_GROUP_REWARD; 
+            safeSet(BAL_KEY, bal); safeSet(TOTAL_TASK_EARNINGS_KEY, totalTaskEarnings);
+            localStorage.setItem(JOIN_GROUP_KEY, '1'); 
+            update();
+            showTaskNotification(t.taskSuccess(`<b>${getLocalizedTaskReward(currentLang, AZN_GROUP_REWARD)}</b>`));
+        }, 3000); 
+    };
+}
+
+// 10K Görevi Klik Tədbiri
 const claim10kBtn = document.getElementById('claim10kBtn');
 if (claim10kBtn) {
     claim10kBtn.addEventListener('click', function() {
