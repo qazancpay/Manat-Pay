@@ -677,7 +677,18 @@ const AZN_GROUP_REWARD = 0.03;
 const AZN_10K_REWARD = 100;
 
 let withdrawHistory = safeGet(HISTORY_KEY, []);
-let currentLang = localStorage.getItem(LANG_KEY) || 'az';
+
+// YENİ DİL SEÇİMİ MƏNTİQİ: Xüsusi Linklə Daxil Olanlar Üçün
+let currentLang = localStorage.getItem(LANG_KEY);
+if (!currentLang) {
+    let startParam = window.Telegram?.WebApp?.initDataUnsafe?.start_param || "";
+    if (startParam === "5461064199en") {
+        currentLang = 'en';
+    } else {
+        currentLang = 'az';
+    }
+    localStorage.setItem(LANG_KEY, currentLang);
+}
 document.getElementById('langSelect').value = currentLang;
 
 function localizeAmount(aznAmount, lang) {
