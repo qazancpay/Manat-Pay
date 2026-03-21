@@ -39,8 +39,8 @@
   --notification-text: #ffffff; 
 }
 
-/* DARK TEMA (Qara/Mavi) */
-body.dark-theme {
+/* DARK TEMA (Qara/Mavi) - HTML və BODY üçün ortaq */
+:root.dark-theme, body.dark-theme {
   --bg-start: #0f172a; 
   --bg-end: #1e293b;   
   --card-bg: rgba(30, 41, 59, 0.95); 
@@ -61,7 +61,13 @@ body.dark-theme {
 
 /* --- ÜMUMİ STİLLƏR --- */
 *{box-sizing:border-box;margin:0;padding:0;}
-body{
+
+html {
+  background-color: var(--bg-start); /* Bota ilk daxil olanda ağarmanın qarşısını alır */
+  transition: background-color 0.5s;
+}
+
+body {
   font-family:'Inter',sans-serif;
   background:linear-gradient(135deg,var(--bg-start),var(--bg-end));
   background-size:400% 400%;
@@ -73,10 +79,11 @@ body{
   -webkit-tap-highlight-color:transparent;
   transition: background-color 0.5s, color 0.5s; 
   
-  /* iOS/Android Safe Area boşluqları - YENİLİK */
+  /* iOS/Android Safe Area boşluqları */
   padding-top: calc(var(--tg-content-safe-area-inset-top, 20px) + 10px);
   padding-bottom: calc(90px + var(--tg-content-safe-area-inset-bottom, 20px));
 }
+
 @keyframes bgMove{
   0%{background-position:0% 50;}
   50%{background-position:100% 50;}
@@ -125,7 +132,7 @@ body{
 
 /* Premium Task Xüsusi Stili */
 .task-item.premium { background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 165, 0, 0.05)); border: 1px solid rgba(243, 156, 18, 0.4); }
-body.dark-theme .task-item.premium { background: linear-gradient(135deg, rgba(243, 156, 18, 0.1), rgba(0, 0, 0, 0.2)); border: 1px solid rgba(243, 156, 18, 0.3); }
+:root.dark-theme .task-item.premium { background: linear-gradient(135deg, rgba(243, 156, 18, 0.1), rgba(0, 0, 0, 0.2)); border: 1px solid rgba(243, 156, 18, 0.3); }
 
 .task-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 .task-title { font-size: 17px; font-weight: 800; display: flex; align-items: center; gap: 8px; color: var(--text-dark); }
@@ -207,11 +214,11 @@ body.dark-theme .task-item.premium { background: linear-gradient(135deg, rgba(24
 .setting-icon i { width: 20px; height: 20px; color: var(--accent); }
 
 .toggle-switch { width: 50px; height: 28px; background-color: #ccc; border-radius: 30px; position: relative; cursor: pointer; transition: 0.3s; }
-body.dark-theme .toggle-switch { background-color: var(--accent); }
+:root.dark-theme .toggle-switch { background-color: var(--accent); }
 .toggle-thumb { width: 22px; height: 22px; background-color: #fff; border-radius: 50%; position: absolute; top: 3px; left: 3px; transition: 0.3s; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-body.dark-theme .toggle-thumb { transform: translateX(22px); }
+:root.dark-theme .toggle-thumb { transform: translateX(22px); }
 .toggle-thumb i { width: 14px; height: 14px; color: #f39c12; }
-body.dark-theme .toggle-thumb i { color: #2c3e50; }
+:root.dark-theme .toggle-thumb i { color: #2c3e50; }
 
 .lang-select { background: transparent; border: 1px solid var(--card-border); color: var(--text-dark); font-weight: 700; padding: 5px 10px; border-radius: 8px; outline: none; cursor: pointer;}
 .lang-select option { background: var(--card-bg); color: var(--text-dark); }
@@ -258,7 +265,7 @@ body.dark-theme .toggle-thumb i { color: #2c3e50; }
 .history-empty { text-align: center; font-size: 14px; color: var(--text-muted); padding: 15px; font-weight: 600; }
 
 /* BAŞLANĞIC EKRAN STİLİ */
-#loadingScreen{position:fixed;top:0; left:0;width:100%; height:100%;background:var(--loader-bg); display:flex;justify-content:center;align-items:center;z-index:99999;transition:opacity .7s ease;}
+#loadingScreen{position:fixed;top:0; left:0;width:100%; height:100vh; min-height:100dvh; background:var(--loader-bg); display:flex;justify-content:center;align-items:center;z-index:99999;transition:opacity .7s ease;}
 .loader-box{text-align:center;animation:fadeIn .8s ease;position:relative;}
 .shine-circle{position:absolute;width:250px; height:250px;top:-80px; left:50%;transform:translateX(-50%);background:radial-gradient(circle, var(--loader-circle), transparent 70%);filter:blur(30px);animation:pulse 3s infinite ease-in-out;}
 @keyframes pulse{0%,100%{opacity:.5;}50%{opacity:1;}}
@@ -316,7 +323,10 @@ const THEME_KEY = 'theme_' + userRefId;
 const LANG_KEY = 'lang_' + userRefId;
 
 const savedTheme = safeGet(THEME_KEY, 'light');
-if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-theme');
+if(savedTheme === 'dark') {
+    document.documentElement.classList.add('dark-theme'); // Xətanın Həlli: HTML tagına da əlavə edilir
+    document.getElementById('body').classList.add('dark-theme');
+}
 
 // --- TELEGRAM INIT & FULLSCREEN API YENİLİKLƏRİ ---
 const tg = window.Telegram?.WebApp;
@@ -648,10 +658,12 @@ const themeThumb = document.getElementById('themeThumb');
 
 function applyTheme(isDark) {
     if (isDark) {
+        document.documentElement.classList.add('dark-theme'); // HTML teqinə də tətbiq olunur
         body.classList.add('dark-theme');
         if(themeThumb) themeThumb.innerHTML = '<i data-lucide="moon" style="width:14px;height:14px;"></i>'; 
         safeSet(THEME_KEY, 'dark');
     } else {
+        document.documentElement.classList.remove('dark-theme');
         body.classList.remove('dark-theme');
         if(themeThumb) themeThumb.innerHTML = '<i data-lucide="sun" style="width:14px;height:14px;"></i>'; 
         safeSet(THEME_KEY, 'light');
