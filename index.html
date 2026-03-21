@@ -2,7 +2,7 @@
 <html lang="az">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
 <title id="pageTitle">Manat Pay</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -72,7 +72,10 @@ body{
   -webkit-user-select:none;
   -webkit-tap-highlight-color:transparent;
   transition: background-color 0.5s, color 0.5s; 
-  padding-bottom: 90px; 
+  
+  /* iOS/Android Safe Area boşluqları - YENİLİK */
+  padding-top: calc(var(--tg-content-safe-area-inset-top, 20px) + 10px);
+  padding-bottom: calc(90px + var(--tg-content-safe-area-inset-bottom, 20px));
 }
 @keyframes bgMove{
   0%{background-position:0% 50;}
@@ -80,7 +83,7 @@ body{
   100%{background-position:0% 50;}
 }
 
-.container{max-width:480px;margin:auto;padding:50px 20px 20px;} 
+.container{max-width:480px;margin:auto;padding:10px 20px 20px;} 
 
 .page{display:none;animation:fadeIn .4s ease;}
 .page.active{display:block;}
@@ -175,7 +178,7 @@ body.dark-theme .task-item.premium { background: linear-gradient(135deg, rgba(24
 .reward-msg.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 /* --- NAVİQASİYA PANELİ --- */
-.menu{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);width:92%;max-width:400px; display:flex;justify-content:space-between;background:var(--menu-bg);padding:8px; border-radius:24px;box-shadow:0 8px 25px rgba(0,0,0,.15);backdrop-filter:blur(10px);z-index: 999;border: 1px solid var(--card-border);}
+.menu{position:fixed;bottom:max(20px, var(--tg-content-safe-area-inset-bottom, 20px));left:50%;transform:translateX(-50%);width:92%;max-width:400px; display:flex;justify-content:space-between;background:var(--menu-bg);padding:8px; border-radius:24px;box-shadow:0 8px 25px rgba(0,0,0,.15);backdrop-filter:blur(10px);z-index: 999;border: 1px solid var(--card-border);}
 .menu button{flex:1;margin:0 4px; padding: 8px 2px;border:none;border-radius:18px;background:transparent;color:var(--text-dark);cursor: pointer;transition:0.3s;display: flex;flex-direction: column;align-items: center;justify-content: center;height: 60px; opacity: 0.6;}
 .menu button .nav-icon { width: 24px; height: 24px; margin-bottom: 4px; transition: 0.3s; stroke-width: 2.2px; }
 .menu button .nav-text { font-size: 11px; font-weight: 800; line-height: 1.2; }
@@ -237,7 +240,6 @@ body.dark-theme .toggle-thumb i { color: #2c3e50; }
 #form button{width:100%;padding:14px;margin-top:10px;border:none;border-radius:14px;background:linear-gradient(90deg,var(--accent),#3b82f6);color:var(--text-light);font-weight:800;font-size: 15px;cursor:pointer; transition: 0.3s;box-shadow: 0 6px 15px var(--btn-shadow); display:flex; align-items:center; justify-content:center; gap:8px;}
 #form button i { width: 20px; height: 20px; }
 #form button:hover { transform: scale(1.02); }
-/* Success mesajı yaşıl qalır, error qırmızı - UI standartları üçün ən yaxşısı budur */
 .alert{margin-top:10px;padding:12px;border-radius:12px;display:none; font-weight: 700; text-align: center;}
 .alert.error{background:#fadbd8;color:#c0392b;}
 .alert.success{background:#dcfce7;color:#16a34a;}
@@ -270,7 +272,7 @@ body.dark-theme .toggle-thumb i { color: #2c3e50; }
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.6;}}
 
 /* TAPŞIRIQ BİLDİRİŞİ */
-#taskNotification {position: fixed;top: 20px;left: 50%;transform: translate(-50%, -100px); background: var(--notification-bg);color: var(--notification-text);padding: 15px 25px;border-radius: 14px;box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);font-weight: 800;font-size: 15px;opacity: 0;z-index: 10000;transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-align: center;border: 2px solid rgba(255,255,255,0.2);}
+#taskNotification {position: fixed;top: calc(var(--tg-content-safe-area-inset-top, 20px) + 20px);left: 50%;transform: translate(-50%, -100px); background: var(--notification-bg);color: var(--notification-text);padding: 15px 25px;border-radius: 14px;box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);font-weight: 800;font-size: 15px;opacity: 0;z-index: 10000;transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-align: center;border: 2px solid rgba(255,255,255,0.2);}
 .notification-show {opacity: 1 !important;transform: translate(-50%, 0) !important; }
 .notification-hide {opacity: 0;transform: translate(-50%, -100px); }
 
@@ -315,6 +317,36 @@ const LANG_KEY = 'lang_' + userRefId;
 
 const savedTheme = safeGet(THEME_KEY, 'light');
 if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-theme');
+
+// --- TELEGRAM INIT & FULLSCREEN API YENİLİKLƏRİ ---
+const tg = window.Telegram?.WebApp;
+if (tg) {
+    tg.ready();
+    tg.expand();
+    
+    // 1. Üst paneli tam gizlətmək (Fullscreen API - v7.7+)
+    try {
+        if (tg.requestFullscreen) {
+            tg.requestFullscreen();
+        }
+    } catch (e) { console.error("Fullscreen dəstəklənmir", e); }
+
+    // 2. iOS-da yuxarıdan aşağı sürüşdürüb səhvən bağlamağın qarşısını almaq (v7.7+)
+    try {
+        if (tg.disableVerticalSwipes) {
+            tg.disableVerticalSwipes();
+        }
+    } catch (e) { console.error("Sürüşdürmə ləğvi dəstəklənmir", e); }
+    
+    // 3. Əgər cihaz köhnədirsə və Fullscreen işləməsə, Header-i arxa planla eyni rəng edirik ki fərq hiss olunmasın
+    window.updateTgColors = function() {
+        const isDark = document.body.classList.contains('dark-theme');
+        const bgColor = isDark ? '#0f172a' : '#eff6ff';
+        if (tg.setHeaderColor) tg.setHeaderColor(bgColor);
+        if (tg.setBackgroundColor) tg.setBackgroundColor(bgColor);
+    };
+    updateTgColors();
+}
 </script>
 
 <div id="loadingScreen">
@@ -625,17 +657,13 @@ function applyTheme(isDark) {
         safeSet(THEME_KEY, 'light');
     }
     lucide.createIcons(); 
+    if(window.updateTgColors) window.updateTgColors(); // Rəngi telegramın headerinə də ötür
 }
 function toggleTheme() {
     const isDark = body.classList.contains('dark-theme');
     applyTheme(!isDark);
 }
 applyTheme(safeGet(THEME_KEY, 'light') === 'dark');
-
-if (window.Telegram && window.Telegram.WebApp) {
-    window.Telegram.WebApp.ready();
-    window.Telegram.WebApp.expand(); 
-}
 
 const USERNAME_KEY = `user_profile_name_${userRefId}`;
 const PROFILE_PIC_KEY = `user_profile_pic_${userRefId}`;
