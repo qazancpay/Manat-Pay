@@ -2,10 +2,25 @@
 <html lang="az">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
 <title id="pageTitle">Manat Pay</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<!-- TƏMİR EDİLDİ: Telegram ekran böyütmə kodları DOM yüklənməmişdən öncə işə düşməsi üçün yuxarıya alındı -->
+<script>
+if (window.Telegram && window.Telegram.WebApp) {
+    window.Telegram.WebApp.ready();
+    window.Telegram.WebApp.expand();
+    // Bota girən kimi Telegram başlığını silir və Tam Ekran edir (API 8.0+)
+    try {
+        if (window.Telegram.WebApp.requestFullscreen) {
+            window.Telegram.WebApp.requestFullscreen();
+        }
+    } catch(e) {}
+}
+</script>
+
 <script src="https://unpkg.com/lucide@latest"></script>
 <script src="//libtl.com/sdk.js" data-zone="10701408" data-sdk="show_10701408"></script>
 <style>
@@ -67,7 +82,8 @@ body{
   background-size:400% 400%;
   animation:bgMove 15s ease infinite;
   color:var(--text-dark);
-  min-height:100vh;
+  /* TƏMİR EDİLDİ: Stabil hündürlük təmin edildi */
+  min-height:var(--tg-viewport-stable-height, 100vh);
   user-select:none;
   -webkit-user-select:none;
   -webkit-tap-highlight-color:transparent;
@@ -82,9 +98,10 @@ body{
 
 .container{max-width:480px;margin:auto;padding:50px 20px 20px;} 
 
+/* TƏMİR EDİLDİ: Sıçrama yaratmaması üçün translateY() silindi */
 .page{display:none;animation:fadeIn .4s ease;}
 .page.active{display:block;}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
 
 /* Balans və Kart Dizaynı */
 .balance-card, .ad-card, .profile-card{
@@ -256,7 +273,8 @@ body.dark-theme .toggle-thumb i { color: #2c3e50; }
 .history-empty { text-align: center; font-size: 14px; color: var(--text-muted); padding: 15px; font-weight: 600; }
 
 /* BAŞLANĞIC EKRAN STİLİ */
-#loadingScreen{position:fixed;top:0; left:0;width:100%; height:100%;background:var(--loader-bg); display:flex;justify-content:center;align-items:center;z-index:99999;transition:opacity .7s ease;}
+/* TƏMİR EDİLDİ: Stabil hündürlük təmin edildi */
+#loadingScreen{position:fixed;top:0; left:0;width:100%; height:var(--tg-viewport-stable-height, 100vh);background:var(--loader-bg); display:flex;justify-content:center;align-items:center;z-index:99999;transition:opacity .7s ease;}
 .loader-box{text-align:center;animation:fadeIn .8s ease;position:relative;}
 .shine-circle{position:absolute;width:250px; height:250px;top:-80px; left:50%;transform:translateX(-50%);background:radial-gradient(circle, var(--loader-circle), transparent 70%);filter:blur(30px);animation:pulse 3s infinite ease-in-out;}
 @keyframes pulse{0%,100%{opacity:.5;}50%{opacity:1;}}
@@ -619,7 +637,6 @@ function applyTheme(isDark) {
         body.classList.add('dark-theme');
         if(themeThumb) themeThumb.innerHTML = '<i data-lucide="moon" style="width:14px;height:14px;"></i>'; 
         safeSet(THEME_KEY, 'dark');
-        // Telegram başlığını və arxa planını dark mode üçün tənzimləyirik
         try {
             if(window.Telegram?.WebApp?.setHeaderColor) window.Telegram.WebApp.setHeaderColor('#0f172a');
             if(window.Telegram?.WebApp?.setBackgroundColor) window.Telegram.WebApp.setBackgroundColor('#0f172a');
@@ -628,7 +645,6 @@ function applyTheme(isDark) {
         body.classList.remove('dark-theme');
         if(themeThumb) themeThumb.innerHTML = '<i data-lucide="sun" style="width:14px;height:14px;"></i>'; 
         safeSet(THEME_KEY, 'light');
-        // Telegram başlığını və arxa planını light mode üçün tənzimləyirik
         try {
             if(window.Telegram?.WebApp?.setHeaderColor) window.Telegram.WebApp.setHeaderColor('#eff6ff');
             if(window.Telegram?.WebApp?.setBackgroundColor) window.Telegram.WebApp.setBackgroundColor('#eff6ff');
@@ -641,18 +657,6 @@ function toggleTheme() {
     applyTheme(!isDark);
 }
 applyTheme(safeGet(THEME_KEY, 'light') === 'dark');
-
-if (window.Telegram && window.Telegram.WebApp) {
-    window.Telegram.WebApp.ready();
-    window.Telegram.WebApp.expand(); 
-    
-    // YENİ ƏLAVƏ: Bota girən kimi Telegram başlığını silir və Tam Ekran edir (API 8.0+)
-    try {
-        if (window.Telegram.WebApp.requestFullscreen) {
-            window.Telegram.WebApp.requestFullscreen();
-        }
-    } catch(e) {}
-}
 
 const USERNAME_KEY = `user_profile_name_${userRefId}`;
 const PROFILE_PIC_KEY = `user_profile_pic_${userRefId}`;
@@ -915,7 +919,6 @@ function loadProfile() {
     loadProfilePic();
 }
 
-// --- PAYLAŞIM PƏNCƏRƏSİ FUNKSİYALARI ---
 function openShareModal() {
     const overlay = document.getElementById('shareModalOverlay');
     overlay.style.display = 'flex';
