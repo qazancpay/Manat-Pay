@@ -63,8 +63,9 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 
 html {
-  background-color: var(--bg-start); /* Bota ilk daxil olanda ağarmanın qarşısını alır */
-  transition: background-color 0.5s;
+  background-color: var(--bg-start); 
+  height: 100vh;
+  min-height: 100vh;
 }
 
 body {
@@ -77,11 +78,10 @@ body {
   user-select:none;
   -webkit-user-select:none;
   -webkit-tap-highlight-color:transparent;
-  transition: background-color 0.5s, color 0.5s; 
   
-  /* iOS/Android Safe Area boşluqları */
-  padding-top: calc(var(--tg-content-safe-area-inset-top, 20px) + 10px);
-  padding-bottom: calc(90px + var(--tg-content-safe-area-inset-bottom, 20px));
+  /* iOS/Android Safe Area boşluqları ləğv edildi (Jumping xətası həlli) */
+  padding-top: 30px;
+  padding-bottom: 110px;
 }
 
 @keyframes bgMove{
@@ -185,7 +185,7 @@ body {
 .reward-msg.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 /* --- NAVİQASİYA PANELİ --- */
-.menu{position:fixed;bottom:max(20px, var(--tg-content-safe-area-inset-bottom, 20px));left:50%;transform:translateX(-50%);width:92%;max-width:400px; display:flex;justify-content:space-between;background:var(--menu-bg);padding:8px; border-radius:24px;box-shadow:0 8px 25px rgba(0,0,0,.15);backdrop-filter:blur(10px);z-index: 999;border: 1px solid var(--card-border);}
+.menu{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);width:92%;max-width:400px; display:flex;justify-content:space-between;background:var(--menu-bg);padding:8px; border-radius:24px;box-shadow:0 8px 25px rgba(0,0,0,.15);backdrop-filter:blur(10px);z-index: 999;border: 1px solid var(--card-border);}
 .menu button{flex:1;margin:0 4px; padding: 8px 2px;border:none;border-radius:18px;background:transparent;color:var(--text-dark);cursor: pointer;transition:0.3s;display: flex;flex-direction: column;align-items: center;justify-content: center;height: 60px; opacity: 0.6;}
 .menu button .nav-icon { width: 24px; height: 24px; margin-bottom: 4px; transition: 0.3s; stroke-width: 2.2px; }
 .menu button .nav-text { font-size: 11px; font-weight: 800; line-height: 1.2; }
@@ -279,7 +279,7 @@ body {
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.6;}}
 
 /* TAPŞIRIQ BİLDİRİŞİ */
-#taskNotification {position: fixed;top: calc(var(--tg-content-safe-area-inset-top, 20px) + 20px);left: 50%;transform: translate(-50%, -100px); background: var(--notification-bg);color: var(--notification-text);padding: 15px 25px;border-radius: 14px;box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);font-weight: 800;font-size: 15px;opacity: 0;z-index: 10000;transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-align: center;border: 2px solid rgba(255,255,255,0.2);}
+#taskNotification {position: fixed;top: 30px;left: 50%;transform: translate(-50%, -100px); background: var(--notification-bg);color: var(--notification-text);padding: 15px 25px;border-radius: 14px;box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);font-weight: 800;font-size: 15px;opacity: 0;z-index: 10000;transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-align: center;border: 2px solid rgba(255,255,255,0.2);}
 .notification-show {opacity: 1 !important;transform: translate(-50%, 0) !important; }
 .notification-hide {opacity: 0;transform: translate(-50%, -100px); }
 
@@ -324,7 +324,7 @@ const LANG_KEY = 'lang_' + userRefId;
 
 const savedTheme = safeGet(THEME_KEY, 'light');
 if(savedTheme === 'dark') {
-    document.documentElement.classList.add('dark-theme'); // Xətanın Həlli: HTML tagına da əlavə edilir
+    document.documentElement.classList.add('dark-theme'); 
     document.getElementById('body').classList.add('dark-theme');
 }
 
@@ -334,21 +334,18 @@ if (tg) {
     tg.ready();
     tg.expand();
     
-    // 1. Üst paneli tam gizlətmək (Fullscreen API - v7.7+)
     try {
         if (tg.requestFullscreen) {
             tg.requestFullscreen();
         }
     } catch (e) { console.error("Fullscreen dəstəklənmir", e); }
 
-    // 2. iOS-da yuxarıdan aşağı sürüşdürüb səhvən bağlamağın qarşısını almaq (v7.7+)
     try {
         if (tg.disableVerticalSwipes) {
             tg.disableVerticalSwipes();
         }
     } catch (e) { console.error("Sürüşdürmə ləğvi dəstəklənmir", e); }
     
-    // 3. Əgər cihaz köhnədirsə və Fullscreen işləməsə, Header-i arxa planla eyni rəng edirik ki fərq hiss olunmasın
     window.updateTgColors = function() {
         const isDark = document.body.classList.contains('dark-theme');
         const bgColor = isDark ? '#0f172a' : '#eff6ff';
@@ -658,7 +655,7 @@ const themeThumb = document.getElementById('themeThumb');
 
 function applyTheme(isDark) {
     if (isDark) {
-        document.documentElement.classList.add('dark-theme'); // HTML teqinə də tətbiq olunur
+        document.documentElement.classList.add('dark-theme'); 
         body.classList.add('dark-theme');
         if(themeThumb) themeThumb.innerHTML = '<i data-lucide="moon" style="width:14px;height:14px;"></i>'; 
         safeSet(THEME_KEY, 'dark');
@@ -669,7 +666,7 @@ function applyTheme(isDark) {
         safeSet(THEME_KEY, 'light');
     }
     lucide.createIcons(); 
-    if(window.updateTgColors) window.updateTgColors(); // Rəngi telegramın headerinə də ötür
+    if(window.updateTgColors) window.updateTgColors(); 
 }
 function toggleTheme() {
     const isDark = body.classList.contains('dark-theme');
