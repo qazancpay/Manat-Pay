@@ -7,6 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
+<!-- TƏMİR EDİLDİ: Telegram ekran böyütmə kodları DOM yüklənməmişdən öncə işə düşməsi üçün yuxarıya alındı -->
 <script>
 if (window.Telegram && window.Telegram.WebApp) {
     window.Telegram.WebApp.ready();
@@ -355,7 +356,7 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
     <div class="balance-card">
       <h3 data-translate-key="yourBalance">Balansınız</h3>
       <div class="amount"><span id="balance">0.0000</span> <span id="currencySymbol">₼</span></div>
-      <div class="usd"><span id="secondaryBalance">0.0000</span> <span id="secondaryCurrencyText">USD</span></div>
+      <div class="usd"><span id="secondaryCurrencySymbol">$</span><span id="secondaryBalance">0.0000</span> <span id="secondaryCurrencyText">USD</span></div>
     </div>
     
     <div id="adRewardNotificationContainer"></div> 
@@ -382,7 +383,7 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
     <div class="balance-card">
       <h3 data-translate-key="yourBalance">Balansınız</h3>
       <div class="amount"><span id="balance3">0.0000</span> <span id="currencySymbol3">₼</span></div>
-      <div class="usd"><span id="secondaryBalance3">0.0000</span> <span id="secondaryCurrencyText3">USD</span></div>
+      <div class="usd"><span id="secondaryCurrencySymbol3">$</span><span id="secondaryBalance3">0.0000</span> <span id="secondaryCurrencyText3">USD</span></div>
     </div>
 
     <div class="task-list">
@@ -443,7 +444,7 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
     <div class="balance-card">
       <h3 data-translate-key="yourBalance">Balansınız</h3>
       <div class="amount"><span id="balance2">0.0000</span> <span id="currencySymbol2">₼</span></div>
-      <div class="usd"><span id="secondaryBalance2">0.0000</span> <span id="secondaryCurrencyText2">USD</span></div>
+      <div class="usd"><span id="secondaryCurrencySymbol2">$</span><span id="secondaryBalance2">0.0000</span> <span id="secondaryCurrencyText2">USD</span></div>
     </div>
     <h2 style="text-align:center;margin-bottom:12px;color:var(--text-dark);font-weight:800;" data-translate-key="withdrawTitle">Çıxarış</h2>
     <div class="method-list" id="methods">
@@ -979,7 +980,7 @@ function fallbackCopyTextToClipboard(text, t) {
 }
 
 function openSupport() {
-    window.open('https://t.me/manatpaysupport', '_blank');
+    window.open('https://t.me/manatpay_support', '_blank');
 }
 
 function showStatsView() {
