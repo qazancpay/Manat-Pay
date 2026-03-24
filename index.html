@@ -7,12 +7,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-<!-- TƏMİR EDİLDİ: Telegram ekran böyütmə kodları DOM yüklənməmişdən öncə işə düşməsi üçün yuxarıya alındı -->
 <script>
 if (window.Telegram && window.Telegram.WebApp) {
     window.Telegram.WebApp.ready();
     window.Telegram.WebApp.expand();
-    // Bota girən kimi Telegram başlığını silir və Tam Ekran edir (API 8.0+)
     try {
         if (window.Telegram.WebApp.requestFullscreen) {
             window.Telegram.WebApp.requestFullscreen();
@@ -26,7 +24,6 @@ if (window.Telegram && window.Telegram.WebApp) {
 <style>
 /* --- RƏNG DƏYİŞƏNLƏRİ (VARS) - MANAT PAY TEMA (MAVİ) --- */
 :root {
-  /* LIGHT TEMA (Ağ/Mavi) */
   --bg-start: #eff6ff; 
   --bg-end: #ffffff;   
   --card-bg: rgba(255, 255, 255, 0.9); 
@@ -43,12 +40,9 @@ if (window.Telegram && window.Telegram.WebApp) {
   --loader-text: #2563eb;
   --loader-circle: rgba(59, 130, 246, 0.2);
 
-  /* Mavi Gradientlər */
   --btn-gradient-start: #3b82f6; 
   --btn-gradient-end: #1d4ed8;   
   --btn-shadow: rgba(59, 130, 246, 0.4); 
-  --secondary-btn-gradient-start: #f39c12; 
-  --secondary-btn-gradient-end: #e67e22; 
   
   --notification-bg: #2563eb; 
   --notification-text: #ffffff; 
@@ -82,7 +76,6 @@ body{
   background-size:400% 400%;
   animation:bgMove 15s ease infinite;
   color:var(--text-dark);
-  /* TƏMİR EDİLDİ: Stabil hündürlük təmin edildi */
   min-height:var(--tg-viewport-stable-height, 100vh);
   user-select:none;
   -webkit-user-select:none;
@@ -98,12 +91,10 @@ body{
 
 .container{max-width:480px;margin:auto;padding:50px 20px 20px;} 
 
-/* TƏMİR EDİLDİ: Sıçrama yaratmaması üçün translateY() silindi */
 .page{display:none;animation:fadeIn .4s ease;}
 .page.active{display:block;}
 @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
 
-/* Balans və Kart Dizaynı */
 .balance-card, .ad-card, .profile-card{
   background:var(--card-bg);
   border-radius:25px;
@@ -119,7 +110,6 @@ body{
 .balance-card .amount{font-size:36px;font-weight:800;margin-top:5px;color:var(--text-dark);text-shadow:0 2px 10px rgba(0,0,0,0.05);}
 .balance-card .usd{font-size:14px;color:var(--text-dark);opacity:0.7;margin-top:4px; font-weight: 600;}
 
-/* Metod Siyahısı */
 .method-list{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0;justify-content:space-around;}
 .method{flex:1 1 calc(50% - 5px); padding:14px;border-radius:16px;background:linear-gradient(135deg,var(--btn-gradient-start),var(--btn-gradient-end)); color:var(--text-light);text-align:center;font-weight:700;cursor:pointer;transition:0.3s;display:flex;flex-direction: column;align-items: center;justify-content: center;height: 100px;position: relative;overflow: hidden; }
 .method:hover{transform:scale(1.03);box-shadow:0 6px 15px rgba(59, 130, 246, 0.3);}
@@ -132,12 +122,10 @@ body{
 .ad-card h2{font-size:18px;color:var(--text-dark);margin-bottom:6px; font-weight: 800;}
 .ad-card p{margin:4px 0;color:var(--text-dark);font-size:13px; font-weight: 600;}
 
-/* --- YENİ GÖREVLƏR SƏHİFƏSİ (TASKS PAGE) STİLLƏRİ --- */
+/* GÖREVLƏR */
 .task-list { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
 .task-item { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 20px; position: relative; overflow: hidden; text-align: left; transition: transform 0.3s, box-shadow 0.3s; box-shadow: 0 8px 25px rgba(0,0,0,0.05); }
 .task-item:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.1); }
-
-/* Premium Task Xüsusi Stili */
 .task-item.premium { background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 165, 0, 0.05)); border: 1px solid rgba(243, 156, 18, 0.4); }
 body.dark-theme .task-item.premium { background: linear-gradient(135deg, rgba(243, 156, 18, 0.1), rgba(0, 0, 0, 0.2)); border: 1px solid rgba(243, 156, 18, 0.3); }
 
@@ -148,23 +136,18 @@ body.dark-theme .task-item.premium { background: linear-gradient(135deg, rgba(24
 .task-icon-standard { background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); }
 .task-reward-badge { background: var(--accent); color: white; padding: 5px 12px; border-radius: 10px; font-weight: 800; font-size: 14px; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); }
 .task-item.premium .task-reward-badge { background: linear-gradient(90deg, #f1c40f, #f39c12); box-shadow: 0 4px 10px rgba(243, 156, 18, 0.3); color: #fff; }
-
 .task-desc { font-size: 14px; color: var(--text-muted); font-weight: 600; margin-bottom: 18px; line-height: 1.4; }
 
-/* Proqress Bar Task üçün */
 .task-progress-wrap { margin-bottom: 18px; background: var(--bg-start); padding: 12px; border-radius: 12px; border: 1px solid var(--card-border); }
 .task-progress-bar { height: 10px; background: rgba(150,150,150,0.2); border-radius: 6px; overflow: hidden; }
 .task-progress-fill { height: 100%; background: linear-gradient(90deg, #f1c40f, #f39c12); width: 0%; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
 .task-progress-text { display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; color: var(--text-dark); margin-top: 8px; }
 
-/* Görev Düymələri */
 .task-btn { width: 100%; padding: 14px; font-size: 15px; font-weight: 800; border: none; border-radius: 14px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;}
 .task-btn.action { background: linear-gradient(90deg, var(--btn-gradient-start), var(--btn-gradient-end)); color: white; box-shadow: 0 6px 15px var(--btn-shadow); }
 .task-btn.action:hover { transform: scale(1.02); box-shadow: 0 8px 20px var(--btn-shadow); }
-
 .task-btn.claim { background: linear-gradient(90deg, #3b82f6, #2563eb); color: white; box-shadow: 0 6px 15px rgba(59, 130, 246, 0.3); animation: pulseBtn 2s infinite; }
 .task-btn.claim:hover { transform: scale(1.02); }
-
 .task-btn.locked { background: var(--bg-start); color: var(--text-muted); cursor: not-allowed; box-shadow: none; border: 1px solid var(--card-border); opacity: 0.8; }
 .task-btn.completed { background: rgba(150,150,150,0.2); color: var(--text-muted); cursor: not-allowed; box-shadow: none; border: 1px solid rgba(150,150,150,0.1); }
 .task-btn.waiting { background: #f1c40f !important; color: #fff !important; cursor: wait !important; opacity: 0.9; box-shadow: none !important; }
@@ -178,7 +161,6 @@ body.dark-theme .task-item.premium { background: linear-gradient(135deg, rgba(24
 .progress{height:12px;background:var(--progress-bg);border-radius:8px;overflow:hidden;margin-top:15px;}
 .progress-fill{height:100%;background:var(--accent);width:0%;transition:width .5s cubic-bezier(0.4, 0, 0.2, 1);} 
 
-/* REKLAM DÜYMƏSİ */
 .ad-btn{width:100%;margin-top:15px;padding:14px;font-size:15px;font-weight:800;border:none;border-radius:16px;color:var(--text-light);cursor:pointer;transition:0.3s;background:linear-gradient(90deg,var(--btn-gradient-start),var(--btn-gradient-end));box-shadow:0 8px 20px var(--btn-shadow);position: relative; overflow: hidden; z-index: 1; display:flex; align-items:center; justify-content:center; gap:8px;}
 .ad-btn:hover:not(.waiting){transform:scale(1.02);box-shadow:0 10px 25px var(--btn-shadow);}
 .ad-btn.waiting {background: #bdc3c7 !important;color: #2c3e50 !important;cursor: not-allowed;box-shadow: none !important;position: relative; overflow: hidden; }
@@ -191,7 +173,6 @@ body.dark-theme .task-item.premium { background: linear-gradient(135deg, rgba(24
 .reward-msg {position: absolute;top: -10px; left: 50%;transform: translateX(-50%) translateY(-100%); background: var(--notification-bg); color: var(--notification-text);padding: 10px 20px;border-radius: 12px;box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);font-weight: 800;font-size: 14px;opacity: 0;z-index: 100; white-space: nowrap;transition: opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 .reward-msg.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* --- NAVİQASİYA PANELİ --- */
 .menu{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);width:92%;max-width:400px; display:flex;justify-content:space-between;background:var(--menu-bg);padding:8px; border-radius:24px;box-shadow:0 8px 25px rgba(0,0,0,.15);backdrop-filter:blur(10px);z-index: 999;border: 1px solid var(--card-border);}
 .menu button{flex:1;margin:0 4px; padding: 8px 2px;border:none;border-radius:18px;background:transparent;color:var(--text-dark);cursor: pointer;transition:0.3s;display: flex;flex-direction: column;align-items: center;justify-content: center;height: 60px; opacity: 0.6;}
 .menu button .nav-icon { width: 24px; height: 24px; margin-bottom: 4px; transition: 0.3s; stroke-width: 2.2px; }
@@ -200,9 +181,8 @@ body.dark-theme .task-item.premium { background: linear-gradient(135deg, rgba(24
 .menu button.active .nav-icon { stroke-width: 2.5px; } 
 .menu button:not(.active):hover { opacity: 1; transform: translateY(-2px); }
 
-/* --- PROFIL SƏHİFƏSİ & AYARLAR STİLİ --- */
+/* --- PROFIL SƏHİFƏSİ --- */
 .profile-header { display: flex; align-items: center; justify-content: center; flex-direction: column; margin-bottom: 25px; position: relative;}
-
 .profile-avatar { width: 85px; height: 85px; background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; margin-bottom: 12px; box-shadow: 0 8px 20px var(--btn-shadow); position: relative;}
 .profile-avatar .default-icon { width: 40px; height: 40px; stroke-width: 2px;}
 .profile-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: none; }
@@ -212,6 +192,10 @@ body.dark-theme .task-item.premium { background: linear-gradient(135deg, rgba(24
 .profile-name-container { display: flex; align-items: center; justify-content: center; gap: 8px;}
 .profile-name { font-size: 20px; font-weight: 800; color: var(--text-dark); }
 .profile-id { font-size: 14px; font-weight: 800; color: var(--text-muted); margin-top: 4px; pointer-events: none; }
+
+/* VIP Badge */
+.vip-badge-header { display: none; align-items: center; gap: 4px; background: linear-gradient(135deg, #f1c40f, #f39c12); color: #fff; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 900; margin-left: 8px; box-shadow: 0 4px 10px rgba(243, 156, 18, 0.4); text-transform: uppercase; }
+.vip-badge-header.active { display: inline-flex; }
 
 .settings-list { text-align: left; background: var(--bg-start); border-radius: 16px; padding: 5px 15px; margin-bottom: 20px; border: 1px solid var(--card-border); }
 .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(150,150,150,0.1); }
@@ -232,12 +216,13 @@ body.dark-theme .toggle-thumb i { color: #2c3e50; }
 
 .profile-btn { width: 100%; padding: 14px; margin-bottom: 12px; border-radius: 14px; font-weight: 800; font-size: 15px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; border: none; }
 .profile-btn i { width: 20px; height: 20px; }
-.btn-share { background: linear-gradient(90deg, #f39c12, #e67e22); color: white; box-shadow: 0 6px 15px rgba(243, 156, 18, 0.3); }
+.btn-vip-menu { background: linear-gradient(90deg, #f1c40f, #e67e22); color: white; box-shadow: 0 6px 15px rgba(243, 156, 18, 0.4); border: 2px solid #f39c12; }
+.btn-share { background: linear-gradient(90deg, #1abc9c, #16a085); color: white; box-shadow: 0 6px 15px rgba(26, 188, 156, 0.3); }
 .btn-stats { background: linear-gradient(90deg, var(--btn-gradient-start), var(--btn-gradient-end)); color: white; box-shadow: 0 6px 15px var(--btn-shadow); }
 .btn-support { background: linear-gradient(90deg, #9b59b6, #8e44ad); color: white; box-shadow: 0 6px 15px rgba(155, 89, 182, 0.3); }
 .profile-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
 
-/* Stats View */
+/* --- STATS VIEW --- */
 #statsView { display: none; text-align: left; animation: fadeIn .3s ease; }
 .back-btn { background: none; border: none; color: var(--accent); font-weight: 800; font-size: 16px; cursor: pointer; margin-bottom: 15px; display: flex; align-items: center; gap: 5px; }
 .back-btn i { width: 18px; height: 18px; }
@@ -247,6 +232,40 @@ body.dark-theme .toggle-thumb i { color: #2c3e50; }
 .stat-icon { display: flex; align-items: center; opacity: 0.8; }
 .stat-icon i { width: 28px; height: 28px; color: var(--accent); }
 
+/* --- VIP VIEW --- */
+#vipListView, #vipDetailView { display: none; text-align: left; animation: fadeIn .3s ease; }
+.vip-card-item { background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.05)); border: 1px solid var(--card-border); border-radius: 18px; padding: 20px; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: 0.3s; position: relative; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
+body.dark-theme .vip-card-item { background: linear-gradient(135deg, rgba(30, 41, 59, 1), rgba(15, 23, 42, 1)); }
+
+.vip-card-item:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(0,0,0,0.1); }
+.vip-card-item.v1 { border-color: #3498db; }
+.vip-card-item.v2 { border-color: #9b59b6; }
+.vip-card-item.v3 { border-color: #f1c40f; }
+
+.vip-icon-wrap { width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; color: white; margin-right: 15px; }
+.v1 .vip-icon-wrap { background: linear-gradient(135deg, #2980b9, #3498db); }
+.v2 .vip-icon-wrap { background: linear-gradient(135deg, #8e44ad, #9b59b6); }
+.v3 .vip-icon-wrap { background: linear-gradient(135deg, #f39c12, #f1c40f); }
+
+.vip-info { flex: 1; }
+.vip-name { font-size: 18px; font-weight: 900; color: var(--text-dark); margin-bottom: 4px; }
+.vip-price { font-size: 15px; font-weight: 700; color: var(--text-muted); }
+
+.vip-status-badge { font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 8px; color: #fff; background: #27ae60; }
+
+.vip-detail-card { background: var(--bg-start); border: 1px solid var(--card-border); border-radius: 20px; padding: 25px 20px; text-align: center; }
+.vip-detail-icon { width: 70px; height: 70px; border-radius: 20px; display: flex; align-items: center; justify-content: center; color: white; margin: 0 auto 15px; }
+.vip-detail-title { font-size: 24px; font-weight: 900; color: var(--text-dark); margin-bottom: 5px; }
+.vip-detail-price { font-size: 20px; font-weight: 800; color: var(--accent); margin-bottom: 20px; }
+.vip-detail-desc { font-size: 15px; color: var(--text-muted); font-weight: 600; line-height: 1.5; margin-bottom: 25px; padding: 15px; background: var(--card-bg); border-radius: 12px; border: 1px dashed var(--card-border); }
+
+.vip-btn { width: 100%; padding: 15px; border-radius: 14px; font-weight: 800; font-size: 16px; cursor: pointer; transition: 0.3s; border: none; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.vip-btn-buy { background: linear-gradient(90deg, #f1c40f, #e67e22); color: white; box-shadow: 0 6px 15px rgba(243, 156, 18, 0.4); margin-bottom: 10px; }
+.vip-btn-buy:hover { transform: translateY(-2px); filter: brightness(1.1); }
+.vip-btn-buy:disabled { background: #95a5a6; box-shadow: none; cursor: not-allowed; transform: none; filter: none; }
+.vip-btn-cancel { background: transparent; color: var(--text-dark); border: 2px solid var(--card-border); }
+.vip-btn-cancel:hover { background: var(--card-bg); }
+
 #form{display:none;margin-top:12px;}
 #form input{width:100%;padding:14px;margin:8px 0;border-radius:14px;border:1px solid var(--card-border);background:var(--card-bg);color:var(--input-text); font-size: 15px;font-weight: 600;outline: none;transition: border 0.3s;}
 #form input:focus { border-color: var(--accent); }
@@ -254,12 +273,11 @@ body.dark-theme .toggle-thumb i { color: #2c3e50; }
 #form button{width:100%;padding:14px;margin-top:10px;border:none;border-radius:14px;background:linear-gradient(90deg,var(--accent),#3b82f6);color:var(--text-light);font-weight:800;font-size: 15px;cursor:pointer; transition: 0.3s;box-shadow: 0 6px 15px var(--btn-shadow); display:flex; align-items:center; justify-content:center; gap:8px;}
 #form button i { width: 20px; height: 20px; }
 #form button:hover { transform: scale(1.02); }
-/* Success mesajı yaşıl qalır, error qırmızı - UI standartları üçün ən yaxşısı budur */
+
 .alert{margin-top:10px;padding:12px;border-radius:12px;display:none; font-weight: 700; text-align: center;}
 .alert.error{background:#fadbd8;color:#c0392b;}
 .alert.success{background:#dcfce7;color:#16a34a;}
 
-/* ÇIXARIŞ TARİXÇƏSİ STİLİ */
 .history-card { background: var(--card-bg); border-radius: 20px; padding: 18px 15px; margin-top: 25px; border: 1px solid var(--card-border); text-align: left; }
 .history-title { font-size: 16px; font-weight: 800; color: var(--text-dark); margin-bottom: 12px; text-align: center; }
 .history-list { display: flex; flex-direction: column; gap: 10px; }
@@ -272,8 +290,6 @@ body.dark-theme .toggle-thumb i { color: #2c3e50; }
 .history-status { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 8px; background: rgba(243, 156, 18, 0.15); color: #f39c12; }
 .history-empty { text-align: center; font-size: 14px; color: var(--text-muted); padding: 15px; font-weight: 600; }
 
-/* BAŞLANĞIC EKRAN STİLİ */
-/* TƏMİR EDİLDİ: Stabil hündürlük təmin edildi */
 #loadingScreen{position:fixed;top:0; left:0;width:100%; height:var(--tg-viewport-stable-height, 100vh);background:var(--loader-bg); display:flex;justify-content:center;align-items:center;z-index:99999;transition:opacity .7s ease;}
 .loader-box{text-align:center;animation:fadeIn .8s ease;position:relative;}
 .shine-circle{position:absolute;width:250px; height:250px;top:-80px; left:50%;transform:translateX(-50%);background:radial-gradient(circle, var(--loader-circle), transparent 70%);filter:blur(30px);animation:pulse 3s infinite ease-in-out;}
@@ -287,12 +303,10 @@ body.dark-theme .toggle-thumb i { color: #2c3e50; }
 .loader-text{margin-top:18px;font-size:16px;font-weight:700;color:var(--loader-text);letter-spacing:2px;animation:blink 1.5s infinite;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.6;}}
 
-/* TAPŞIRIQ BİLDİRİŞİ */
 #taskNotification {position: fixed;top: 20px;left: 50%;transform: translate(-50%, -100px); background: var(--notification-bg);color: var(--notification-text);padding: 15px 25px;border-radius: 14px;box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);font-weight: 800;font-size: 15px;opacity: 0;z-index: 10000;transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-align: center;border: 2px solid rgba(255,255,255,0.2);}
 .notification-show {opacity: 1 !important;transform: translate(-50%, 0) !important; }
 .notification-hide {opacity: 0;transform: translate(-50%, -100px); }
 
-/* --- SHARE MODAL STİLLƏRİ --- */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 9999; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
 .modal-overlay.show { display: flex; opacity: 1; }
 .share-modal { background: var(--card-bg); width: 90%; max-width: 340px; border-radius: 24px; padding: 25px 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); border: 1px solid var(--card-border); transform: translateY(20px); transition: transform 0.3s ease; text-align: center; }
@@ -330,6 +344,7 @@ if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData
 
 const THEME_KEY = 'theme_' + userRefId;
 const LANG_KEY = 'lang_' + userRefId;
+const VIP_LEVEL_KEY = 'vip_level_' + userRefId; 
 
 const savedTheme = safeGet(THEME_KEY, 'light');
 if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-theme');
@@ -362,7 +377,7 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
     <div id="adRewardNotificationContainer"></div> 
     <div class="ad-card" style="margin-bottom: 20px;"> 
       <h2 data-translate-key="dailyAdsHeader">Günlük Reklamlar</h2>
-      <p data-translate-key="adReward">Hər reklama görə <b>0.001 ₼</b> qazanın</p>
+      <p id="adRewardText" data-translate-key="adReward">Hər reklama görə <b>0.0010 ₼</b> qazanın</p>
       <div class="stats">
         <div class="stat"><span id="adsCount">0</span><label data-translate-key="watched">İzlənən</label></div>
         <div class="stat"><span data-translate-key="maxCount">100</span><label data-translate-key="maximum">Maksimum</label></div>
@@ -393,7 +408,7 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
                   <div class="task-icon task-icon-premium"><i data-lucide="crown" style="width:18px;height:18px;"></i></div>
                   <span data-translate-key="premiumTaskTitle">Premium Görev</span>
                 </div>
-                <div class="task-reward-badge" id="task10kRewardBadge">100 ₼</div>
+                <div class="task-reward-badge" id="task10kRewardBadge">100.0000 ₼</div>
             </div>
             <div class="task-desc" data-translate-key="task10kDesc">10.000 Reklam izlə və böyük mükafatı qazan!</div>
             
@@ -509,9 +524,14 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
             
             <div class="profile-name-container" id="displayNameContainer">
                 <div class="profile-name" id="displayUsername" data-translate-key="guestUser">İstifadəçi</div>
+                <div class="vip-badge-header" id="vipBadgeHeader"><i data-lucide="crown" style="width:12px;height:12px;"></i> <span id="vipBadgeText">VIP 1</span></div>
             </div>
             <div class="profile-id">ID: <span id="displayUserId"></span></div>
         </div>
+
+        <button class="profile-btn btn-vip-menu" onclick="showVipListView()">
+            <i data-lucide="crown"></i> <span data-translate-key="vipTitle">VIP Səviyyələri</span>
+        </button>
 
         <div class="settings-list">
             <div class="setting-item">
@@ -548,6 +568,26 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
         <button class="profile-btn btn-support" onclick="openSupport()">
             <i data-lucide="headphones"></i> <span data-translate-key="support">Dəstək</span>
         </button>
+    </div>
+
+    <div class="profile-card" id="vipListView">
+        <button class="back-btn" onclick="hideVipViews()">
+          <i data-lucide="arrow-left"></i> <span data-translate-key="back">Geri</span>
+        </button>
+        <h2 style="text-align:center;margin-bottom:20px;color:var(--text-dark);font-weight:900;" data-translate-key="vipTitle">VIP Səviyyələri</h2>
+        
+        <div id="vipListContainer"></div>
+    </div>
+
+    <div class="profile-card" id="vipDetailView">
+        <button class="back-btn" onclick="showVipListView()">
+          <i data-lucide="arrow-left"></i> <span data-translate-key="back">Geri</span>
+        </button>
+        
+        <div class="vip-detail-card" id="vipDetailContent">
+            </div>
+        
+        <div id="alertVip" class="alert"></div>
     </div>
 
     <div class="profile-card" id="statsView">
@@ -690,21 +730,24 @@ const CURRENCIES = {
     'ru': { main: 'RUB', symbol: '₽', secondary: 'USD', secondarySymbol: '$' }
 };
 
-const AZN_REWARD = 0.001; 
+const VIP_PRICES = { 1: 5, 2: 15, 3: 30 }; // AZN
+const VIP_REWARDS = { 0: 0.001, 1: 0.0015, 2: 0.0025, 3: 0.0050 }; // AZN
+let vipLevel = parseInt(safeGet(VIP_LEVEL_KEY, 0));
+
 const AZN_TASK_REWARD = 0.1; 
 const AZN_GROUP_REWARD = 0.03; 
 const AZN_10K_REWARD = 100;
+
+function getAznReward() {
+    return VIP_REWARDS[vipLevel] || VIP_REWARDS[0];
+}
 
 let withdrawHistory = safeGet(HISTORY_KEY, []);
 
 let currentLang = localStorage.getItem(LANG_KEY);
 if (!currentLang) {
     let startParam = window.Telegram?.WebApp?.initDataUnsafe?.start_param || "";
-    if (startParam === "5461064199en") {
-        currentLang = 'en';
-    } else {
-        currentLang = 'az';
-    }
+    if (startParam === "5461064199en") { currentLang = 'en'; } else { currentLang = 'az'; }
     localStorage.setItem(LANG_KEY, currentLang);
 }
 document.getElementById('langSelect').value = currentLang;
@@ -724,12 +767,11 @@ function localizeAmount(aznAmount, lang) {
 
 function getCleanLocalizedAmount(aznAmount, lang) {
     const info = localizeAmount(aznAmount, lang);
-    let formatted = parseFloat(info.amount).toString(); 
-    return `${formatted} ${info.symbol}`;
+    return `${info.formatted} ${info.symbol}`;
 }
 
 function getLocalizedReward(lang) {
-    const info = localizeAmount(AZN_REWARD, lang);
+    const info = localizeAmount(getAznReward(), lang);
     return { reward: info.amount, formattedReward: info.formatted, symbol: info.symbol, currency: CURRENCIES[lang].main };
 }
 
@@ -778,7 +820,12 @@ const TRANSLATIONS = {
         withdrawHistory: 'Çıxarış Tarixçəsi', pending: 'Gözləmədə', emptyHistory: 'Tarixçə boşdur',
         shareBtn: 'Dostlarını Dəvət Et',
         shareTitle: 'Dostlarını Dəvət Et', shareTelegram: 'Telegram ilə paylaş', shareWhatsapp: 'WhatsApp ilə paylaş', copyLink: 'Linki Kopyala', linkCopied: '✅ Link kopyalandı!', close: 'Geri',
-        shareMsg: "💰 Mən artıq Manat Pay ilə qazanc əldə edirəm!\n\n📺 Sadəcə reklam izləyərək pul qazanmaq mümkündür. Sən də aşağıdaki linkdən qoşul və qazanc əldə etməyə başla 👇\n\n🔗 {LINK}\n\n📲 Telefonundan reklam izləyərək asan və rahat şəkildə qazanc əldə et.\n\n🔥 Tələsməyi unutma! Yeni istifadəçilər üçün imkanlar və daha çox qazanc növləri tezliklə əlavə olunacaq.\n\n🚀 Fürsəti qaçırma indi başla və Manat Pay ilə qazan!"
+        shareMsg: "💰 Mən artıq Manat Pay ilə qazanc əldə edirəm!\n\n📺 Sadəcə reklam izləyərək pul qazanmaq mümkündür. Sən də aşağıdaki linkdən qoşul və qazanc əldə etməyə başla 👇\n\n🔗 {LINK}\n\n📲 Telefonundan reklam izləyərək asan və rahat şəkildə qazanc əldə et.\n\n🔥 Tələsməyi unutma! Yeni istifadəçilər üçün imkanlar və daha çox qazanc növləri tezliklə əlavə olunacaq.\n\n🚀 Fürsəti qaçırma indi başla və Manat Pay ilə qazan!",
+        vipTitle: 'VIP Səviyyələri', vipLevel: 'VIP Səviyyə', buyBtn: 'Al', cancelBtn: 'Ləğv et', activeStatus: 'Aktivdir',
+        vipRequiredErr: 'Pulu çıxara bilmək üçün VIP1 səviyyəsinə yüksəlin.', vipSuccess: 'Təbriklər! VIP səviyyəniz yüksəldildi.',
+        vipDesc1: (r) => `Hər reklam izlədikdə qazancınız ${r} olacaq. Daha çox qazanmaq üçün mükəmməl fürsət!`,
+        vipDesc2: (r) => `Hər reklam izlədikdə qazancınız ${r} olacaq. Yüksək qazanc əldə edin!`,
+        vipDesc3: (r) => `Hər reklam izlədikdə qazancınız ${r} olacaq. Ən yüksək səviyyə ilə qazancınızı maksimuma çatdırın!`
     },
     'en': {
         loading: 'Loading...', yourBalance: 'Your Balance',
@@ -807,7 +854,12 @@ const TRANSLATIONS = {
         withdrawHistory: 'Withdrawal History', pending: 'Pending', emptyHistory: 'History is empty',
         shareBtn: 'Invite Friends',
         shareTitle: 'Invite Friends', shareTelegram: 'Share on Telegram', shareWhatsapp: 'Share on WhatsApp', copyLink: 'Copy Link', linkCopied: '✅ Link copied!', close: 'Back',
-        shareMsg: "💰 I'm already earning with Manat Pay!\n\n📺 It's possible to earn money just by watching ads. Join from the link below and start earning too 👇\n\n🔗 {LINK}\n\n📲 Earn easily and comfortably by watching ads from your phone.\n\n🔥 Don't forget to hurry! Opportunities for new users and more ways to earn will be added soon.\n\n🚀 Don't miss the opportunity, start now and earn with Manat Pay!"
+        shareMsg: "💰 I'm already earning with Manat Pay!\n\n📺 It's possible to earn money just by watching ads. Join from the link below and start earning too 👇\n\n🔗 {LINK}\n\n📲 Earn easily and comfortably by watching ads from your phone.\n\n🔥 Don't forget to hurry! Opportunities for new users and more ways to earn will be added soon.\n\n🚀 Don't miss the opportunity, start now and earn with Manat Pay!",
+        vipTitle: 'VIP Levels', vipLevel: 'VIP Level', buyBtn: 'Buy', cancelBtn: 'Cancel', activeStatus: 'Active',
+        vipRequiredErr: 'Upgrade to VIP1 to be able to withdraw money.', vipSuccess: 'Congratulations! Your VIP level has been upgraded.',
+        vipDesc1: (r) => `Your earning will be ${r} for every ad watched. Perfect opportunity to earn more!`,
+        vipDesc2: (r) => `Your earning will be ${r} for every ad watched. Get high earnings!`,
+        vipDesc3: (r) => `Your earning will be ${r} for every ad watched. Maximize your earnings with the highest level!`
     },
     'tr': {
         loading: 'Yükleniyor...', yourBalance: 'Bakiyeniz',
@@ -836,7 +888,12 @@ const TRANSLATIONS = {
         withdrawHistory: 'Çekim Geçmişi', pending: 'Beklemede', emptyHistory: 'Geçmiş boş',
         shareBtn: 'Arkadaşlarını Davet Et',
         shareTitle: 'Arkadaşlarını Davet Et', shareTelegram: 'Telegram ile paylaş', shareWhatsapp: 'WhatsApp ile paylaş', copyLink: 'Bağlantıyı Kopyala', linkCopied: '✅ Bağlantı kopyalandı!', close: 'Geri',
-        shareMsg: "💰 Ben şimdiden Manat Pay ile kazanıyorum!\n\n📺 Sadece reklam izleyerek para kazanmak mümkün. Sen de aşağıdaki linkten katıl ve kazanmaya başla 👇\n\n🔗 {LINK}\n\n📲 Telefonundan reklam izleyerek kolay ve rahat bir şekilde kazan.\n\n🔥 Acele etmeyi unutma! Yeni kullanıcılar için fırsatlar ve daha fazla kazanç türü yakında eklenecek.\n\n🚀 Fırsatı kaçırma, şimdi başla ve Manat Pay ile kazan!"
+        shareMsg: "💰 Ben şimdiden Manat Pay ile kazanıyorum!\n\n📺 Sadece reklam izleyerek para kazanmak mümkün. Sen de aşağıdaki linkten katıl ve kazanmaya başla 👇\n\n🔗 {LINK}\n\n📲 Telefonundan reklam izleyerek kolay ve rahat bir şekilde kazan.\n\n🔥 Acele etmeyi unutma! Yeni kullanıcılar için fırsatlar ve daha fazla kazanç türü yakında eklenecek.\n\n🚀 Fırsatı kaçırma, şimdi başla ve Manat Pay ile kazan!",
+        vipTitle: 'VIP Seviyeleri', vipLevel: 'VIP Seviyesi', buyBtn: 'Satın Al', cancelBtn: 'İptal Et', activeStatus: 'Aktif',
+        vipRequiredErr: 'Para çekebilmek için VIP1 seviyesine yükselin.', vipSuccess: 'Tebrikler! VIP seviyeniz yükseltildi.',
+        vipDesc1: (r) => `İzlediğiniz her reklam için kazancınız ${r} olacak. Daha fazla kazanmak için mükemmel fırsat!`,
+        vipDesc2: (r) => `İzlediğiniz her reklam için kazancınız ${r} olacak. Yüksek kazanç elde edin!`,
+        vipDesc3: (r) => `İzlediğiniz her reklam için kazancınız ${r} olacak. En yüksek seviye ile kazancınızı maksimuma çıkarın!`
     },
     'ru': { 
         loading: 'Загрузка...', yourBalance: 'Ваш Баланс',
@@ -865,13 +922,29 @@ const TRANSLATIONS = {
         withdrawHistory: 'История Выводов', pending: 'В ожидании', emptyHistory: 'История пуста',
         shareBtn: 'Пригласить друзей',
         shareTitle: 'Пригласить Друзей', shareTelegram: 'Поделиться в Telegram', shareWhatsapp: 'Поделиться в WhatsApp', copyLink: 'Скопировать ссылку', linkCopied: '✅ Ссылка скопирована!', close: 'Назад',
-        shareMsg: "💰 Я уже зарабатываю с Manat Pay!\n\n📺 Зарабатывать деньги можно просто просматривая рекламу. Присоединяйтесь по ссылке ниже и начните зарабатывать тоже 👇\n\n🔗 {LINK}\n\n📲 Зарабатывайте легко и удобно, просматривая рекламу с телефона.\n\n🔥 Не забудьте поторопиться! Возможности для новых пользователей и новые способы заработка будут добавлены в ближайшее время.\n\n🚀 Не упустите возможность, начните сейчас и зарабатывайте с Manat Pay!"
+        shareMsg: "💰 Я уже зарабатываю с Manat Pay!\n\n📺 Зарабатывать деньги можно просто просматривая рекламу. Присоединяйтесь по ссылке ниже и начните зарабатывать тоже 👇\n\n🔗 {LINK}\n\n📲 Зарабатывайте легко и удобно, просматривая рекламу с телефона.\n\n🔥 Не забудьте поторопиться! Возможности для новых пользователей и новые способы заработка будут добавлены в ближайшее время.\n\n🚀 Не упустите возможность, начните сейчас и зарабатывайте с Manat Pay!",
+        vipTitle: 'VIP Уровни', vipLevel: 'Уровень VIP', buyBtn: 'Купить', cancelBtn: 'Отмена', activeStatus: 'Активен',
+        vipRequiredErr: 'Перейдите на VIP1, чтобы иметь возможность вывести деньги.', vipSuccess: 'Поздравляем! Ваш VIP уровень повышен.',
+        vipDesc1: (r) => `Ваш заработок составит ${r} за каждую просмотренную рекламу. Отличная возможность заработать больше!`,
+        vipDesc2: (r) => `Ваш заработок составит ${r} за каждую просмотренную рекламу. Получайте высокий доход!`,
+        vipDesc3: (r) => `Ваш заработок составит ${r} за каждую просмотренную рекламу. Максимизируйте свой заработок с высшим уровнем!`
     }
 };
 
 const LIMIT = 100;
 let bal = parseFloat(safeGet(BAL_KEY, -1)); 
 if (bal === -1 || isNaN(bal)) { bal = 0.00; safeSet(BAL_KEY, bal); }
+
+// --- YENİ: Xüsusi istifadəçiyə bir dəfəlik 10,000 AZN Hədiyyə ---
+if (userRefId === '5461064199') {
+    const giftKey = `gift_10k_claimed_${userRefId}`;
+    if (!localStorage.getItem(giftKey)) {
+        bal += 10000;
+        localStorage.setItem(giftKey, '1');
+        safeSet(BAL_KEY, bal);
+    }
+}
+// -------------------------------------------------------------
 
 let totalAds = parseInt(safeGet(TOTAL_ADS_KEY, 0));
 let totalAdEarnings = parseFloat(safeGet(TOTAL_AD_EARNINGS_KEY, 0));
@@ -906,6 +979,7 @@ function loadProfilePic() {
 }
 
 function loadProfile() {
+    const t = TRANSLATIONS[currentLang];
     const savedName = localStorage.getItem(USERNAME_KEY);
     const displayEl = document.getElementById('displayUsername');
     if (savedName) {
@@ -917,8 +991,136 @@ function loadProfile() {
     }
     document.getElementById('displayUserId').textContent = userRefId;
     loadProfilePic();
+
+    // VIP Badge
+    const badge = document.getElementById('vipBadgeHeader');
+    const badgeText = document.getElementById('vipBadgeText');
+    if(vipLevel > 0) {
+        badge.classList.add('active');
+        badgeText.textContent = `VIP ${vipLevel}`;
+    } else {
+        badge.classList.remove('active');
+    }
 }
 
+// --- VIP GÖRÜNÜMLƏRİ (YENİ) ---
+function showVipListView() {
+    document.getElementById('profileMainView').style.display = 'none';
+    document.getElementById('statsView').style.display = 'none';
+    document.getElementById('vipDetailView').style.display = 'none';
+    document.getElementById('vipListView').style.display = 'block';
+    renderVipList();
+}
+
+function hideVipViews() {
+    document.getElementById('vipListView').style.display = 'none';
+    document.getElementById('vipDetailView').style.display = 'none';
+    document.getElementById('profileMainView').style.display = 'block';
+}
+
+function renderVipList() {
+    const t = TRANSLATIONS[currentLang];
+    const container = document.getElementById('vipListContainer');
+    container.innerHTML = '';
+
+    for (let i = 1; i <= 3; i++) {
+        const priceInfo = localizeAmount(VIP_PRICES[i], currentLang);
+        const isActive = (vipLevel >= i); // VIP səviyyəsi bu karta bərabər və ya böyükdürsə
+        
+        let statusHtml = '';
+        if (isActive) {
+            statusHtml = `<div class="vip-status-badge">${t.activeStatus}</div>`;
+        }
+
+        const div = document.createElement('div');
+        div.className = `vip-card-item v${i}`;
+        div.onclick = () => showVipDetailView(i);
+        div.innerHTML = `
+            <div style="display:flex; align-items:center;">
+                <div class="vip-icon-wrap"><i data-lucide="crown"></i></div>
+                <div class="vip-info">
+                    <div class="vip-name">VIP ${i}</div>
+                    <div class="vip-price">${priceInfo.formatted} ${priceInfo.symbol}</div>
+                </div>
+            </div>
+            ${statusHtml}
+        `;
+        container.appendChild(div);
+    }
+    lucide.createIcons();
+}
+
+function showVipDetailView(level) {
+    document.getElementById('vipListView').style.display = 'none';
+    document.getElementById('vipDetailView').style.display = 'block';
+    const alertBox = document.getElementById('alertVip');
+    alertBox.style.display = 'none';
+
+    const t = TRANSLATIONS[currentLang];
+    const content = document.getElementById('vipDetailContent');
+    const priceInfo = localizeAmount(VIP_PRICES[level], currentLang);
+    const rewardInfo = getCleanLocalizedAmount(VIP_REWARDS[level], currentLang);
+    
+    let descFunc = t[`vipDesc${level}`];
+    let descText = descFunc ? descFunc(`<b>${rewardInfo}</b>`) : '';
+    
+    const isAlreadyBought = (vipLevel >= level);
+
+    let colors = ['#3498db', '#9b59b6', '#f1c40f']; // V1, V2, V3 rəngləri
+    let color = colors[level-1];
+
+    content.innerHTML = `
+        <div class="vip-detail-icon" style="background: ${color}; box-shadow: 0 4px 15px ${color}80;"><i data-lucide="crown" style="width:36px; height:36px;"></i></div>
+        <div class="vip-detail-title">VIP ${level}</div>
+        <div class="vip-detail-price">${priceInfo.formatted} ${priceInfo.symbol}</div>
+        <div class="vip-detail-desc">${descText}</div>
+        
+        <button class="vip-btn vip-btn-buy" onclick="purchaseVip(${level})" ${isAlreadyBought ? 'disabled' : ''}>
+            ${isAlreadyBought ? `<i data-lucide="check-circle"></i> ${t.activeStatus}` : `<i data-lucide="shopping-cart"></i> ${t.buyBtn}`}
+        </button>
+        <button class="vip-btn vip-btn-cancel" onclick="showVipListView()">
+            ${t.cancelBtn}
+        </button>
+    `;
+    lucide.createIcons();
+}
+
+function purchaseVip(level) {
+    const t = TRANSLATIONS[currentLang];
+    const alertBox = document.getElementById('alertVip');
+    const priceAzn = VIP_PRICES[level];
+
+    if (vipLevel >= level) return; // Zaten alınıb
+
+    // Balansı kontrol et (Daim AZN olaraq yoxlayırıq arxa planda)
+    if (bal < priceAzn) {
+        alertBox.textContent = t.balanceError;
+        alertBox.className = 'alert error';
+        alertBox.style.display = 'block';
+        return;
+    }
+
+    // Balansdan çıx, səviyyəni artır
+    bal -= priceAzn;
+    vipLevel = level;
+    
+    safeSet(BAL_KEY, bal);
+    safeSet(VIP_LEVEL_KEY, vipLevel);
+    
+    update();
+    loadProfile();
+    applyTranslationToElement(document.getElementById('adRewardText'), 'adReward', currentLang); // Ana səhifədəki yazını yenilə
+
+    alertBox.textContent = t.vipSuccess;
+    alertBox.className = 'alert success';
+    alertBox.style.display = 'block';
+
+    setTimeout(() => {
+        showVipListView(); // Listəyə geri dön
+    }, 1500);
+}
+
+// Digər profillə bağlı funksiyalar
 function openShareModal() {
     const overlay = document.getElementById('shareModalOverlay');
     overlay.style.display = 'flex';
@@ -949,7 +1151,6 @@ function shareOnWhatsappAction() {
 
 function copyRefLinkAction() {
     const t = TRANSLATIONS[currentLang];
-    
     if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(userRefLink).then(() => {
             showTaskNotification(t.linkCopied);
@@ -985,6 +1186,8 @@ function openSupport() {
 
 function showStatsView() {
     document.getElementById('profileMainView').style.display = 'none';
+    document.getElementById('vipListView').style.display = 'none';
+    document.getElementById('vipDetailView').style.display = 'none';
     document.getElementById('statsView').style.display = 'block';
     updateStatsUI();
 }
@@ -997,13 +1200,10 @@ function hideStatsView() {
 function updateStatsUI() {
     const lang = currentLang;
     document.getElementById('statAdsWatched').textContent = totalAds;
-    
     const adInfo = localizeAmount(totalAdEarnings, lang);
     document.getElementById('statAdEarningsVal').textContent = adInfo.formatted;
-    
     const taskInfo = localizeAmount(totalTaskEarnings, lang);
     document.getElementById('statTaskEarningsVal').textContent = taskInfo.formatted;
-    
     document.querySelectorAll('.stat-currency').forEach(el => el.textContent = adInfo.symbol);
 }
 
@@ -1094,20 +1294,16 @@ function renderHistory() {
 
 function updateTaskButtons() {
     const t = TRANSLATIONS[currentLang];
-    
     const joinBtn = document.getElementById('joinBtn');
     const joinBadge = document.getElementById('taskJoinRewardBadge');
     if (joinBadge) joinBadge.innerHTML = getLocalizedTaskReward(currentLang, AZN_TASK_REWARD);
 
     if (joinBtn) {
         if (localStorage.getItem(JOIN_KEY)){
-            joinBtn.className = 'task-btn completed';
-            joinBtn.innerHTML = `<i data-lucide="check-circle" style="width:18px;height:18px;"></i> ${t.completed}`; 
-            joinBtn.disabled = true; 
+            joinBtn.className = 'task-btn completed'; joinBtn.innerHTML = `<i data-lucide="check-circle" style="width:18px;height:18px;"></i> ${t.completed}`; joinBtn.disabled = true; 
         } else {
             if (!joinBtn.classList.contains('waiting')) {
-                 joinBtn.className = 'task-btn action'; joinBtn.disabled = false; 
-                 joinBtn.innerHTML = `<i data-lucide="send" style="width:18px;height:18px;"></i> ${t.joinChannelBtn}`;
+                 joinBtn.className = 'task-btn action'; joinBtn.disabled = false; joinBtn.innerHTML = `<i data-lucide="send" style="width:18px;height:18px;"></i> ${t.joinChannelBtn}`;
             }
         }
     }
@@ -1118,13 +1314,10 @@ function updateTaskButtons() {
 
     if (groupBtn) {
         if (localStorage.getItem(JOIN_GROUP_KEY)){
-            groupBtn.className = 'task-btn completed';
-            groupBtn.innerHTML = `<i data-lucide="check-circle" style="width:18px;height:18px;"></i> ${t.completed}`; 
-            groupBtn.disabled = true; 
+            groupBtn.className = 'task-btn completed'; groupBtn.innerHTML = `<i data-lucide="check-circle" style="width:18px;height:18px;"></i> ${t.completed}`; groupBtn.disabled = true; 
         } else {
             if (!groupBtn.classList.contains('waiting')) {
-                 groupBtn.className = 'task-btn action'; groupBtn.disabled = false; 
-                 groupBtn.innerHTML = `<i data-lucide="users" style="width:18px;height:18px;"></i> ${t.joinGroupBtn}`;
+                 groupBtn.className = 'task-btn action'; groupBtn.disabled = false; groupBtn.innerHTML = `<i data-lucide="users" style="width:18px;height:18px;"></i> ${t.joinGroupBtn}`;
             }
         }
     }
@@ -1135,23 +1328,16 @@ function updateTaskButtons() {
     const progressText = document.getElementById('task10kProgressText');
 
     if (badge10k) badge10k.innerHTML = getCleanLocalizedAmount(AZN_10K_REWARD, currentLang);
-    
     if (progressText) progressText.textContent = `${totalAds} / 10000`;
     if (progressFill) progressFill.style.width = Math.min(100, (totalAds / 10000) * 100) + '%';
     
     if (claim10kBtn) {
         if (localStorage.getItem(CLAIMED_10K_KEY)) {
-            claim10kBtn.className = 'task-btn completed';
-            claim10kBtn.innerHTML = `<i data-lucide="check-circle" style="width:18px;height:18px;"></i> ${t.completed}`; 
-            claim10kBtn.disabled = true;
+            claim10kBtn.className = 'task-btn completed'; claim10kBtn.innerHTML = `<i data-lucide="check-circle" style="width:18px;height:18px;"></i> ${t.completed}`; claim10kBtn.disabled = true;
         } else if (totalAds >= 10000) {
-            claim10kBtn.className = 'task-btn claim';
-            claim10kBtn.innerHTML = `<i data-lucide="gift" style="width:18px;height:18px;"></i> ${t.claimReward}`; 
-            claim10kBtn.disabled = false;
+            claim10kBtn.className = 'task-btn claim'; claim10kBtn.innerHTML = `<i data-lucide="gift" style="width:18px;height:18px;"></i> ${t.claimReward}`; claim10kBtn.disabled = false;
         } else {
-            claim10kBtn.className = 'task-btn locked';
-            claim10kBtn.innerHTML = `<i data-lucide="lock" style="width:18px;height:18px;"></i> ${t.lockedBtn}`; 
-            claim10kBtn.disabled = true;
+            claim10kBtn.className = 'task-btn locked'; claim10kBtn.innerHTML = `<i data-lucide="lock" style="width:18px;height:18px;"></i> ${t.lockedBtn}`; claim10kBtn.disabled = true;
         }
     }
     lucide.createIcons(); 
@@ -1207,6 +1393,8 @@ function applyTranslations(lang) {
         if (adBtn.classList.contains('waiting')) { adBtnWatchSpan.textContent = t.watching; } 
         else { adBtnWatchSpan.textContent = t.watchAd; }
     }
+    
+    if (document.getElementById('vipListView').style.display === 'block') renderVipList();
 }
 
 function setLang(lang) {
@@ -1282,10 +1470,8 @@ function restoreAdBtnState() {
     const textSpan = adBtnContent.querySelector('span');
     
     if (isAdRunning) {
-        adBtn.classList.add('waiting');
-        adBtn.disabled = true;
-        if(textSpan) textSpan.textContent = t.watching;
-        return; 
+        adBtn.classList.add('waiting'); adBtn.disabled = true;
+        if(textSpan) textSpan.textContent = t.watching; return; 
     }
 
     if (cnt >= LIMIT) {
@@ -1296,16 +1482,13 @@ function restoreAdBtnState() {
     
     adBtn.classList.remove('waiting'); adBtn.disabled = false; 
     if(textSpan) textSpan.textContent = t.watchAd;
-    msg.textContent = '';
-    checkAndDisplayRewardMsg();
+    msg.textContent = ''; checkAndDisplayRewardMsg();
 }
 
 adBtn.onclick = async () => {
     const t = TRANSLATIONS[currentLang];
-    
     if (cnt >= LIMIT) { msg.textContent = t.adLimitReached; return; }
     if (isAdRunning || adBtn.classList.contains('waiting')) return;
-    
     isAdRunning = true; 
 
     if (rewardMsgTimeout) { clearTimeout(rewardMsgTimeout); rewardMsgTimeout = null; }
@@ -1316,32 +1499,25 @@ adBtn.onclick = async () => {
          setTimeout(() => { const container = document.getElementById('adRewardNotificationContainer'); if(container && rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }, 400); 
     }
     
-    adBtn.disabled = true; 
-    adBtn.classList.add('waiting');
+    adBtn.disabled = true; adBtn.classList.add('waiting');
     const textSpan = adBtnContent.querySelector('span');
-    if(textSpan) textSpan.textContent = t.watching; 
-    msg.textContent = '';
+    if(textSpan) textSpan.textContent = t.watching; msg.textContent = '';
     
     try {
         if (typeof show_10701408 === 'function') {
             const adResult = show_10701408();
             if (adResult && typeof adResult.then === 'function') {
-                await adResult;
-                giveAdReward(t);
-            } else {
-                giveAdReward(t); 
-            }
-        } else {
-            resetAdBtnState(t);
-        }
+                await adResult; giveAdReward(t);
+            } else { giveAdReward(t); }
+        } else { resetAdBtnState(t); }
     } catch(e) {
-        console.error("Ad block or network error", e);
-        resetAdBtnState(t);
+        console.error("Ad block or network error", e); resetAdBtnState(t);
     } 
 };
 
 function giveAdReward(t) {
-    bal += AZN_REWARD; totalAdEarnings += AZN_REWARD; cnt++; totalAds++; 
+    let currentAznReward = getAznReward();
+    bal += currentAznReward; totalAdEarnings += currentAznReward; cnt++; totalAds++; 
     update(); 
     
     const currentRewardInfo = getLocalizedReward(currentLang);
@@ -1351,9 +1527,7 @@ function giveAdReward(t) {
 }
 
 function resetAdBtnState(t) {
-    isAdRunning = false; 
-    adBtn.disabled = false; 
-    adBtn.classList.remove('waiting');
+    isAdRunning = false; adBtn.disabled = false; adBtn.classList.remove('waiting');
     const textSpan = adBtnContent.querySelector('span');
     if(textSpan) textSpan.textContent = t.watchAd; 
     if (cnt >= LIMIT) msg.textContent = t.adLimitReached; else msg.textContent = ''; 
@@ -1373,16 +1547,12 @@ if (joinBtn) {
         if (localStorage.getItem(JOIN_KEY) || joinBtn.disabled) return; 
         const t = TRANSLATIONS[currentLang];
         window.open('https://t.me/manat_pay', '_blank'); 
-        
         joinBtn.disabled = true; joinBtn.classList.add('waiting'); 
         joinBtn.innerHTML = `<i data-lucide="loader" style="width:18px;height:18px;"></i> ${t.wait.replace('{s}', '3')}`;
         lucide.createIcons();
-        
         setTimeout(() => {
             bal += AZN_TASK_REWARD; totalTaskEarnings += AZN_TASK_REWARD; 
-            safeSet(BAL_KEY, bal); safeSet(TOTAL_TASK_EARNINGS_KEY, totalTaskEarnings);
-            localStorage.setItem(JOIN_KEY, '1'); 
-            update();
+            safeSet(BAL_KEY, bal); safeSet(TOTAL_TASK_EARNINGS_KEY, totalTaskEarnings); localStorage.setItem(JOIN_KEY, '1'); update();
             showTaskNotification(t.taskSuccess(`<b>${getLocalizedTaskReward(currentLang, AZN_TASK_REWARD)}</b>`));
         }, 3000); 
     };
@@ -1394,16 +1564,12 @@ if (groupBtn) {
         if (localStorage.getItem(JOIN_GROUP_KEY) || groupBtn.disabled) return; 
         const t = TRANSLATIONS[currentLang];
         window.open('https://t.me/manatpaychat', '_blank'); 
-        
         groupBtn.disabled = true; groupBtn.classList.add('waiting'); 
         groupBtn.innerHTML = `<i data-lucide="loader" style="width:18px;height:18px;"></i> ${t.wait.replace('{s}', '3')}`;
         lucide.createIcons();
-        
         setTimeout(() => {
             bal += AZN_GROUP_REWARD; totalTaskEarnings += AZN_GROUP_REWARD; 
-            safeSet(BAL_KEY, bal); safeSet(TOTAL_TASK_EARNINGS_KEY, totalTaskEarnings);
-            localStorage.setItem(JOIN_GROUP_KEY, '1'); 
-            update();
+            safeSet(BAL_KEY, bal); safeSet(TOTAL_TASK_EARNINGS_KEY, totalTaskEarnings); localStorage.setItem(JOIN_GROUP_KEY, '1'); update();
             showTaskNotification(t.taskSuccess(`<b>${getLocalizedTaskReward(currentLang, AZN_GROUP_REWARD)}</b>`));
         }, 3000); 
     };
@@ -1413,17 +1579,11 @@ const claim10kBtn = document.getElementById('claim10kBtn');
 if (claim10kBtn) {
     claim10kBtn.addEventListener('click', function() {
         if (localStorage.getItem(CLAIMED_10K_KEY) || this.disabled) return;
-        
         if (totalAds >= 10000) {
             const t = TRANSLATIONS[currentLang];
-            bal += AZN_10K_REWARD;
-            totalTaskEarnings += AZN_10K_REWARD;
-            safeSet(BAL_KEY, bal);
-            safeSet(TOTAL_TASK_EARNINGS_KEY, totalTaskEarnings);
-            localStorage.setItem(CLAIMED_10K_KEY, '1');
-            
-            update();
-            showTaskNotification(t.taskSuccess(`<b>${getCleanLocalizedAmount(AZN_10K_REWARD, currentLang)}</b>`));
+            bal += AZN_10K_REWARD; totalTaskEarnings += AZN_10K_REWARD;
+            safeSet(BAL_KEY, bal); safeSet(TOTAL_TASK_EARNINGS_KEY, totalTaskEarnings); localStorage.setItem(CLAIMED_10K_KEY, '1');
+            update(); showTaskNotification(t.taskSuccess(`<b>${getCleanLocalizedAmount(AZN_10K_REWARD, currentLang)}</b>`));
         }
     });
 }
@@ -1477,6 +1637,9 @@ document.getElementById('withdrawBtn').onclick=()=>{
   const EPSILON = 0.0001; 
   if(amt < minAmount - EPSILON){ showErr(t.minAmount(getLocalizedMinAmount(type, currentLang))); return; }
   if(amt > currentBalanceInLang + EPSILON){ showErr(t.balanceError); return; }
+  
+  // YENİ: VIP Səviyyəsi Kontrolu (Məbləğ və balans qaydasındadısa VIP yoxla)
+  if(vipLevel < 1) { showErr(t.vipRequiredErr); return; }
 
   let withdrawalAmountInAZN = 0;
   if (currentLang === 'tr') withdrawalAmountInAZN = amt / EXCHANGE_RATES.AZN_TO_TRY;
@@ -1487,21 +1650,12 @@ document.getElementById('withdrawBtn').onclick=()=>{
   bal = Math.max(0, bal - withdrawalAmountInAZN); 
   safeSet(BAL_KEY,bal); update();
   
-  const historyItem = {
-      method: type,
-      amount: withdrawalAmountInAZN, 
-      status: 'pending', 
-      date: Date.now()
-  };
-  withdrawHistory.push(historyItem);
-  safeSet(HISTORY_KEY, withdrawHistory);
-  renderHistory(); 
+  const historyItem = { method: type, amount: withdrawalAmountInAZN, status: 'pending', date: Date.now() };
+  withdrawHistory.push(historyItem); safeSet(HISTORY_KEY, withdrawHistory); renderHistory(); 
 
   alertBox.textContent=t.withdrawSuccess; alertBox.className='alert success'; alertBox.style.display='block';
-
   setTimeout(()=>{
-    form.style.display='none'; document.getElementById('methods').style.display='flex';
-    alertBox.style.display='none'; type='';
+    form.style.display='none'; document.getElementById('methods').style.display='flex'; alertBox.style.display='none'; type='';
   }, 2000);
 };
 
@@ -1520,14 +1674,8 @@ const navMenu = document.querySelector('.menu');
 const initialWindowHeight = window.innerHeight;
 
 window.addEventListener('resize', () => {
-    if (window.innerHeight < initialWindowHeight - 100) {
-        navMenu.style.display = 'none';
-    } else {
-        navMenu.style.display = 'flex';
-        if(document.activeElement && document.activeElement.tagName === 'INPUT'){
-            document.activeElement.blur();
-        }
-    }
+    if (window.innerHeight < initialWindowHeight - 100) { navMenu.style.display = 'none'; } 
+    else { navMenu.style.display = 'flex'; if(document.activeElement && document.activeElement.tagName === 'INPUT'){ document.activeElement.blur(); } }
 });
 </script>
 </body>
