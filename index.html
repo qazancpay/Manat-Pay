@@ -405,10 +405,10 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
         <div class="task-item premium">
             <div class="task-header">
                 <div class="task-title">
-                  <div class="task-icon task-icon-premium"><i data-lucide="crown" style="width:18px;height:18px;"></i></div>
-                  <span data-translate-key="premiumTaskTitle">Premium Görev</span>
+                    <div class="task-icon task-icon-premium"><i data-lucide="crown" style="width:18px;height:18px;"></i></div>
+                    <span data-translate-key="premiumTaskTitle">Premium Görev</span>
                 </div>
-                <div class="task-reward-badge" id="task10kRewardBadge">100.0000 ₼</div>
+                <div class="task-reward-badge" id="task10kRewardBadge">100 ₼</div>
             </div>
             <div class="task-desc" data-translate-key="task10kDesc">10.000 Reklam izlə və böyük mükafatı qazan!</div>
             
@@ -426,30 +426,30 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
         <div class="task-item">
             <div class="task-header">
                 <div class="task-title">
-                  <div class="task-icon task-icon-standard"><i data-lucide="megaphone" style="width:16px;height:16px;"></i></div>
-                  <span data-translate-key="joinChannelTaskTitle">Kanala Qoşul</span>
+                    <div class="task-icon task-icon-standard"><i data-lucide="megaphone" style="width:16px;height:16px;"></i></div>
+                    <span data-translate-key="joinChannelTaskTitle">Kanala Qoşul</span>
                 </div>
-                <div class="task-reward-badge" id="taskJoinRewardBadge">0.1000 ₼</div>
+                <div class="task-reward-badge" id="taskJoinRewardBadge">0.1 ₼</div>
             </div>
             <div class="task-desc" data-translate-key="taskJoinDesc">Rəsmi Telegram kanalımıza qoşul və qazan!</div>
             <button id="joinBtn" class="task-btn action">
-              <i data-lucide="send" style="width:18px;height:18px;"></i>
-              <span data-translate-key="joinChannelBtn">Kanala Qoşul</span>
+                <i data-lucide="send" style="width:18px;height:18px;"></i>
+                <span data-translate-key="joinChannelBtn">Kanala Qoşul</span>
             </button>
         </div>
 
         <div class="task-item">
             <div class="task-header">
                 <div class="task-title">
-                  <div class="task-icon task-icon-standard"><i data-lucide="users" style="width:16px;height:16px;"></i></div>
-                  <span data-translate-key="joinGroupTaskTitle">Qrupa Qoşul</span>
+                    <div class="task-icon task-icon-standard"><i data-lucide="users" style="width:16px;height:16px;"></i></div>
+                    <span data-translate-key="joinGroupTaskTitle">Qrupa Qoşul</span>
                 </div>
-                <div class="task-reward-badge" id="taskGroupRewardBadge">0.0300 ₼</div>
+                <div class="task-reward-badge" id="taskGroupRewardBadge">0.03 ₼</div>
             </div>
             <div class="task-desc" data-translate-key="taskGroupDesc">Rəsmi Telegram qrupumuza qoşul və qazan!</div>
             <button id="groupBtn" class="task-btn action">
-              <i data-lucide="users" style="width:18px;height:18px;"></i>
-              <span data-translate-key="joinGroupBtn">Qrupa Qoşul</span>
+                <i data-lucide="users" style="width:18px;height:18px;"></i>
+                <span data-translate-key="joinGroupBtn">Qrupa Qoşul</span>
             </button>
         </div>
     </div>
@@ -765,22 +765,22 @@ function localizeAmount(aznAmount, lang) {
     return { amount: amount, formatted: format(amount), symbol: currencyInfo.symbol };
 }
 
-// DÜZƏLİŞ: .toString() sıfırları sildiyi üçün birbaşa info.formatted dəyərini qaytarırıq.
+// Görevler və VIP səhifəsi üçün xüsusi: sonundakı sıfırları təmizləyir
 function getCleanLocalizedAmount(aznAmount, lang) {
     const info = localizeAmount(aznAmount, lang);
-    return `${info.formatted} ${info.symbol}`;
+    return `${parseFloat(info.amount.toFixed(4))} ${info.symbol}`;
 }
 
-// DÜZƏLİŞ: Formatı qorumaq üçün eyni qaydada info.formatted istifadə edirik
+// Formatı qorumaq üçün eyni qaydada info.formatted istifadə edirik (Ana səhifə üçün)
 function getLocalizedReward(lang) {
     const info = localizeAmount(getAznReward(), lang);
     return { reward: info.amount, formattedReward: info.formatted, symbol: info.symbol, currency: CURRENCIES[lang].main };
 }
 
-// DÜZƏLİŞ: Formatı qorumaq üçün
+// Görevler üçün xüsusi: sonundakı sıfırları təmizləyir
 function getLocalizedTaskReward(lang, aznReward) {
     const info = localizeAmount(aznReward, lang);
-    return `${info.formatted} ${info.symbol}`;
+    return `${parseFloat(info.amount.toFixed(4))} ${info.symbol}`;
 }
 
 function getLocalizedMinAmount(methodType, lang) {
@@ -1017,6 +1017,7 @@ function renderVipList() {
 
     for (let i = 1; i <= 3; i++) {
         const priceInfo = localizeAmount(VIP_PRICES[i], currentLang);
+        const cleanPrice = parseFloat(priceInfo.amount.toFixed(4));
         const isActive = (vipLevel >= i); // VIP səviyyəsi bu karta bərabər və ya böyükdürsə
         
         let statusHtml = '';
@@ -1032,7 +1033,7 @@ function renderVipList() {
                 <div class="vip-icon-wrap"><i data-lucide="crown"></i></div>
                 <div class="vip-info">
                     <div class="vip-name">VIP ${i}</div>
-                    <div class="vip-price">${priceInfo.formatted} ${priceInfo.symbol}</div>
+                    <div class="vip-price">${cleanPrice} ${priceInfo.symbol}</div>
                 </div>
             </div>
             ${statusHtml}
@@ -1051,6 +1052,7 @@ function showVipDetailView(level) {
     const t = TRANSLATIONS[currentLang];
     const content = document.getElementById('vipDetailContent');
     const priceInfo = localizeAmount(VIP_PRICES[level], currentLang);
+    const cleanPrice = parseFloat(priceInfo.amount.toFixed(4));
     const rewardInfo = getCleanLocalizedAmount(VIP_REWARDS[level], currentLang);
     
     let descFunc = t[`vipDesc${level}`];
@@ -1064,7 +1066,7 @@ function showVipDetailView(level) {
     content.innerHTML = `
         <div class="vip-detail-icon" style="background: ${color}; box-shadow: 0 4px 15px ${color}80;"><i data-lucide="crown" style="width:36px; height:36px;"></i></div>
         <div class="vip-detail-title">VIP ${level}</div>
-        <div class="vip-detail-price">${priceInfo.formatted} ${priceInfo.symbol}</div>
+        <div class="vip-detail-price">${cleanPrice} ${priceInfo.symbol}</div>
         <div class="vip-detail-desc">${descText}</div>
         
         <button class="vip-btn vip-btn-buy" onclick="purchaseVip(${level})" ${isAlreadyBought ? 'disabled' : ''}>
