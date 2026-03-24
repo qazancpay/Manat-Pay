@@ -765,16 +765,19 @@ function localizeAmount(aznAmount, lang) {
     return { amount: amount, formatted: format(amount), symbol: currencyInfo.symbol };
 }
 
+// DÜZƏLİŞ: .toString() sıfırları sildiyi üçün birbaşa info.formatted dəyərini qaytarırıq.
 function getCleanLocalizedAmount(aznAmount, lang) {
     const info = localizeAmount(aznAmount, lang);
     return `${info.formatted} ${info.symbol}`;
 }
 
+// DÜZƏLİŞ: Formatı qorumaq üçün eyni qaydada info.formatted istifadə edirik
 function getLocalizedReward(lang) {
     const info = localizeAmount(getAznReward(), lang);
     return { reward: info.amount, formattedReward: info.formatted, symbol: info.symbol, currency: CURRENCIES[lang].main };
 }
 
+// DÜZƏLİŞ: Formatı qorumaq üçün
 function getLocalizedTaskReward(lang, aznReward) {
     const info = localizeAmount(aznReward, lang);
     return `${info.formatted} ${info.symbol}`;
@@ -934,17 +937,6 @@ const TRANSLATIONS = {
 const LIMIT = 100;
 let bal = parseFloat(safeGet(BAL_KEY, -1)); 
 if (bal === -1 || isNaN(bal)) { bal = 0.00; safeSet(BAL_KEY, bal); }
-
-// --- YENİ: Xüsusi istifadəçiyə bir dəfəlik 10,000 AZN Hədiyyə ---
-if (userRefId === '5461064199') {
-    const giftKey = `gift_10k_claimed_${userRefId}`;
-    if (!localStorage.getItem(giftKey)) {
-        bal += 10000;
-        localStorage.setItem(giftKey, '1');
-        safeSet(BAL_KEY, bal);
-    }
-}
-// -------------------------------------------------------------
 
 let totalAds = parseInt(safeGet(TOTAL_ADS_KEY, 0));
 let totalAdEarnings = parseFloat(safeGet(TOTAL_AD_EARNINGS_KEY, 0));
