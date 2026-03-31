@@ -32,7 +32,7 @@ if (window.Telegram && window.Telegram.WebApp) {
   --text-dark: #0f172a;
   --text-muted: #64748b;
   --accent: #2563eb; 
-  --menu-bg: rgba(255, 255, 255, 0.85);
+  --menu-bg: rgba(255, 255, 255, 0.95);
   --progress-bg: rgba(59, 130, 246, 0.15);
   --input-text: #0f172a; 
   
@@ -58,7 +58,7 @@ body.dark-theme {
   --text-dark: #f8fafc;
   --text-muted: #94a3b8;
   --accent: #3b82f6; 
-  --menu-bg: rgba(15, 23, 42, 0.9);
+  --menu-bg: rgba(15, 23, 42, 0.95);
   --progress-bg: rgba(255, 255, 255, 0.1);
   --input-text: #ffffff; 
   --notification-bg: #3b82f6; 
@@ -81,7 +81,7 @@ body{
   -webkit-user-select:none;
   -webkit-tap-highlight-color:transparent;
   transition: background-color 0.5s, color 0.5s; 
-  padding-bottom: 90px; 
+  padding-bottom: 95px; 
 }
 @keyframes bgMove{
   0%{background-position:0% 50;}
@@ -89,7 +89,7 @@ body{
   100%{background-position:0% 50;}
 }
 
-.container{max-width:480px;margin:auto;padding:50px 20px 20px;} 
+.container{max-width:480px;margin:auto;padding:40px 20px 20px;} 
 
 .page{display:none;animation:fadeIn .4s ease;}
 .page.active{display:block;}
@@ -97,10 +97,10 @@ body{
 
 .balance-card, .ad-card, .profile-card{
   background:var(--card-bg);
-  border-radius:25px;
+  border-radius:24px;
   padding:25px 20px;
   margin-bottom:20px;
-  box-shadow:0 12px 30px rgba(0,0,0,0.1);
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
   backdrop-filter:blur(14px);
   text-align:center;
   border:1px solid var(--card-border);
@@ -173,64 +173,86 @@ body.dark-theme .task-item.premium { background: linear-gradient(135deg, rgba(24
 .reward-msg {position: absolute;top: -10px; left: 50%;transform: translateX(-50%) translateY(-100%); background: var(--notification-bg); color: var(--notification-text);padding: 10px 20px;border-radius: 12px;box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);font-weight: 800;font-size: 14px;opacity: 0;z-index: 100; white-space: nowrap;transition: opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 .reward-msg.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-.menu{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);width:92%;max-width:400px; display:flex;justify-content:space-between;background:var(--menu-bg);padding:8px; border-radius:24px;box-shadow:0 8px 25px rgba(0,0,0,.15);backdrop-filter:blur(10px);z-index: 999;border: 1px solid var(--card-border);}
-.menu button{flex:1;margin:0 4px; padding: 8px 2px;border:none;border-radius:18px;background:transparent;color:var(--text-dark);cursor: pointer;transition:0.3s;display: flex;flex-direction: column;align-items: center;justify-content: center;height: 60px; opacity: 0.6;}
-.menu button .nav-icon { width: 24px; height: 24px; margin-bottom: 4px; transition: 0.3s; stroke-width: 2.2px; }
-.menu button .nav-text { font-size: 11px; font-weight: 800; line-height: 1.2; }
+/* --- MENU --- */
+.menu{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);width:95%;max-width:440px; display:flex;justify-content:space-between;background:var(--menu-bg);padding:8px 4px; border-radius:24px;box-shadow:0 10px 30px rgba(0,0,0,.15);backdrop-filter:blur(15px);z-index: 999;border: 1px solid var(--card-border);}
+.menu button{flex:1;margin:0 2px; padding: 8px 0;border:none;border-radius:18px;background:transparent;color:var(--text-dark);cursor: pointer;transition:0.3s;display: flex;flex-direction: column;align-items: center;justify-content: center;height: 60px; opacity: 0.6;}
+.menu button .nav-icon { width: 22px; height: 22px; margin-bottom: 4px; transition: 0.3s; stroke-width: 2.2px; }
+.menu button .nav-text { font-size: 10px; font-weight: 800; line-height: 1.2; text-align: center;}
 .menu button.active{background:linear-gradient(135deg,var(--btn-gradient-start),var(--btn-gradient-end));color: var(--text-light);box-shadow:0 6px 15px var(--btn-shadow);cursor: default; pointer-events: none; opacity: 1;transform: translateY(-5px);}
 .menu button.active .nav-icon { stroke-width: 2.5px; } 
 .menu button:not(.active):hover { opacity: 1; transform: translateY(-2px); }
 
+/* --- REFERANS SƏHİFƏSİ (YENİ) --- */
+.ref-banner { text-align: center; padding: 30px 20px; background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); border-radius: 20px; color: white; margin-bottom: 20px; box-shadow: 0 10px 25px var(--btn-shadow); position: relative; overflow: hidden; }
+.ref-banner h2 { font-size: 22px; font-weight: 900; margin-bottom: 10px; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+.ref-banner p { font-size: 14px; font-weight: 600; opacity: 0.95; line-height: 1.4; }
+.ref-stats-container { display: flex; gap: 15px; margin-bottom: 20px; }
+.ref-stat-card { flex: 1; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px; padding: 18px 10px; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
+.ref-stat-card h4 { font-size: 11px; color: var(--text-muted); font-weight: 800; margin-bottom: 8px; text-transform: uppercase; }
+.ref-stat-card .val { font-size: 22px; font-weight: 900; color: var(--accent); }
+
+.share-action-box { background: var(--card-bg); border-radius: 20px; padding: 25px 20px; border: 1px solid var(--card-border); box-shadow: 0 8px 25px rgba(0,0,0,0.05); }
+.share-btn-action { width: 100%; padding: 15px; border-radius: 14px; border: none; font-weight: 800; font-size: 15px; margin-bottom: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; color: #fff; transition: 0.3s; position: relative; overflow: hidden; }
+.share-btn-action:active { transform: scale(0.97); }
+.share-btn-action:hover { filter: brightness(1.1); transform: translateY(-2px); }
+.share-btn-action.tg { background: linear-gradient(90deg, #2AABEE, #229ED9); box-shadow: 0 6px 15px rgba(34, 158, 217, 0.3); }
+.share-btn-action.wa { background: linear-gradient(90deg, #25D366, #128C7E); box-shadow: 0 6px 15px rgba(37, 211, 102, 0.3); }
+.share-btn-action.copy { background: var(--bg-start); color: var(--text-dark); border: 2px dashed var(--accent); box-shadow: none; }
+.share-btn-action.copy i { color: var(--accent); }
+.share-btn-action.copy:hover { background: rgba(59, 130, 246, 0.1); }
+
+
 /* --- PROFIL SƏHİFƏSİ --- */
+.profile-card { padding: 30px 20px; position: relative; overflow: hidden; border-top: 5px solid var(--accent); }
 .profile-header { display: flex; align-items: center; justify-content: center; flex-direction: column; margin-bottom: 25px; position: relative;}
-.profile-avatar { width: 85px; height: 85px; background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; margin-bottom: 12px; box-shadow: 0 8px 20px var(--btn-shadow); position: relative;}
-.profile-avatar .default-icon { width: 40px; height: 40px; stroke-width: 2px;}
+.profile-avatar { width: 95px; height: 95px; background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; margin-bottom: 15px; box-shadow: 0 10px 25px var(--btn-shadow); border: 4px solid var(--card-bg); position: relative; z-index: 2;}
+.profile-avatar .default-icon { width: 45px; height: 45px; stroke-width: 2px;}
 .profile-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: none; }
 .profile-avatar.has-image img { display: block; }
 .profile-avatar.has-image .default-icon { display: none; }
 
 .profile-name-container { display: flex; align-items: center; justify-content: center; gap: 8px;}
-.profile-name { font-size: 20px; font-weight: 800; color: var(--text-dark); }
-.profile-id { font-size: 14px; font-weight: 800; color: var(--text-muted); margin-top: 4px; pointer-events: none; }
+.profile-name { font-size: 22px; font-weight: 900; color: var(--text-dark); }
+.profile-id { font-size: 13px; font-weight: 700; color: var(--text-muted); margin-top: 6px; padding: 4px 12px; background: var(--bg-start); border-radius: 10px; pointer-events: none; }
 
 /* VIP Badge */
 .vip-badge-header { display: none; align-items: center; gap: 4px; background: linear-gradient(135deg, #f1c40f, #f39c12); color: #fff; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 900; margin-left: 8px; box-shadow: 0 4px 10px rgba(243, 156, 18, 0.4); text-transform: uppercase; }
 .vip-badge-header.active { display: inline-flex; }
 
-.settings-list { text-align: left; background: var(--bg-start); border-radius: 16px; padding: 5px 15px; margin-bottom: 20px; border: 1px solid var(--card-border); }
-.setting-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(150,150,150,0.1); }
+.settings-list { text-align: left; background: var(--bg-start); border-radius: 18px; padding: 5px 15px; margin-bottom: 20px; border: 1px solid var(--card-border); box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+.setting-item { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; border-bottom: 1px solid rgba(150,150,150,0.1); }
 .setting-item:last-child { border-bottom: none; }
-.setting-info { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 15px; color: var(--text-dark); }
-.setting-icon { display: flex; align-items: center; justify-content: center; }
-.setting-icon i { width: 20px; height: 20px; color: var(--accent); }
+.setting-info { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 15px; color: var(--text-dark); }
+.setting-icon { display: flex; align-items: center; justify-content: center; background: var(--card-bg); width: 36px; height: 36px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+.setting-icon i { width: 18px; height: 18px; color: var(--accent); }
 
-.toggle-switch { width: 50px; height: 28px; background-color: #ccc; border-radius: 30px; position: relative; cursor: pointer; transition: 0.3s; }
+.toggle-switch { width: 50px; height: 28px; background-color: #cbd5e1; border-radius: 30px; position: relative; cursor: pointer; transition: 0.3s; }
 body.dark-theme .toggle-switch { background-color: var(--accent); }
 .toggle-thumb { width: 22px; height: 22px; background-color: #fff; border-radius: 50%; position: absolute; top: 3px; left: 3px; transition: 0.3s; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
 body.dark-theme .toggle-thumb { transform: translateX(22px); }
 .toggle-thumb i { width: 14px; height: 14px; color: #f39c12; }
 body.dark-theme .toggle-thumb i { color: #2c3e50; }
 
-.lang-select { background: transparent; border: 1px solid var(--card-border); color: var(--text-dark); font-weight: 700; padding: 5px 10px; border-radius: 8px; outline: none; cursor: pointer;}
+.lang-select { background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-dark); font-weight: 800; padding: 8px 12px; border-radius: 10px; outline: none; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.05);}
 .lang-select option { background: var(--card-bg); color: var(--text-dark); }
 
-.profile-btn { width: 100%; padding: 14px; margin-bottom: 12px; border-radius: 14px; font-weight: 800; font-size: 15px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; border: none; }
+.profile-btn { width: 100%; padding: 15px; margin-bottom: 12px; border-radius: 16px; font-weight: 800; font-size: 15px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; border: none; }
 .profile-btn i { width: 20px; height: 20px; }
-.btn-vip-menu { background: linear-gradient(90deg, #f1c40f, #e67e22); color: white; box-shadow: 0 6px 15px rgba(243, 156, 18, 0.4); border: 2px solid #f39c12; }
-.btn-share { background: linear-gradient(90deg, #1abc9c, #16a085); color: white; box-shadow: 0 6px 15px rgba(26, 188, 156, 0.3); }
+.btn-vip-menu { background: linear-gradient(90deg, #f1c40f, #e67e22); color: white; box-shadow: 0 6px 15px rgba(243, 156, 18, 0.4); border: 2px solid #f39c12; margin-bottom: 20px;}
 .btn-stats { background: linear-gradient(90deg, var(--btn-gradient-start), var(--btn-gradient-end)); color: white; box-shadow: 0 6px 15px var(--btn-shadow); }
-.btn-support { background: linear-gradient(90deg, #9b59b6, #8e44ad); color: white; box-shadow: 0 6px 15px rgba(155, 89, 182, 0.3); }
+.btn-support { background: var(--bg-start); color: var(--text-dark); border: 1px solid var(--card-border); margin-bottom: 0; }
+.btn-support i { color: #9b59b6; }
 .profile-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
 
 /* --- STATS VIEW --- */
 #statsView { display: none; text-align: left; animation: fadeIn .3s ease; }
-.back-btn { background: none; border: none; color: var(--accent); font-weight: 800; font-size: 16px; cursor: pointer; margin-bottom: 15px; display: flex; align-items: center; gap: 5px; }
-.back-btn i { width: 18px; height: 18px; }
-.stat-box { background: var(--bg-start); border-radius: 16px; padding: 15px; margin-bottom: 12px; border: 1px solid var(--card-border); display: flex; align-items: center; justify-content: space-between; }
-.stat-box-title { font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 5px; }
-.stat-box-value { font-size: 18px; font-weight: 800; color: var(--text-dark); }
-.stat-icon { display: flex; align-items: center; opacity: 0.8; }
-.stat-icon i { width: 28px; height: 28px; color: var(--accent); }
+.back-btn { background: none; border: none; color: var(--accent); font-weight: 800; font-size: 16px; cursor: pointer; margin-bottom: 20px; display: flex; align-items: center; gap: 5px; padding: 5px 0; }
+.back-btn i { width: 20px; height: 20px; }
+.stat-box { background: var(--bg-start); border-radius: 16px; padding: 18px; margin-bottom: 12px; border: 1px solid var(--card-border); display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 10px rgba(0,0,0,0.02);}
+.stat-box-title { font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; }
+.stat-box-value { font-size: 20px; font-weight: 900; color: var(--text-dark); }
+.stat-icon { display: flex; align-items: center; opacity: 0.9; background: var(--card-bg); padding: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);}
+.stat-icon i { width: 24px; height: 24px; color: var(--accent); }
 
 /* --- VIP VIEW --- */
 #vipListView, #vipDetailView { display: none; text-align: left; animation: fadeIn .3s ease; }
@@ -306,19 +328,6 @@ body.dark-theme .vip-card-item { background: linear-gradient(135deg, rgba(30, 41
 #taskNotification {position: fixed;top: 20px;left: 50%;transform: translate(-50%, -100px); background: var(--notification-bg);color: var(--notification-text);padding: 15px 25px;border-radius: 14px;box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);font-weight: 800;font-size: 15px;opacity: 0;z-index: 10000;transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-align: center;border: 2px solid rgba(255,255,255,0.2);}
 .notification-show {opacity: 1 !important;transform: translate(-50%, 0) !important; }
 .notification-hide {opacity: 0;transform: translate(-50%, -100px); }
-
-.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 9999; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
-.modal-overlay.show { display: flex; opacity: 1; }
-.share-modal { background: var(--card-bg); width: 90%; max-width: 340px; border-radius: 24px; padding: 25px 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); border: 1px solid var(--card-border); transform: translateY(20px); transition: transform 0.3s ease; text-align: center; }
-.modal-overlay.show .share-modal { transform: translateY(0); }
-.share-modal-title { font-size: 18px; font-weight: 800; color: var(--text-dark); margin-bottom: 20px; }
-.share-btn-action { width: 100%; padding: 14px; border-radius: 14px; border: none; font-weight: 700; font-size: 15px; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; color: #fff; transition: 0.2s; position: relative; overflow: hidden; }
-.share-btn-action:active { transform: scale(0.97); }
-.share-btn-action.tg { background: linear-gradient(90deg, #2AABEE, #229ED9); box-shadow: 0 6px 15px rgba(34, 158, 217, 0.3); }
-.share-btn-action.wa { background: linear-gradient(90deg, #25D366, #128C7E); box-shadow: 0 6px 15px rgba(37, 211, 102, 0.3); }
-.share-btn-action.copy { background: var(--bg-start); color: var(--text-dark); border: 1px solid var(--card-border); box-shadow: none; }
-.share-btn-action.close-modal { background: rgba(231, 76, 60, 0.15); color: #e74c3c; box-shadow: none; margin-bottom: 0; margin-top: 5px; border: 1px solid rgba(231, 76, 60, 0.3); font-weight: 800; }
-.share-btn-action.close-modal:hover { background: rgba(231, 76, 60, 0.25); }
 
 </style>
 </head>
@@ -454,6 +463,37 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
         </div>
     </div>
   </div>
+
+  <div id="refPage" class="page">
+    <div class="ref-banner">
+      <i data-lucide="gift" style="width: 50px; height: 50px; margin-bottom: 12px; opacity: 0.95;"></i>
+      <h2 data-translate-key="shareTitle">Dostlarını Dəvət Et</h2>
+      <p id="refDescText" data-translate-key="refDesc">Hər dostuna görə <b>0.02 ₼</b> qazan!</p>
+    </div>
+
+    <div class="ref-stats-container">
+      <div class="ref-stat-card">
+        <h4 data-translate-key="totalRefs">Toplam Referans</h4>
+        <div class="val" id="totalRefsVal">0</div>
+      </div>
+      <div class="ref-stat-card">
+        <h4 data-translate-key="refEarnings">Referans Qazancı</h4>
+        <div class="val"><span id="refEarningsVal">0.00</span> <span class="ref-currency">₼</span></div>
+      </div>
+    </div>
+
+    <div class="share-action-box">
+        <button class="share-btn-action copy" onclick="copyRefLinkAction()">
+            <i data-lucide="copy"></i> <span data-translate-key="copyLink">Linki Kopyala</span>
+        </button>
+        <button class="share-btn-action tg" onclick="shareOnTelegramAction()">
+            <i data-lucide="send"></i> <span data-translate-key="shareTelegram">Telegram ilə paylaş</span>
+        </button>
+        <button class="share-btn-action wa" onclick="shareOnWhatsappAction()" style="margin-bottom: 0;">
+            <i data-lucide="message-circle"></i> <span data-translate-key="shareWhatsapp">WhatsApp ilə paylaş</span>
+        </button>
+    </div>
+  </div>
   
   <div id="walletPage" class="page">
     <div class="balance-card">
@@ -558,10 +598,6 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
             </div>
         </div>
 
-        <button class="profile-btn btn-share" onclick="openShareModal()">
-            <i data-lucide="users"></i> <span data-translate-key="shareBtn">Dostlarını Dəvət Et</span>
-        </button>
-        
         <button class="profile-btn btn-stats" onclick="showStatsView()">
             <i data-lucide="bar-chart-2"></i> <span data-translate-key="statistics">Statistika</span>
         </button>
@@ -632,6 +668,10 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
     <i data-lucide="clipboard-list" class="nav-icon"></i>
     <span class="nav-text" data-translate-key="tasks">Görevler</span>
   </button>
+  <button onclick="showPage('refPage',this)" data-page-id="refPage">
+    <i data-lucide="users" class="nav-icon"></i>
+    <span class="nav-text" data-translate-key="navReferral">Referans</span>
+  </button>
   <button onclick="showPage('walletPage',this)" data-page-id="walletPage">
     <i data-lucide="wallet" class="nav-icon"></i>
     <span class="nav-text" data-translate-key="wallet">Cüzdan</span>
@@ -640,28 +680,6 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
     <i data-lucide="user" class="nav-icon"></i>
     <span class="nav-text" data-translate-key="profile">Profil</span>
   </button>
-</div>
-
-<div class="modal-overlay" id="shareModalOverlay">
-    <div class="share-modal">
-        <div class="share-modal-title" data-translate-key="shareTitle">Dostlarını Dəvət Et</div>
-        
-        <button class="share-btn-action tg" onclick="shareOnTelegramAction()">
-            <i data-lucide="send"></i> <span data-translate-key="shareTelegram">Telegram ilə paylaş</span>
-        </button>
-        
-        <button class="share-btn-action wa" onclick="shareOnWhatsappAction()">
-            <i data-lucide="message-circle"></i> <span data-translate-key="shareWhatsapp">WhatsApp ilə paylaş</span>
-        </button>
-        
-        <button class="share-btn-action copy" onclick="copyRefLinkAction()">
-            <i data-lucide="copy"></i> <span data-translate-key="copyLink">Linki Kopyala</span>
-        </button>
-        
-        <button class="share-btn-action close-modal" onclick="closeShareModal()">
-            <span data-translate-key="close">Geri</span>
-        </button>
-    </div>
 </div>
 
 <script>
@@ -721,6 +739,8 @@ const TOTAL_AD_EARNINGS_KEY = `totalAdEarnings_${userRefId}`;
 const TOTAL_TASK_EARNINGS_KEY = `totalTaskEarnings_${userRefId}`;
 const REWARD_MSG_KEY = `rewardMsgExpire_${userRefId}`;
 const HISTORY_KEY = `withdraw_history_${userRefId}`;
+const TOTAL_REFS_KEY = `totalRefs_${userRefId}`;
+const REF_EARNINGS_KEY = `refEarnings_${userRefId}`;
 
 const EXCHANGE_RATES = { AZN_TO_USD: 0.59, AZN_TO_TRY: 25.00, AZN_TO_RUB: 46.45 };
 const CURRENCIES = {
@@ -737,6 +757,7 @@ let vipLevel = parseInt(safeGet(VIP_LEVEL_KEY, 0));
 const AZN_TASK_REWARD = 0.1; 
 const AZN_GROUP_REWARD = 0.03; 
 const AZN_10K_REWARD = 100;
+const AZN_REF_REWARD = 0.02; // Yeni Referans qazancı
 
 function getAznReward() {
     return VIP_REWARDS[vipLevel] || VIP_REWARDS[0];
@@ -765,19 +786,16 @@ function localizeAmount(aznAmount, lang) {
     return { amount: amount, formatted: format(amount), symbol: currencyInfo.symbol };
 }
 
-// Görevler və VIP səhifəsi üçün xüsusi: sonundakı sıfırları təmizləyir
 function getCleanLocalizedAmount(aznAmount, lang) {
     const info = localizeAmount(aznAmount, lang);
     return `${parseFloat(info.amount.toFixed(4))} ${info.symbol}`;
 }
 
-// Formatı qorumaq üçün eyni qaydada info.formatted istifadə edirik (Ana səhifə üçün)
 function getLocalizedReward(lang) {
     const info = localizeAmount(getAznReward(), lang);
     return { reward: info.amount, formattedReward: info.formatted, symbol: info.symbol, currency: CURRENCIES[lang].main };
 }
 
-// Görevler üçün xüsusi: sonundakı sıfırları təmizləyir
 function getLocalizedTaskReward(lang, aznReward) {
     const info = localizeAmount(aznReward, lang);
     return `${parseFloat(info.amount.toFixed(4))} ${info.symbol}`;
@@ -813,7 +831,7 @@ const TRANSLATIONS = {
         methodError: 'Metod seçin', detailsError: 'Detalları daxil edin', amountError: 'Məbləği düzgün daxil edin',
         minAmount: (min) => `Minimum məbləğ ${min}`, balanceError: 'Balans kifayət etmir',
         withdrawSuccess: '✅ Çıxarış göndərildi! 48 saat ərzində yerinə yetiriləcək.',
-        home: 'Ev', tasks: 'Görevler', wallet: 'Cüzdan', profile: 'Profil',
+        home: 'Ev', tasks: 'Görevler', wallet: 'Cüzdan', profile: 'Profil', navReferral: 'Referans',
         placeholderDetails_m10: '10 rəqəmli nömrə', placeholderDetails_azercell: '050xxxxxxx',
         placeholderDetails_bakcell: '055xxxxxxx', placeholderDetails_nar: '070xxxxxxx',
         placeholderDetails_bank: '16 rəqəmli kart nömrəsi', placeholderDetails_usdt: 'TON adresi',
@@ -821,8 +839,8 @@ const TRANSLATIONS = {
         guestUser: 'İstifadəçi', theme: 'Tema', language: 'Dil', statistics: 'Statistika', support: 'Dəstək',
         statTotalAds: 'İzlənən Ümumi Reklam', statAdEarnings: 'Reklam Qazancı', statTaskEarnings: 'Görev Qazancı',
         withdrawHistory: 'Çıxarış Tarixçəsi', pending: 'Gözləmədə', emptyHistory: 'Tarixçə boşdur',
-        shareBtn: 'Dostlarını Dəvət Et',
         shareTitle: 'Dostlarını Dəvət Et', shareTelegram: 'Telegram ilə paylaş', shareWhatsapp: 'WhatsApp ilə paylaş', copyLink: 'Linki Kopyala', linkCopied: '✅ Link kopyalandı!', close: 'Geri',
+        totalRefs: 'Toplam Referans', refEarnings: 'Referans Qazancı', refDesc: (r) => `Hər dostuna görə ${r} qazan!`,
         shareMsg: "💰 Mən artıq Manat Pay ilə qazanc əldə edirəm!\n\n📺 Sadəcə reklam izləyərək pul qazanmaq mümkündür. Sən də aşağıdaki linkdən qoşul və qazanc əldə etməyə başla 👇\n\n🔗 {LINK}\n\n📲 Telefonundan reklam izləyərək asan və rahat şəkildə qazanc əldə et.\n\n🔥 Tələsməyi unutma! Yeni istifadəçilər üçün imkanlar və daha çox qazanc növləri tezliklə əlavə olunacaq.\n\n🚀 Fürsəti qaçırma indi başla və Manat Pay ilə qazan!",
         vipTitle: 'VIP Səviyyələri', vipLevel: 'VIP Səviyyə', buyBtn: 'Al', cancelBtn: 'Ləğv et', activeStatus: 'Aktivdir',
         vipRequiredErr: 'Pulu çıxara bilmək üçün VIP1 səviyyəsinə yüksəlin.', vipSuccess: 'Təbriklər! VIP səviyyəniz yüksəldildi.',
@@ -847,7 +865,7 @@ const TRANSLATIONS = {
         methodError: 'Select a method', detailsError: 'Enter details', amountError: 'Enter correct amount',
         minAmount: (min) => `Minimum amount ${min}`, balanceError: 'Insufficient balance',
         withdrawSuccess: '✅ Withdrawal sent! It will be executed within 48 hours.',
-        home: 'Home', tasks: 'Tasks', wallet: 'Wallet', profile: 'Profile',
+        home: 'Home', tasks: 'Tasks', wallet: 'Wallet', profile: 'Profile', navReferral: 'Referral',
         placeholderDetails_m10: '10 digit M10 number', placeholderDetails_azercell: '050xxxxxxx',
         placeholderDetails_bakcell: '055xxxxxxx', placeholderDetails_nar: '070xxxxxxx',
         placeholderDetails_bank: '16 digit card number', placeholderDetails_usdt: 'TON address',
@@ -855,8 +873,8 @@ const TRANSLATIONS = {
         guestUser: 'User', theme: 'Theme', language: 'Language', statistics: 'Statistics', support: 'Support',
         statTotalAds: 'Total Ads Watched', statAdEarnings: 'Ad Earnings', statTaskEarnings: 'Task Earnings',
         withdrawHistory: 'Withdrawal History', pending: 'Pending', emptyHistory: 'History is empty',
-        shareBtn: 'Invite Friends',
         shareTitle: 'Invite Friends', shareTelegram: 'Share on Telegram', shareWhatsapp: 'Share on WhatsApp', copyLink: 'Copy Link', linkCopied: '✅ Link copied!', close: 'Back',
+        totalRefs: 'Total Referrals', refEarnings: 'Referral Earnings', refDesc: (r) => `Earn ${r} for each friend!`,
         shareMsg: "💰 I'm already earning with Manat Pay!\n\n📺 It's possible to earn money just by watching ads. Join from the link below and start earning too 👇\n\n🔗 {LINK}\n\n📲 Earn easily and comfortably by watching ads from your phone.\n\n🔥 Don't forget to hurry! Opportunities for new users and more ways to earn will be added soon.\n\n🚀 Don't miss the opportunity, start now and earn with Manat Pay!",
         vipTitle: 'VIP Levels', vipLevel: 'VIP Level', buyBtn: 'Buy', cancelBtn: 'Cancel', activeStatus: 'Active',
         vipRequiredErr: 'Upgrade to VIP1 to be able to withdraw money.', vipSuccess: 'Congratulations! Your VIP level has been upgraded.',
@@ -881,7 +899,7 @@ const TRANSLATIONS = {
         methodError: 'Yöntem seçin', detailsError: 'Bilgileri girin', amountError: 'Miktarı doğru girin',
         minAmount: (min) => `Minimum miktar ${min}`, balanceError: 'Yetersiz bakiye',
         withdrawSuccess: '✅ Çekim talebi gönderildi! 48 saat içinde tamamlanacaktır.',
-        home: 'Ana Sayfa', tasks: 'Görevler', wallet: 'Cüzdan', profile: 'Profil',
+        home: 'Ana Sayfa', tasks: 'Görevler', wallet: 'Cüzdan', profile: 'Profil', navReferral: 'Referans',
         placeholderDetails_m10: '10 haneli M10 numarası', placeholderDetails_azercell: '050xxxxxxx',
         placeholderDetails_bakcell: '055xxxxxxx', placeholderDetails_nar: '070xxxxxxx',
         placeholderDetails_bank: '16 haneli kart numarası', placeholderDetails_usdt: 'TON adresi',
@@ -889,8 +907,8 @@ const TRANSLATIONS = {
         guestUser: 'Kullanıcı', theme: 'Tema', language: 'Dil', statistics: 'İstatistikler', support: 'Destek',
         statTotalAds: 'İzlenen Toplam Reklam', statAdEarnings: 'Reklam Kazancı', statTaskEarnings: 'Görev Kazancı',
         withdrawHistory: 'Çekim Geçmişi', pending: 'Beklemede', emptyHistory: 'Geçmiş boş',
-        shareBtn: 'Arkadaşlarını Davet Et',
         shareTitle: 'Arkadaşlarını Davet Et', shareTelegram: 'Telegram ile paylaş', shareWhatsapp: 'WhatsApp ile paylaş', copyLink: 'Bağlantıyı Kopyala', linkCopied: '✅ Bağlantı kopyalandı!', close: 'Geri',
+        totalRefs: 'Toplam Referans', refEarnings: 'Referans Kazancı', refDesc: (r) => `Her arkadaşın için ${r} kazan!`,
         shareMsg: "💰 Ben şimdiden Manat Pay ile kazanıyorum!\n\n📺 Sadece reklam izleyerek para kazanmak mümkün. Sen de aşağıdaki linkten katıl ve kazanmaya başla 👇\n\n🔗 {LINK}\n\n📲 Telefonundan reklam izleyerek kolay ve rahat bir şekilde kazan.\n\n🔥 Acele etmeyi unutma! Yeni kullanıcılar için fırsatlar ve daha fazla kazanç türü yakında eklenecek.\n\n🚀 Fırsatı kaçırma, şimdi başla ve Manat Pay ile kazan!",
         vipTitle: 'VIP Seviyeleri', vipLevel: 'VIP Seviyesi', buyBtn: 'Satın Al', cancelBtn: 'İptal Et', activeStatus: 'Aktif',
         vipRequiredErr: 'Para çekebilmek için VIP1 seviyesine yükselin.', vipSuccess: 'Tebrikler! VIP seviyeniz yükseltildi.',
@@ -915,7 +933,7 @@ const TRANSLATIONS = {
         methodError: 'Выберите способ', detailsError: 'Введите данные', amountError: 'Введите правильную сумму',
         minAmount: (min) => `Минимальная сумма ${min}`, balanceError: 'Недостаточно средств',
         withdrawSuccess: '✅ Заявка отправлена! Будет исполнена в течение 48 часов.',
-        home: 'Главная', tasks: 'Задания', wallet: 'Кошелек', profile: 'Профиль',
+        home: 'Главная', tasks: 'Задания', wallet: 'Кошелек', profile: 'Профиль', navReferral: 'Рефералы',
         placeholderDetails_m10: '10-значный номер M10', placeholderDetails_azercell: '050xxxxxxx',
         placeholderDetails_bakcell: '055xxxxxxx', placeholderDetails_nar: '070xxxxxxx',
         placeholderDetails_bank: '16-значный номер карты', placeholderDetails_usdt: 'TON адрес',
@@ -923,8 +941,8 @@ const TRANSLATIONS = {
         guestUser: 'Пользователь', theme: 'Тема', language: 'Язык', statistics: 'Статистика', support: 'Поддержка',
         statTotalAds: 'Всего просмотрено реклам', statAdEarnings: 'Заработок с рекламы', statTaskEarnings: 'Заработок с заданий',
         withdrawHistory: 'История Выводов', pending: 'В ожидании', emptyHistory: 'История пуста',
-        shareBtn: 'Пригласить друзей',
         shareTitle: 'Пригласить Друзей', shareTelegram: 'Поделиться в Telegram', shareWhatsapp: 'Поделиться в WhatsApp', copyLink: 'Скопировать ссылку', linkCopied: '✅ Ссылка скопирована!', close: 'Назад',
+        totalRefs: 'Всего Рефералов', refEarnings: 'Доход с Рефералов', refDesc: (r) => `Зарабатывай ${r} за каждого друга!`,
         shareMsg: "💰 Я уже зарабатываю с Manat Pay!\n\n📺 Зарабатывать деньги можно просто просматривая рекламу. Присоединяйтесь по ссылке ниже и начните зарабатывать тоже 👇\n\n🔗 {LINK}\n\n📲 Зарабатывайте легко и удобно, просматривая рекламу с телефона.\n\n🔥 Не забудьте поторопиться! Возможности для новых пользователей и новые способы заработка будут добавлены в ближайшее время.\n\n🚀 Не упустите возможность, начните сейчас и зарабатывайте с Manat Pay!",
         vipTitle: 'VIP Уровни', vipLevel: 'Уровень VIP', buyBtn: 'Купить', cancelBtn: 'Отмена', activeStatus: 'Активен',
         vipRequiredErr: 'Перейдите на VIP1, чтобы иметь возможность вывести деньги.', vipSuccess: 'Поздравляем! Ваш VIP уровень повышен.',
@@ -943,6 +961,9 @@ let totalAdEarnings = parseFloat(safeGet(TOTAL_AD_EARNINGS_KEY, 0));
 let totalTaskEarnings = parseFloat(safeGet(TOTAL_TASK_EARNINGS_KEY, 0));
 let cnt=parseInt(safeGet(COUNT_KEY,0));
 let resetTime=safeGet(RESET_KEY,null);
+
+let totalRefs = parseInt(safeGet(TOTAL_REFS_KEY, 0));
+let refEarnings = parseFloat(safeGet(REF_EARNINGS_KEY, 0));
 
 let rewardMsgTimeout = null; 
 let isAdRunning = false; 
@@ -971,7 +992,6 @@ function loadProfilePic() {
 }
 
 function loadProfile() {
-    const t = TRANSLATIONS[currentLang];
     const savedName = localStorage.getItem(USERNAME_KEY);
     const displayEl = document.getElementById('displayUsername');
     if (savedName) {
@@ -984,7 +1004,6 @@ function loadProfile() {
     document.getElementById('displayUserId').textContent = userRefId;
     loadProfilePic();
 
-    // VIP Badge
     const badge = document.getElementById('vipBadgeHeader');
     const badgeText = document.getElementById('vipBadgeText');
     if(vipLevel > 0) {
@@ -995,7 +1014,6 @@ function loadProfile() {
     }
 }
 
-// --- VIP GÖRÜNÜMLƏRİ (YENİ) ---
 function showVipListView() {
     document.getElementById('profileMainView').style.display = 'none';
     document.getElementById('statsView').style.display = 'none';
@@ -1018,7 +1036,7 @@ function renderVipList() {
     for (let i = 1; i <= 3; i++) {
         const priceInfo = localizeAmount(VIP_PRICES[i], currentLang);
         const cleanPrice = parseFloat(priceInfo.amount.toFixed(4));
-        const isActive = (vipLevel >= i); // VIP səviyyəsi bu karta bərabər və ya böyükdürsə
+        const isActive = (vipLevel >= i);
         
         let statusHtml = '';
         if (isActive) {
@@ -1060,7 +1078,7 @@ function showVipDetailView(level) {
     
     const isAlreadyBought = (vipLevel >= level);
 
-    let colors = ['#3498db', '#9b59b6', '#f1c40f']; // V1, V2, V3 rəngləri
+    let colors = ['#3498db', '#9b59b6', '#f1c40f']; 
     let color = colors[level-1];
 
     content.innerHTML = `
@@ -1084,9 +1102,8 @@ function purchaseVip(level) {
     const alertBox = document.getElementById('alertVip');
     const priceAzn = VIP_PRICES[level];
 
-    if (vipLevel >= level) return; // Zaten alınıb
+    if (vipLevel >= level) return; 
 
-    // Balansı kontrol et (Daim AZN olaraq yoxlayırıq arxa planda)
     if (bal < priceAzn) {
         alertBox.textContent = t.balanceError;
         alertBox.className = 'alert error';
@@ -1094,7 +1111,6 @@ function purchaseVip(level) {
         return;
     }
 
-    // Balansdan çıx, səviyyəni artır
     bal -= priceAzn;
     vipLevel = level;
     
@@ -1103,36 +1119,21 @@ function purchaseVip(level) {
     
     update();
     loadProfile();
-    applyTranslationToElement(document.getElementById('adRewardText'), 'adReward', currentLang); // Ana səhifədəki yazını yenilə
+    applyTranslationToElement(document.getElementById('adRewardText'), 'adReward', currentLang);
 
     alertBox.textContent = t.vipSuccess;
     alertBox.className = 'alert success';
     alertBox.style.display = 'block';
 
-    setTimeout(() => {
-        showVipListView(); // Listəyə geri dön
-    }, 1500);
+    setTimeout(() => { showVipListView(); }, 1500);
 }
 
-// Digər profillə bağlı funksiyalar
-function openShareModal() {
-    const overlay = document.getElementById('shareModalOverlay');
-    overlay.style.display = 'flex';
-    setTimeout(() => overlay.classList.add('show'), 10);
-}
-
-function closeShareModal() {
-    const overlay = document.getElementById('shareModalOverlay');
-    overlay.classList.remove('show');
-    setTimeout(() => overlay.style.display = 'none', 300);
-}
 
 function shareOnTelegramAction() {
     const t = TRANSLATIONS[currentLang];
     const message = t.shareMsg.replace('{LINK}', userRefLink);
     const encodedMessage = encodeURIComponent(message);
     window.open(`https://t.me/share/url?url=&text=${encodedMessage}`, '_blank');
-    closeShareModal();
 }
 
 function shareOnWhatsappAction() {
@@ -1140,7 +1141,6 @@ function shareOnWhatsappAction() {
     const message = t.shareMsg.replace('{LINK}', userRefLink);
     const encodedMessage = encodeURIComponent(message);
     window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
-    closeShareModal();
 }
 
 function copyRefLinkAction() {
@@ -1152,7 +1152,6 @@ function copyRefLinkAction() {
     } else {
         fallbackCopyTextToClipboard(userRefLink, t);
     }
-    closeShareModal();
 }
 
 function fallbackCopyTextToClipboard(text, t) {
@@ -1201,6 +1200,14 @@ function updateStatsUI() {
     document.querySelectorAll('.stat-currency').forEach(el => el.textContent = adInfo.symbol);
 }
 
+function updateRefUI() {
+    const lang = currentLang;
+    document.getElementById('totalRefsVal').textContent = totalRefs;
+    const refInfo = localizeAmount(refEarnings, lang);
+    document.getElementById('refEarningsVal').textContent = parseFloat(refInfo.amount.toFixed(4));
+    document.querySelectorAll('.ref-currency').forEach(el => el.textContent = refInfo.symbol);
+}
+
 function update(){
   const lang = currentLang;
   const rates = EXCHANGE_RATES;
@@ -1247,6 +1254,7 @@ function update(){
   
   checkAndDisplayRewardMsg();
   updateTaskButtons(); 
+  updateRefUI();
   
   if(document.getElementById('statsView').style.display === 'block') updateStatsUI();
 }
@@ -1353,6 +1361,9 @@ function applyTranslationToElement(el, key, lang) {
          if (key === 'adReward') {
             const rewardInfo = getLocalizedReward(lang);
             el.innerHTML = t[key](`<b>${rewardInfo.formattedReward} ${rewardInfo.symbol}</b>`);
+         } else if (key === 'refDesc') {
+            const refInfo = getLocalizedTaskReward(lang, AZN_REF_REWARD);
+            el.innerHTML = t[key](`<b>${refInfo}</b>`);
          }
     } else if (t[key]) {
          if(el.tagName === 'INPUT') el.placeholder = t[key];
@@ -1632,7 +1643,6 @@ document.getElementById('withdrawBtn').onclick=()=>{
   if(amt < minAmount - EPSILON){ showErr(t.minAmount(getLocalizedMinAmount(type, currentLang))); return; }
   if(amt > currentBalanceInLang + EPSILON){ showErr(t.balanceError); return; }
   
-  // YENİ: VIP Səviyyəsi Kontrolu (Məbləğ və balans qaydasındadısa VIP yoxla)
   if(vipLevel < 1) { showErr(t.vipRequiredErr); return; }
 
   let withdrawalAmountInAZN = 0;
